@@ -37,7 +37,16 @@ dependencies {
     implementation("io.ktor:ktor-server-metrics-micrometer:$ktorVersion")
     implementation("io.ktor:ktor-server:$ktorVersion")
     implementation("io.ktor:ktor-server-status-pages:$ktorVersion")
+    implementation("io.ktor:ktor-client-core-jvm:$ktorVersion")
+    implementation("io.ktor:ktor-server-locations-jvm:$ktorVersion")
+    implementation("io.ktor:ktor-client-apache-jvm:$ktorVersion")
+    implementation("io.ktor:ktor-server-content-negotiation-jvm:$ktorVersion")
+    implementation("io.ktor:ktor-serialization-jackson-jvm:$ktorVersion")
+
+    // Security
     implementation("io.ktor:ktor-server-auth-jwt:$ktorVersion")
+    implementation("io.ktor:ktor-server-auth-jvm:$ktorVersion")
+    implementation("io.ktor:ktor-server-auth-jwt-jvm:$ktorVersion")
 
     // Jackson
     implementation("io.ktor:ktor-serialization-jackson:$ktorVersion")
@@ -54,13 +63,6 @@ dependencies {
     implementation("ch.qos.logback:logback-classic:$logbackVersion")
     implementation("net.logstash.logback:logstash-logback-encoder:$logstashVersion")
     implementation("io.github.microutils:kotlin-logging-jvm:$kotlinLoggingVersion")
-    implementation("io.ktor:ktor-server-auth-jvm:2.1.3")
-    implementation("io.ktor:ktor-server-locations-jvm:2.1.3")
-    implementation("io.ktor:ktor-client-core-jvm:2.1.3")
-    implementation("io.ktor:ktor-client-apache-jvm:2.1.3")
-    implementation("io.ktor:ktor-server-auth-jwt-jvm:2.1.3")
-    implementation("io.ktor:ktor-server-content-negotiation-jvm:2.1.3")
-    implementation("io.ktor:ktor-serialization-jackson-jvm:2.1.3")
 
     implementation("com.natpryce:konfig:$natpryceVersion")
 
