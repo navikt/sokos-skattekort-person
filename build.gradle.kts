@@ -60,7 +60,7 @@ dependencies {
     implementation("io.ktor:ktor-client-apache-jvm:2.1.3")
     implementation("io.ktor:ktor-server-auth-jwt-jvm:2.1.3")
     implementation("io.ktor:ktor-server-content-negotiation-jvm:2.1.3")
-    implementation("io.ktor:ktor-serialization-jackson-jvm:2.1.3")
+    implementation("io.ktor:ktor-serialization-jackson-jvm:2.2.1")
 
     implementation("com.natpryce:konfig:$natpryceVersion")
 
