@@ -54,7 +54,7 @@ dependencies {
     implementation("ch.qos.logback:logback-classic:$logbackVersion")
     implementation("net.logstash.logback:logstash-logback-encoder:$logstashVersion")
     implementation("io.github.microutils:kotlin-logging-jvm:$kotlinLoggingVersion")
-    implementation("io.ktor:ktor-server-auth-jvm:2.1.3")
+    implementation("io.ktor:ktor-server-auth-jvm:2.2.1")
     implementation("io.ktor:ktor-server-locations-jvm:2.1.3")
     implementation("io.ktor:ktor-client-core-jvm:2.1.3")
     implementation("io.ktor:ktor-client-apache-jvm:2.1.3")
