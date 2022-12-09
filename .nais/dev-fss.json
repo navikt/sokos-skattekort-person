@@ -1,0 +1,14 @@
+{
+  "app": "sokos-skattekort-person",
+  "team": "okonomi",
+  "namespace": "okonomi",
+  "slack-channel": "team-mob-alerts-dev",
+  "slack-notify-type": "sokos-skattekort-person | ",
+  "minReplicas": "1",
+  "maxReplicas": "2",
+  "ingresses": [
+    "https://sokos-skattekort-person.dev.intern.nav.no"
+  ],
+  "azureTenant" : "trygdeetaten.no",
+  "accessPolicyCluster": "dev-fss"
+}
