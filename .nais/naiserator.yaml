@@ -46,7 +46,7 @@ spec:
   accessPolicy:
     inbound:
       rules:
-        - application: sokos-authentication-testapp
+        - application: sokos-kontoregister-person
           namespace: okonomi
   env:
     - name: USE_AUTHENTICATION
