@@ -42,6 +42,5 @@
 
     <logger name="no.nav" level="DEBUG"/>
     <logger name="ktor.application" level="DEBUG"/>
-    <logger name="io.ktor" level="TRACE"/>
 
 </configuration>

@@ -12,10 +12,8 @@ import io.ktor.client.request.get
 import java.io.File
 import java.util.UUID
 import kotlinx.coroutines.runBlocking
-import mu.KotlinLogging
 import no.nav.sokos.skattekort.person.config.HttpClientConfig.httpClient
 
-private val log = KotlinLogging.logger {}
 object Config {
 
     private val defaultProperties = ConfigurationMap(
