@@ -4,18 +4,17 @@ import com.auth0.jwk.JwkProvider
 import com.auth0.jwk.JwkProviderBuilder
 import io.ktor.client.engine.ProxyBuilder
 import io.ktor.client.engine.http
-import io.ktor.network.sockets.InetSocketAddress
 import io.ktor.server.application.Application
 import io.ktor.server.auth.authentication
 import io.ktor.server.auth.jwt.JWTPrincipal
 import io.ktor.server.auth.jwt.jwt
-import java.net.URL
-import java.util.concurrent.TimeUnit
 import mu.KotlinLogging
 import no.nav.sokos.skattekort.person.config.Config.AzureAdConfig
 import no.nav.sokos.skattekort.person.config.Config.OpenIdMetadata
 import no.nav.sokos.skattekort.person.config.Config.wellKnowConfig
 import java.net.Proxy
+import java.net.URL
+import java.util.concurrent.TimeUnit
 
 private val log = KotlinLogging.logger {}
 const val AUTHENTICATION_NAME = "azureAd"
@@ -33,7 +32,7 @@ fun Application.configureSecurity(
         val jwkProvider = cachedJwkProvider(openIdMetadata.jwksUri)
         log.info { "start jwkProvider: ${URL(openIdMetadata.jwksUri)}" }
 
-        log.info { "issuer: ${openIdMetadata.issuer}"}
+        log.info { "issuer: ${openIdMetadata.issuer}" }
         authentication {
             jwt(AUTHENTICATION_NAME) {
                 realm = Config.Configuration().naisAppName
@@ -67,7 +66,7 @@ fun Application.configureSecurity(
 private fun cachedJwkProvider(jwksUri: String): JwkProvider {
     return System.getenv("HTTP_PROXY")?.let {
         JwkProviderBuilder(URL(jwksUri))
-            .proxied(ProxyBuilder.http(it))
+            .proxied(Proxy.NO_PROXY)
             .cached(10, 24, TimeUnit.HOURS) // cache up to 10 JWKs for 24 hours
             .rateLimited(
                 10,
