@@ -7,8 +7,7 @@
   "minReplicas": "1",
   "maxReplicas": "2",
   "ingresses": [
-    "https://sokos-skattekort-person.dev.intern.nav.no"
+    "https://sokos-skattekort-person.dev.nav.no"
   ],
-  "azureTenant" : "trygdeetaten.no",
   "accessPolicyCluster": "dev-gcp"
 }

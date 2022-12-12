@@ -9,6 +9,5 @@
   "ingresses": [
     "https://sokos-skattekort-person.intern.nav.no"
   ],
-  "azureTenant" : "nav.no",
   "accessPolicyCluster": "prod-fss"
 }
