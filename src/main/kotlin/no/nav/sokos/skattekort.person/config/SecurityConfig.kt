@@ -12,7 +12,6 @@ import mu.KotlinLogging
 import no.nav.sokos.skattekort.person.config.Config.AzureAdConfig
 import no.nav.sokos.skattekort.person.config.Config.OpenIdMetadata
 import no.nav.sokos.skattekort.person.config.Config.wellKnowConfig
-import java.net.Proxy
 import java.net.URL
 import java.util.concurrent.TimeUnit
 
@@ -64,22 +63,13 @@ fun Application.configureSecurity(
 }
 
 private fun cachedJwkProvider(jwksUri: String): JwkProvider {
-    return System.getenv("HTTP_PROXY")?.let {
-        JwkProviderBuilder(URL(jwksUri))
-            .proxied(Proxy.NO_PROXY)
-            .cached(10, 24, TimeUnit.HOURS) // cache up to 10 JWKs for 24 hours
-            .rateLimited(
-                10,
-                1,
-                TimeUnit.MINUTES
-            ) // if not cached, only allow max 10 different keys per minute to be fetched from external provider
-            .build()
-    } ?: JwkProviderBuilder(URL(jwksUri))
+    val jwkProviderBuilder = JwkProviderBuilder(URL(jwksUri))
+    System.getenv("HTTP_PROXY")?.let {
+        jwkProviderBuilder.proxied(ProxyBuilder.http(it))
+    }
+
+    return jwkProviderBuilder
         .cached(10, 24, TimeUnit.HOURS) // cache up to 10 JWKs for 24 hours
-        .rateLimited(
-            10,
-            1,
-            TimeUnit.MINUTES
-        ) // if not cached, only allow max 10 different keys per minute to be fetched from external provider
+        .rateLimited(10, 1, TimeUnit.MINUTES) // if not cached, only allow max 10 different keys per minute to be fetched from external provider
         .build()
 }
