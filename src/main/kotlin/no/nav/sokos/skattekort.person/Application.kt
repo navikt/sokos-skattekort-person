@@ -16,10 +16,6 @@ val log = KotlinLogging.logger {}
 
 fun Application.start() {
     val configuration = Config.Configuration()
-
-    log.info { "Environment: ${configuration.profile}"}
-    log.info { "well-known: ${configuration.azureAdConfig.wellKnownUrl}"}
-
     val applicationState = ApplicationState()
 
     val skattekortService = SkattekortService()

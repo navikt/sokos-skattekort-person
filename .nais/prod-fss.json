@@ -8,6 +8,5 @@
   "maXReplicas": "2",
   "ingresses": [
     "https://sokos-skattekort-person.intern.nav.no"
-  ],
-  "accessPolicyCluster": "prod-fss"
+  ]
 }

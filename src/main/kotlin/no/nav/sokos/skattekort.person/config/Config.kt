@@ -1,18 +1,13 @@
 package no.nav.sokos.skattekort.person.config
 
-import com.fasterxml.jackson.annotation.JsonProperty
 import com.natpryce.konfig.ConfigurationMap
 import com.natpryce.konfig.ConfigurationProperties
 import com.natpryce.konfig.EnvironmentVariables
 import com.natpryce.konfig.Key
 import com.natpryce.konfig.overriding
 import com.natpryce.konfig.stringType
-import io.ktor.client.call.body
-import io.ktor.client.request.get
 import java.io.File
 import java.util.UUID
-import kotlinx.coroutines.runBlocking
-import no.nav.sokos.skattekort.person.config.HttpClientConfig.httpClient
 
 object Config {
 
@@ -58,19 +53,6 @@ object Config {
         val clientId: String = this["AZURE_APP_CLIENT_ID"],
         val wellKnownUrl: String = this["AZURE_APP_WELL_KNOWN_URL"]
     )
-
-    data class OpenIdMetadata(
-        @JsonProperty("jwks_uri") val jwksUri: String,
-        @JsonProperty("issuer") val issuer: String,
-        @JsonProperty("token_endpoint") val tokenEndpoint: String,
-    )
-
-    fun wellKnowConfig(wellKnownUrl: String): OpenIdMetadata {
-        val openIdMetadata: OpenIdMetadata by lazy {
-            runBlocking { httpClient.get(wellKnownUrl).body() }
-        }
-        return openIdMetadata
-    }
 
     enum class Profile {
         LOCAL, DEV, PROD

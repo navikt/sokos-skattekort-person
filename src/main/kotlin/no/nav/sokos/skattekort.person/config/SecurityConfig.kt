@@ -2,18 +2,20 @@ package no.nav.sokos.skattekort.person.config
 
 import com.auth0.jwk.JwkProvider
 import com.auth0.jwk.JwkProviderBuilder
+import com.fasterxml.jackson.annotation.JsonProperty
+import io.ktor.client.call.body
 import io.ktor.client.engine.ProxyBuilder
 import io.ktor.client.engine.http
+import io.ktor.client.request.get
 import io.ktor.server.application.Application
 import io.ktor.server.auth.authentication
 import io.ktor.server.auth.jwt.JWTPrincipal
 import io.ktor.server.auth.jwt.jwt
 import mu.KotlinLogging
 import no.nav.sokos.skattekort.person.config.Config.AzureAdConfig
-import no.nav.sokos.skattekort.person.config.Config.OpenIdMetadata
-import no.nav.sokos.skattekort.person.config.Config.wellKnowConfig
 import java.net.URL
 import java.util.concurrent.TimeUnit
+import kotlinx.coroutines.runBlocking
 
 private val log = KotlinLogging.logger {}
 const val AUTHENTICATION_NAME = "azureAd"
@@ -65,4 +67,17 @@ private fun cachedJwkProvider(jwksUri: String): JwkProvider {
         .cached(10, 24, TimeUnit.HOURS) // cache up to 10 JWKs for 24 hours
         .rateLimited(10, 1, TimeUnit.MINUTES) // if not cached, only allow max 10 different keys per minute to be fetched from external provider
         .build()
+}
+
+data class OpenIdMetadata(
+    @JsonProperty("jwks_uri") val jwksUri: String,
+    @JsonProperty("issuer") val issuer: String,
+    @JsonProperty("token_endpoint") val tokenEndpoint: String,
+)
+
+private fun wellKnowConfig(wellKnownUrl: String): OpenIdMetadata {
+    val openIdMetadata: OpenIdMetadata by lazy {
+        runBlocking { HttpClientConfig.httpClient.get(wellKnownUrl).body() }
+    }
+    return openIdMetadata
 }

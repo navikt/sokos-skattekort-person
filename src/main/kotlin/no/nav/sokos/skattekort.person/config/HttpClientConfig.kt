@@ -18,7 +18,7 @@ object HttpClientConfig {
         }
 
         engine {
-            System.getenv("HTTP_PROXY")?.let {// TEST Å HENTE HTTPS også
+            System.getenv("HTTP_PROXY")?.let {
                 this.proxy = ProxyBuilder.http(it)
             }
         }
