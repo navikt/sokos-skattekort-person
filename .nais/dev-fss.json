@@ -7,7 +7,6 @@
   "minReplicas": "1",
   "maxReplicas": "2",
   "ingresses": [
-    "https://sokos-skattekort-person.dev.nav.no"
-  ],
-  "accessPolicyCluster": "dev-gcp"
+    "https://sokos-skattekort-person.dev.intern.nav.no"
+  ]
 }

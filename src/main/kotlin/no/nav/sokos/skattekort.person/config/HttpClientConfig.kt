@@ -7,8 +7,6 @@ import io.ktor.client.engine.http
 
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.serialization.jackson.jackson
-import java.net.ProxySelector
-import org.apache.http.impl.conn.SystemDefaultRoutePlanner
 
 object HttpClientConfig {
     val httpClient = HttpClient(Apache) {
@@ -20,8 +18,8 @@ object HttpClientConfig {
         }
 
         engine {
-            customizeClient {
-                setRoutePlanner(SystemDefaultRoutePlanner(ProxySelector.getDefault()))
+            System.getenv("HTTP_PROXY")?.let {// TEST Å HENTE HTTPS også
+                this.proxy = ProxyBuilder.http(it)
             }
         }
     }
