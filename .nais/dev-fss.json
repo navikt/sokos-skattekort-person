@@ -10,5 +10,5 @@
     "https://sokos-skattekort-person.dev.intern.nav.no"
   ],
   "azureTenant" : "trygdeetaten.no",
-  "accessPolicyCluster": "dev-fss"
+  "accessPolicyCluster": "dev-gcp"
 }

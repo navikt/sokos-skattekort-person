@@ -42,12 +42,6 @@ spec:
   azure:
     application:
       enabled: true
-  webproxy: true
-  accessPolicy:
-    inbound:
-      rules:
-        - application: sokos-kontoregister-person
-          namespace: okonomi
   env:
     - name: USE_AUTHENTICATION
       value: "true"
