@@ -25,10 +25,11 @@ fun Application.configureSecurity(
         log.info { "start getting openIDMetadata" }
         val openIdMetadata: OpenIdMetadata = wellKnowConfig(azureAdConfig.wellKnownUrl)
 
-        log.info { "stop getting openIDMetadata: $openIdMetadata" }
+        log.info { "stop getting openIDMetadata and jwksUri:  ${openIdMetadata.jwksUri}" }
         val jwkProvider = cachedJwkProvider(openIdMetadata.jwksUri)
-        log.info { "start jwkProvider" }
+        log.info { "start jwkProvider: ${URL(openIdMetadata.jwksUri)}" }
 
+        log.info { "issuer: ${openIdMetadata.issuer}"}
         authentication {
             jwt(AUTHENTICATION_NAME) {
                 realm = Config.Configuration().naisAppName
