@@ -33,10 +33,12 @@ fun Application.configureSecurity(
         authentication {
             jwt(AUTHENTICATION_NAME) {
                 realm = Config.Configuration().naisAppName
+                log.info { "Kommer du inn under realm?" }
                 verifier(
                     jwkProvider = jwkProvider,
                     issuer = openIdMetadata.issuer
                 )
+                log.info { "Rett etter verifier" }
                 validate { credential ->
                     try {
                         requireNotNull(credential.payload.audience) {

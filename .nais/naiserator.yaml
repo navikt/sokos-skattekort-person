@@ -47,7 +47,6 @@ spec:
     inbound:
       rules:
         - application: sokos-authentication-testapp
-          cluster: dev-fss
           namespace: okonomi
   env:
     - name: USE_AUTHENTICATION
