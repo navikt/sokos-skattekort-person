@@ -5,6 +5,6 @@ import no.nav.sokos.skattekort.person.domain.Skattekort
 class SkattekortService() {
 
     fun hentSkattekort(): Skattekort {
-        return Skattekort("Ola", "Nordmann", "2022")
+        return Skattekort("Ola", "Nordmann", "2023")
     }
 }
