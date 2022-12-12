@@ -24,23 +24,16 @@ fun Application.configureSecurity(
 ) {
     log.info("Use authentication: $useAuthentication")
     if (useAuthentication) {
-        log.info { "start getting openIDMetadata" }
         val openIdMetadata: OpenIdMetadata = wellKnowConfig(azureAdConfig.wellKnownUrl)
-
-        log.info { "stop getting openIDMetadata and jwksUri:  ${openIdMetadata.jwksUri}" }
         val jwkProvider = cachedJwkProvider(openIdMetadata.jwksUri)
-        log.info { "start jwkProvider: ${URL(openIdMetadata.jwksUri)}" }
 
-        log.info { "issuer: ${openIdMetadata.issuer}" }
         authentication {
             jwt(AUTHENTICATION_NAME) {
                 realm = Config.Configuration().naisAppName
-                log.info { "Kommer du inn under realm?" }
                 verifier(
                     jwkProvider = jwkProvider,
                     issuer = openIdMetadata.issuer
                 )
-                log.info { "Rett etter verifier" }
                 validate { credential ->
                     try {
                         requireNotNull(credential.payload.audience) {
