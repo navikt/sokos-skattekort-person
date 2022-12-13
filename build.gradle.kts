@@ -105,7 +105,7 @@ tasks {
     withType<ShadowJar> {
         archiveFileName.set("app.jar")
         manifest {
-            attributes["Main-Class"] = "no.nav.sokos.skattekort.person.BootstrapKt"
+            attributes["Main-Class"] = "no.nav.sokos.skattekort.person.ApplicationKt"
         }
     }
 
