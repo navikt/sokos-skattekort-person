@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone='yes'?>
+<skattekortTilArbeidsgiver xmlns="urn:no:skatteetaten:fastsetting:formueinntekt:forskudd:skattekorttilarbeidsgiver:v3">
+    <arbeidsgiver>
+        <arbeidsgiveridentifikator>
+            <organisasjonsnummer>910962728</organisasjonsnummer>
+        </arbeidsgiveridentifikator>
+        <arbeidstaker>
+            <arbeidstakeridentifikator>04044600116</arbeidstakeridentifikator>
+            <resultatPaaForespoersel>skattekortopplysningerOK</resultatPaaForespoersel>
+            <skattekort>
+                <utstedtDato>2021-03-06</utstedtDato>
+                <skattekortidentifikator>158036</skattekortidentifikator>
+                <forskuddstrekk xsi:type="Trekkprosent" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                    <trekkode>ufoeretrygdFraNAV</trekkode>
+                    <prosentsats>15.0</prosentsats>
+                    <antallMaanederForTrekk>12.0</antallMaanederForTrekk>
+                </forskuddstrekk>
+            </skattekort>
+            <tilleggsopplysning>kildeskattPaaLoenn</tilleggsopplysning>
+            <inntektsaar>2021</inntektsaar>
+        </arbeidstaker>
+    </arbeidsgiver>
+</skattekortTilArbeidsgiver>

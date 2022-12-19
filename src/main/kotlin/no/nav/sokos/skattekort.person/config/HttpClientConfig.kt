@@ -13,7 +13,7 @@ object HttpClientConfig {
         expectSuccess = false
         install(ContentNegotiation) {
             jackson {
-                serializationConfig()
+                jsonSerializationConfig()
             }
         }
 

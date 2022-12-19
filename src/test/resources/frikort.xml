@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone='yes'?>
+<skattekortTilArbeidsgiver xmlns="urn:no:skatteetaten:fastsetting:formueinntekt:forskudd:skattekorttilarbeidsgiver:v3">
+    <arbeidsgiver>
+        <arbeidsgiveridentifikator>
+            <organisasjonsnummer>910962728</organisasjonsnummer>
+        </arbeidsgiveridentifikator>
+        <arbeidstaker>
+            <arbeidstakeridentifikator>03104801748</arbeidstakeridentifikator>
+            <resultatPaaForespoersel>skattekortopplysningerOK</resultatPaaForespoersel>
+            <skattekort>
+                <utstedtDato>2020-10-14</utstedtDato>
+                <skattekortidentifikator>217561</skattekortidentifikator>
+                <forskuddstrekk xsi:type="Frikort" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                    <trekkode>loennFraHovedarbeidsgiver</trekkode>
+                    <frikortbeloep>0</frikortbeloep>
+                </forskuddstrekk>
+                <forskuddstrekk xsi:type="Frikort" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                    <trekkode>loennFraBiarbeidsgiver</trekkode>
+                    <frikortbeloep>0</frikortbeloep>
+                </forskuddstrekk>
+                <forskuddstrekk xsi:type="Frikort" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                    <trekkode>loennFraNAV</trekkode>
+                    <frikortbeloep>0</frikortbeloep>
+                </forskuddstrekk>
+            </skattekort>
+            <inntektsaar>2021</inntektsaar>
+        </arbeidstaker>
+    </arbeidsgiver>
+</skattekortTilArbeidsgiver>

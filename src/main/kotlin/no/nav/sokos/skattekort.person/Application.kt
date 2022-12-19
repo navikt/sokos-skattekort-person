@@ -1,6 +1,7 @@
 package no.nav.sokos.skattekort.person
 
 import io.ktor.server.application.Application
+import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.EngineMain
 import no.nav.sokos.skattekort.person.config.Config
 import no.nav.sokos.skattekort.person.config.configureCallId
