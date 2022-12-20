@@ -27,6 +27,7 @@ val prometheusVersion = "1.10.2"
 val kotlinLoggingVersion = "3.0.4"
 val janionVersion = "3.1.9"
 val natpryceVersion = "1.6.10.0"
+val kotestVersion = "5.5.4"
 
 dependencies {
 
@@ -71,9 +72,11 @@ dependencies {
 
     // Test
     testImplementation("io.ktor:ktor-server-tests-jvm:$ktorVersion")
-    testImplementation("org.junit.jupiter:junit-jupiter-api:$junitJupiterVersion")
-    testImplementation("org.junit.jupiter:junit-jupiter-params:$junitJupiterVersion")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:$junitJupiterVersion")
+    testImplementation("io.kotest:kotest-assertions-core-jvm:$kotestVersion")
+    testImplementation("io.kotest:kotest-runner-junit5:$kotestVersion")
+    testImplementation("io.kotest:kotest-assertions-core:$kotestVersion")
+    testImplementation("io.kotest:kotest-assertions-core:$kotestVersion")
+
 }
 
 sourceSets {
