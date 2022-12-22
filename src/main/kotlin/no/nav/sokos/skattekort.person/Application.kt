@@ -8,14 +8,16 @@ import no.nav.sokos.skattekort.person.config.configureMetrics
 import no.nav.sokos.skattekort.person.config.configureRouting
 import no.nav.sokos.skattekort.person.config.configureSecurity
 import no.nav.sokos.skattekort.person.config.configureSerialization
+import no.nav.sokos.skattekort.person.database.OracleDataSource
 import no.nav.sokos.skattekort.person.service.SkattekortService
 import no.nav.sokos.skattekort.person.util.ApplicationState
 
 fun Application.start() {
     val configuration = Config.Configuration()
+    val oracleDataSource = OracleDataSource(configuration.databaseConfig)
     val applicationState = ApplicationState()
 
-    val skattekortService = SkattekortService()
+    val skattekortService = SkattekortService(oracleDataSource)
 
     configureSecurity(configuration.azureAdConfig, configuration.useAuthentication)
     configureSerialization()

@@ -47,11 +47,18 @@ object Config {
         val profile: Profile = Profile.valueOf(this["application.profile"]),
         val useAuthentication: Boolean = get("USE_AUTHENTICATION").toBoolean(),
         val azureAdConfig: AzureAdConfig = AzureAdConfig(),
+        val databaseConfig: OseskattDatabaseConfig = OseskattDatabaseConfig()
     )
 
-    class AzureAdConfig(
+    data class AzureAdConfig(
         val clientId: String = this["AZURE_APP_CLIENT_ID"],
         val wellKnownUrl: String = this["AZURE_APP_WELL_KNOWN_URL"]
+    )
+
+    data class OseskattDatabaseConfig(
+        val jdbcUrl: String = get("DB_URL"),
+        val username: String = get("DB_USERNAME"),
+        val password: String = get("DB_PASSWORD")
     )
 
     enum class Profile {

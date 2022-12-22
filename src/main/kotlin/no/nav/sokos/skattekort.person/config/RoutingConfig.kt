@@ -18,7 +18,6 @@ fun Application.configureRouting(
     routing {
         naisRoutes({ applicationState.alive }, { applicationState.ready })
         metricsRoutes()
-
         skattekortRoutes(skattekortService, useAuthentication)
     }
 }

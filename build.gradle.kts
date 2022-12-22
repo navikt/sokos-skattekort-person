@@ -7,7 +7,8 @@ plugins {
     kotlin("plugin.serialization") version "1.7.22"
     id("org.openapi.generator") version "6.2.1"
     id("io.ktor.plugin") version "2.2.1"
-    id("com.autonomousapps.dependency-analysis") version "1.17.0"
+
+    jacoco
 }
 
 group = "no.nav.sokos"
@@ -31,15 +32,19 @@ val kotestVersion = "5.5.4"
 
 dependencies {
 
+    // Ktor server
     implementation("io.ktor:ktor-server-core-jvm:$ktorVersion")
     implementation("io.ktor:ktor-server-call-logging-jvm:$ktorVersion")
     implementation("io.ktor:ktor-server-call-id-jvm:$ktorVersion")
     implementation("io.ktor:ktor-server-netty-jvm:$ktorVersion")
-    implementation("io.ktor:ktor-client-content-negotiation:$ktorVersion")
     implementation("io.ktor:ktor-server-status-pages:$ktorVersion")
+    implementation("io.ktor:ktor-server-content-negotiation-jvm:$ktorVersion")
+
+    // Ktor client
+    implementation("io.ktor:ktor-client-content-negotiation:$ktorVersion")
     implementation("io.ktor:ktor-client-core-jvm:$ktorVersion")
     implementation("io.ktor:ktor-client-apache-jvm:$ktorVersion")
-    implementation("io.ktor:ktor-server-content-negotiation-jvm:$ktorVersion")
+
     implementation("io.ktor:ktor-serialization-jackson-jvm:$ktorVersion")
 
     // Security
@@ -65,6 +70,10 @@ dependencies {
 
     // Config
     implementation("com.natpryce:konfig:$natpryceVersion")
+
+    // Database
+    implementation("com.zaxxer:HikariCP:5.0.1")
+    implementation("com.oracle.database.jdbc:ojdbc10:19.17.0.0")
 
     // Test
     testImplementation("io.kotest:kotest-assertions-core-jvm:$kotestVersion")
@@ -129,9 +138,22 @@ tasks {
             events("passed", "skipped", "failed")
         }
 
+
         // For å øke hastigheten på build kan vi benytte disse metodene
         maxParallelForks = Runtime.getRuntime().availableProcessors() / 2
         reports.forEach { report -> report.required.value(false) }
+
+        finalizedBy("jacocoTestReport")
+    }
+
+    withType<JacocoReport> {
+        dependsOn(":test")
+        reports {
+            xml.required.set(false)
+            csv.required.set(false)
+            html.required.set(true)
+            html.outputLocation.set(layout.buildDirectory.dir("jacoco"))
+        }
     }
 
     withType<Wrapper> {

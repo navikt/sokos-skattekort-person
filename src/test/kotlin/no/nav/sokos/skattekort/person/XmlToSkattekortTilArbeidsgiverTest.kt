@@ -1,48 +1,60 @@
 package no.nav.sokos.skattekort.person
 
 import io.kotest.core.spec.style.FunSpec
+import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldContain
 import io.kotest.matchers.types.shouldBeInstanceOf
 import no.nav.sokos.skattekort.person.util.Util.readFromResource
 import no.nav.sokos.skattekort.person.config.xmlMapper
-import no.nav.sokos.skattekort.person.model.Frikort
-import no.nav.sokos.skattekort.person.model.SkattekortTilArbeidsgiver
-import no.nav.sokos.skattekort.person.model.Trekkprosent
-import no.nav.sokos.skattekort.person.model.Trekktabell
+import no.nav.sokos.skattekort.person.domain.Frikort
+import no.nav.sokos.skattekort.person.domain.SkattekortTilArbeidsgiver
+import no.nav.sokos.skattekort.person.domain.Trekkprosent
+import no.nav.sokos.skattekort.person.domain.Trekktabell
 
 
 class XmlToSkattekortTilArbeidsgiverTest : FunSpec({
 
-    test("frikort xml til SkattekortTilArbeidsgiver klasse med riktig frikort forskuddstrekk") {
+    test("test konverting av frikort xml til SkattekortTilArbeidsgiver klasse") {
         val frikortXml = "frikort.xml".readFromResource()
 
         val skattekortTilArbeidsgiver = xmlMapper.readValue(frikortXml, SkattekortTilArbeidsgiver::class.java)
 
-        skattekortTilArbeidsgiver.arbeidsgiver.first().arbeidstaker.first().skattekort.forskuddstrekk!!.first()
-            .shouldBeInstanceOf<Frikort>()
+        val forskuddstrekk =
+            skattekortTilArbeidsgiver.arbeidsgiver.first().arbeidstaker.first().skattekort.forskuddstrekk
+
+        forskuddstrekk!!.first().shouldBeInstanceOf<Frikort>()
+        forskuddstrekk.size.shouldBe(3)
+
 
     }
 
-    test("trekkprosent xml til SkattekortTilArbeidsgiver klasse med riktig trekkprosent forskuddstrekk") {
+    test("test konvertering av trekkprosent xml til SkattekortTilArbeidsgiver klasse") {
         val trekkprosent = "trekkprosent.xml".readFromResource()
 
         val skattekortTilArbeidsgiver = xmlMapper.readValue(trekkprosent, SkattekortTilArbeidsgiver::class.java)
 
-        skattekortTilArbeidsgiver.arbeidsgiver.first().arbeidstaker.first().skattekort.forskuddstrekk!!.first()
-            .shouldBeInstanceOf<Trekkprosent>()
+        val forskuddstrekk =
+            skattekortTilArbeidsgiver.arbeidsgiver.first().arbeidstaker.first().skattekort.forskuddstrekk
+
+        forskuddstrekk!!.first().shouldBeInstanceOf<Trekkprosent>()
+        forskuddstrekk.size.shouldBe(1)
 
         skattekortTilArbeidsgiver.arbeidsgiver.first().arbeidstaker.first().tilleggsopplysning!!.first().value
             .shouldContain("kildeskattPaaLoenn")
 
     }
 
-    test("trekktabell xml til SkattekortTilArbeidsgiver klasse med riktig trekktabell forskuddstrekk") {
+    test("test konvertering av trekktabell xml til SkattekortTilArbeidsgiver klasse") {
         val trekktabell = "trekktabell.xml".readFromResource()
 
         val skattekortTilArbeidsgiver = xmlMapper.readValue(trekktabell, SkattekortTilArbeidsgiver::class.java)
 
-        skattekortTilArbeidsgiver.arbeidsgiver.first().arbeidstaker.first().skattekort.forskuddstrekk!!.first()
-            .shouldBeInstanceOf<Trekktabell>()
+        val forskuddstrekk =
+            skattekortTilArbeidsgiver.arbeidsgiver.first().arbeidstaker.first().skattekort.forskuddstrekk
+
+        forskuddstrekk!!.first().shouldBeInstanceOf<Trekktabell>()
+        forskuddstrekk.size.shouldBe(6)
 
     }
+
 })

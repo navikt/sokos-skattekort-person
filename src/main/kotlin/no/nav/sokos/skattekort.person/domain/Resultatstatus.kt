@@ -1,4 +1,4 @@
-package no.nav.sokos.skattekort.person.model
+package no.nav.sokos.skattekort.person.domain
 
 import com.fasterxml.jackson.annotation.JsonProperty
 
