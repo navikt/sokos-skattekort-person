@@ -1,21 +1,21 @@
 package no.nav.sokos.skattekort.person.service
 
-import no.nav.sokos.skattekort.person.api.model.SkattekortRequest
+import no.nav.sokos.skattekort.person.api.model.SkattekortPerson
 import no.nav.sokos.skattekort.person.config.xmlMapper
 import no.nav.sokos.skattekort.person.database.OracleDataSource
-import no.nav.sokos.skattekort.person.database.hentSkattekortPaFnr
+import no.nav.sokos.skattekort.person.database.hentSkattekortPaaFnrOgInntektsaar
 import no.nav.sokos.skattekort.person.domain.SkattekortTilArbeidsgiver
 
-class SkattekortService(
+class SkattekortPersonService(
     private val oracleDataSource: OracleDataSource
 ) {
 
-    fun hentSkattekortPaFnr(
-        skattekortRequest: SkattekortRequest
+    fun hentSkattekortPerson(
+        skattekortPerson: SkattekortPerson
     ): SkattekortTilArbeidsgiver {
         val skattekortXml = oracleDataSource.connection.use {
-            with(skattekortRequest) {
-                it.hentSkattekortPaFnr(skattekortRequest)
+            with(skattekortPerson) {
+                it.hentSkattekortPaaFnrOgInntektsaar(skattekortPerson)
             }
         }
         return xmlMapper.readValue(skattekortXml, SkattekortTilArbeidsgiver::class.java)

@@ -7,20 +7,20 @@ import io.ktor.server.response.respond
 import io.ktor.server.routing.Route
 import io.ktor.server.routing.post
 import io.ktor.server.routing.route
-import no.nav.sokos.skattekort.person.api.model.SkattekortRequest
+import no.nav.sokos.skattekort.person.api.model.SkattekortPerson
 import no.nav.sokos.skattekort.person.config.AUTHENTICATION_NAME
 import no.nav.sokos.skattekort.person.config.authenticate
-import no.nav.sokos.skattekort.person.service.SkattekortService
+import no.nav.sokos.skattekort.person.service.SkattekortPersonService
 
 fun Route.skattekortRoutes(
-    skattekortService: SkattekortService,
+    skattekortPersonService: SkattekortPersonService,
     useAuthentication: Boolean
 ) {
     authenticate(useAuthentication, AUTHENTICATION_NAME) {
         route("/api") {
             post("/v1/skattekort") {
-                val skattekortRequest: SkattekortRequest = call.receive()
-                val skattekort = skattekortService.hentSkattekortPaFnr(skattekortRequest)
+                val skattekortPerson: SkattekortPerson = call.receive()
+                val skattekort = skattekortPersonService.hentSkattekortPerson(skattekortPerson)
                 call.respond(HttpStatusCode.OK, skattekort)
             }
         }

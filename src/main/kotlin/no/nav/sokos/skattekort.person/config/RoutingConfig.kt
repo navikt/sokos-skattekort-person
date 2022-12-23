@@ -4,21 +4,21 @@ import io.ktor.server.application.Application
 import io.ktor.server.auth.authenticate
 import io.ktor.server.routing.Route
 import io.ktor.server.routing.routing
+import no.nav.sokos.skattekort.person.ApplicationState
 import no.nav.sokos.skattekort.person.api.metricsRoutes
 import no.nav.sokos.skattekort.person.api.naisRoutes
 import no.nav.sokos.skattekort.person.api.skattekortRoutes
-import no.nav.sokos.skattekort.person.service.SkattekortService
-import no.nav.sokos.skattekort.person.util.ApplicationState
+import no.nav.sokos.skattekort.person.service.SkattekortPersonService
 
 fun Application.configureRouting(
     applicationState: ApplicationState,
-    skattekortService: SkattekortService,
+    skattekortPersonService: SkattekortPersonService,
     useAuthentication: Boolean
 ) {
     routing {
-        naisRoutes({ applicationState.alive }, { applicationState.ready })
+        naisRoutes({ applicationState.initialized }, { applicationState.running })
         metricsRoutes()
-        skattekortRoutes(skattekortService, useAuthentication)
+        skattekortRoutes(skattekortPersonService, useAuthentication)
     }
 }
 

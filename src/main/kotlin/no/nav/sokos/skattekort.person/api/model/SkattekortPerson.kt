@@ -1,6 +1,6 @@
 package no.nav.sokos.skattekort.person.api.model
 
-data class SkattekortRequest(
+data class SkattekortPerson(
     val fnr: String,
     val inntektsaar: String
 )

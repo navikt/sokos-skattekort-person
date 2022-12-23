@@ -2,11 +2,10 @@ package no.nav.sokos.skattekort.person.database
 
 import java.sql.Connection
 import java.sql.ResultSet
-import no.nav.sokos.skattekort.person.api.model.SkattekortRequest
+import no.nav.sokos.skattekort.person.api.model.SkattekortPerson
 
-
-fun Connection.hentSkattekortPaFnr(
-    skattekortRequest: SkattekortRequest
+fun Connection.hentSkattekortPaaFnrOgInntektsaar(
+    skattekortPerson: SkattekortPerson
 ): String {
     return prepareStatement(
         """
@@ -15,8 +14,8 @@ fun Connection.hentSkattekortPaFnr(
             WHERE FNR = (?) AND INNTEKTSAAR = (?)
         """.trimIndent()
     ).apply {
-        setString(1, skattekortRequest.fnr)
-        setString(2, skattekortRequest.inntektsaar)
+        setString(1, skattekortPerson.fnr)
+        setString(2, skattekortPerson.inntektsaar)
     }.use { statement ->
         statement.executeQuery().asSequence { statement.resultSet.getString(1) }.first()
     }
