@@ -7,8 +7,6 @@ plugins {
     kotlin("plugin.serialization") version "1.7.22"
     id("org.openapi.generator") version "6.2.1"
     id("io.ktor.plugin") version "2.2.1"
-
-    jacoco
 }
 
 group = "no.nav.sokos"
@@ -142,18 +140,6 @@ tasks {
         // For å øke hastigheten på build kan vi benytte disse metodene
         maxParallelForks = Runtime.getRuntime().availableProcessors() / 2
         reports.forEach { report -> report.required.value(false) }
-
-        finalizedBy("jacocoTestReport")
-    }
-
-    withType<JacocoReport> {
-        dependsOn(":test")
-        reports {
-            xml.required.set(false)
-            csv.required.set(false)
-            html.required.set(true)
-            html.outputLocation.set(layout.buildDirectory.dir("jacoco"))
-        }
     }
 
     withType<Wrapper> {
