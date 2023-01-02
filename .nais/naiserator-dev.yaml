@@ -1,0 +1,57 @@
+apiVersion: "nais.io/v1alpha1"
+kind: "Application"
+metadata:
+  name: sokos-skattekort-person
+  namespace: okonomi
+  labels:
+    team: okonomi
+spec:
+  image: {{image}}
+  port: 8080
+  replicas:
+    min: 1
+    max: 2
+    cpuThresholdPercentage: 90
+  liveness:
+    path: /internal/isAlive
+    initialDelay: 5
+    timeout: 5
+    periodSeconds: 5
+    failureThreshold: 30
+  readiness:
+    path: /internal/isReady
+    initialDelay: 5
+    periodSeconds: 5
+    timeout: 5
+  resources:
+    limits:
+      cpu: 2000m
+      memory: 3072Mi
+    requests:
+      cpu: 80m
+      memory: 1536Mi
+  ingresses:
+    - https://sokos-skattekort-person.dev.intern.nav.no
+  prometheus:
+    enabled: true
+    path: /internal/metrics
+  secureLogs:
+    enabled: true
+  azure:
+    application:
+      enabled: true
+  webproxy: true
+  vault:
+    enabled: true
+    paths:
+      - kvPath: /oracle/data/dev/creds/oseskatt_read_u4-user
+        mountPath: /var/run/secrets/nais.io/database-user
+  env:
+    - name: DATABASE_HOST
+      value: d26dbvl020.test.local
+    - name: DATABASE_PORT
+      value: "1521"
+    - name: DATABASE_NAME
+      value: oseskatt_u4
+    - name: USE_AUTHENTICATION
+      value: "true"

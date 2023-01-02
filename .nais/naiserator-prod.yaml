@@ -1,16 +1,16 @@
 apiVersion: "nais.io/v1alpha1"
 kind: "Application"
 metadata:
-  name: {{app}}
-  namespace: {{namespace}}
+  name: sokos-skattekort-person
+  namespace: okonomi
   labels:
-    team: {{team}}
+    team: okonomi
 spec:
   image: {{image}}
   port: 8080
   replicas:
-    min: {{minReplicas}}
-    max: {{maxReplicas}}
+    min: 1
+    max: 2
     cpuThresholdPercentage: 90
   liveness:
     path: /internal/isAlive
@@ -31,9 +31,7 @@ spec:
       cpu: 80m
       memory: 1536Mi
   ingresses:
-  {{#each ingresses as |url|}}
-     - {{url}}
-  {{/each}}
+    - https://sokos-skattekort-person.intern.nav.no
   prometheus:
     enabled: true
     path: /internal/metrics
@@ -43,6 +41,17 @@ spec:
     application:
       enabled: true
   webproxy: true
+  vault:
+    enabled: true
+    paths:
+      - kvPath: /oracle/data/prod/creds/oseskatt_read_u4-user
+        mountPath: /var/run/secrets/nais.io/database-user
   env:
+    - name: DATABASE_HOST
+      value: d26dbvl020.test.local
+    - name: DATABASE_PORT
+      value: "1521"
+    - name: DATABASE_NAME
+      value: oseskatt_u4
     - name: USE_AUTHENTICATION
       value: "true"

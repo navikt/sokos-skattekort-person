@@ -1,15 +1,15 @@
 apiVersion: "nais.io/v1"
 kind: "Alert"
 metadata:
-  name: {{app}}
-  namespace: {{namespace}}
+  name: sokos-skattekort-person
+  namespace: okonomi
   labels:
-    team: {{team}}
+    team: okonomi
 spec:
   receivers:
     slack:
-      channel: "{{slack-channel}}"
-      prependText: "{{slack-notify-type}}"
+      channel: "team-mob-alerts-dev"
+      prependText: "sokos-skattekort-person | "
   alerts:
     - alert: Applikasjon nede
       severity: danger

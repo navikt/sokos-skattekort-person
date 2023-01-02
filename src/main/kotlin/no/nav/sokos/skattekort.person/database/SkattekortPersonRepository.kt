@@ -4,7 +4,7 @@ import java.sql.Connection
 import java.sql.ResultSet
 import no.nav.sokos.skattekort.person.api.model.SkattekortPerson
 
-fun Connection.hentSkattekortPaaFnrOgInntektsaar(
+fun Connection.hentSkattekortPaaFnrOgInntektsAar(
     skattekortPerson: SkattekortPerson
 ): String {
     return prepareStatement(

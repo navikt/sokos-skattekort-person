@@ -22,6 +22,7 @@ object Config {
         mapOf(
             "application.profile" to Profile.LOCAL.toString(),
             "USE_AUTHENTICATION" to "true",
+            // TODO: Skal fjernes når tester med mock-oauth-server er på plass, disse to under er  egentlig for integrasjontest
             "AZURE_APP_CLIENT_ID" to UUID.randomUUID().toString(),
             "AZURE_APP_WELL_KNOWN_URL" to "https://fakedings.dev-gcp.nais.io/default/.well-known/openid-configuration",
         )
@@ -56,10 +57,14 @@ object Config {
     )
 
     data class OseskattDatabaseConfig(
-        val jdbcUrl: String = get("DB_URL"),
-        val username: String = get("DB_USERNAME"),
-        val password: String = get("DB_PASSWORD")
-    )
+        val host: String = get("DATABASE_HOST"),
+        val port: String = get("DATABASE_PORT"),
+        val name: String = get("DATABASE_NAME"),
+        val username: String = get("DATABASE_USERNAME"),
+        val password: String = get("DATABASE_PASSWORD")
+    ) {
+        val jdbcUrl: String = "jdbc:oracle:thin:@$host:$port/$name"
+    }
 
     enum class Profile {
         LOCAL, DEV, PROD
