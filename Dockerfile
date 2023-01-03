@@ -2,5 +2,6 @@ FROM bellsoft/liberica-openjdk-alpine:17.0.5@sha256:6f29c4faa06597ef43977746bdcd
 RUN apk add --no-cache bash
 EXPOSE 8080:8080
 COPY build/libs/*.jar app.jar
+COPY .initscript /init-scripts
 CMD ["dumb-init", "--"]
 ENTRYPOINT ["java","-jar","app.jar"]
