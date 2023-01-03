@@ -1,37 +1,73 @@
 package no.nav.sokos.skattekort.person.config
 
-import mu.KotlinLogging
-
-private val logger = KotlinLogging.logger {}
+import com.natpryce.konfig.ConfigurationMap
+import com.natpryce.konfig.ConfigurationProperties
+import com.natpryce.konfig.EnvironmentVariables
+import com.natpryce.konfig.Key
+import com.natpryce.konfig.overriding
+import com.natpryce.konfig.stringType
+import java.io.File
+import java.util.UUID
 
 object Config {
 
+    private val defaultProperties = ConfigurationMap(
+        mapOf(
+            "NAIS_APP_NAME" to "sokos-skattekort-person",
+            "NAIS_NAMESPACE" to "okonomi"
+        )
+    )
+
+    private val localDevProperties = ConfigurationMap(
+        mapOf(
+            "application.profile" to Profile.LOCAL.toString(),
+            "USE_AUTHENTICATION" to "true",
+            // TODO: Skal fjernes når tester med mock-oauth-server er på plass, disse to under er  egentlig for integrasjontest
+            "AZURE_APP_CLIENT_ID" to UUID.randomUUID().toString(),
+            "AZURE_APP_WELL_KNOWN_URL" to "https://fakedings.dev-gcp.nais.io/default/.well-known/openid-configuration",
+        )
+    )
+
+    private val devProperties = ConfigurationMap(mapOf("application.profile" to Profile.DEV.toString()))
+    private val prodProperties = ConfigurationMap(mapOf("application.profile" to Profile.PROD.toString()))
+
+    private val config = when (System.getenv("NAIS_CLUSTER_NAME") ?: System.getProperty("NAIS_CLUSTER_NAME")) {
+        "dev-fss" -> ConfigurationProperties.systemProperties() overriding EnvironmentVariables() overriding devProperties overriding defaultProperties
+        "prod-fss" -> ConfigurationProperties.systemProperties() overriding EnvironmentVariables() overriding prodProperties overriding defaultProperties
+        else ->
+            ConfigurationProperties.systemProperties() overriding EnvironmentVariables() overriding ConfigurationProperties.fromOptionalFile(
+            File("defaults.properties")
+        ) overriding localDevProperties overriding defaultProperties
+    }
+
+    operator fun get(key: String): String = config[Key(key, stringType)]
+    fun getOrNull(key: String): String? = config.getOrNull(Key(key, stringType))
+
     data class Configuration(
-        val naisAppName: String = readProperty("NAIS_APP_NAME"),
-        val useAuthentication: Boolean = readProperty("USE_AUTHENTICATION", default = "true") != "false",
+        val naisAppName: String = get("NAIS_APP_NAME"),
+        val profile: Profile = Profile.valueOf(this["application.profile"]),
+        val useAuthentication: Boolean = get("USE_AUTHENTICATION").toBoolean(),
         val azureAdConfig: AzureAdConfig = AzureAdConfig(),
         val databaseConfig: OseskattDatabaseConfig = OseskattDatabaseConfig()
     )
 
     data class AzureAdConfig(
-        val clientId: String = readProperty("AZURE_APP_CLIENT_ID", ""),
-        val wellKnownUrl: String = readProperty("AZURE_APP_WELL_KNOWN_URL", "")
+        val clientId: String = this["AZURE_APP_CLIENT_ID"],
+        val wellKnownUrl: String = this["AZURE_APP_WELL_KNOWN_URL"]
     )
 
     data class OseskattDatabaseConfig(
-        val host: String = readProperty("DATABASE_HOST"),
-        val port: String = readProperty("DATABASE_PORT"),
-        val name: String = readProperty("DATABASE_NAME"),
-        val username: String = readProperty("DATABASE_USERNAME"),
-        val password: String = readProperty("DATABASE_PASSWORD")
+        val host: String = get("DATABASE_HOST"),
+        val port: String = get("DATABASE_PORT"),
+        val name: String = get("DATABASE_NAME"),
+        val username: String = get("DATABASE_USERNAME"),
+        val password: String = get("DATABASE_PASSWORD")
     ) {
         val jdbcUrl: String = "jdbc:oracle:thin:@$host:$port/$name"
     }
 
-    private fun readProperty(name: String, default: String? = null) =
-        System.getenv(name)
-            ?: System.getProperty(name)
-            ?: default.takeIf { it != null }?.also { logger.info("Bruker default verdi for property $name") }
-            ?: throw RuntimeException("Mandatory property '$name' was not found")
+    enum class Profile {
+        LOCAL, DEV, PROD
+    }
 }
 
