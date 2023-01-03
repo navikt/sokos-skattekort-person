@@ -1,8 +1,3 @@
-FROM bellsoft/liberica-openjdk-alpine:17.0.5@sha256:6f29c4faa06597ef43977746bdcd7f43c49eb84eaf23e1d2fcc95e3ce9f1b3e2
-RUN apk add --no-cache bash
-EXPOSE 8080:8080
+FROM navikt/java:15
 COPY build/libs/*.jar app.jar
-COPY .initscripts /initscripts
-RUN chmod +x /initscripts/vault-to-env.sh
-CMD ["dumb-init", "--", "./initscript/vault-to.env.sh"]
-ENTRYPOINT ["java","-jar","app.jar"]
+COPY .initscript /init-scripts
