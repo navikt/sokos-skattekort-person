@@ -25,15 +25,20 @@
         <encoder class="net.logstash.logback.encoder.LogstashEncoder"/>
     </appender>
 
-    <logger name="secureLogger" level="DEBUG" additivity="false">
-        <appender-ref ref="${LOG_APPENDER:-secureLog}"/>
-    </logger>
+    <if condition='isDefined("NAIS_CLUSTER_NAME")'>
+        <then>
+            <logger name="secureLogger" level="DEBUG" additivity="false">
+                <appender-ref ref="${LOG_APPENDER:-secureLog}"/>
+            </logger>
+        </then>
+    </if>
+
+    <logger name="STDOUT" level="INFO"/>
 
     <root level="INFO">
         <if condition='isDefined("NAIS_CLUSTER_NAME")'>
             <then>
                 <appender-ref ref="STDOUT"/>
-                <appender-ref ref="secureLog"/>
             </then>
             <else>
                 <appender-ref ref="CONSOLE"/>

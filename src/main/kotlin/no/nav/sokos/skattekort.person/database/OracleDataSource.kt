@@ -3,10 +3,10 @@ package no.nav.sokos.skattekort.person.database
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
 import java.sql.Connection
-import no.nav.sokos.skattekort.person.config.Config
+import no.nav.sokos.skattekort.person.config.PropertiesConfig
 
 class OracleDataSource(
-    private val oseskattDatabaseConfig: Config.OseskattDatabaseConfig
+    private val oseskattDatabaseConfig: PropertiesConfig.OseskattDatabaseConfig
 ) {
     private val dataSource: HikariDataSource = HikariDataSource(hikariConfig())
     val connection: Connection get() = dataSource.connection

@@ -9,7 +9,8 @@ import com.natpryce.konfig.stringType
 import java.io.File
 import java.util.UUID
 
-object Config {
+object PropertiesConfig {
+
 
     private val defaultProperties = ConfigurationMap(
         mapOf(

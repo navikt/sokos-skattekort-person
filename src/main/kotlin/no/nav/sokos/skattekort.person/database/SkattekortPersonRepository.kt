@@ -2,11 +2,11 @@ package no.nav.sokos.skattekort.person.database
 
 import java.sql.Connection
 import no.nav.sokos.skattekort.person.api.model.SkattekortPersonRequest
-import no.nav.sokos.skattekort.person.config.xmlMapper
 import no.nav.sokos.skattekort.person.database.RepositoryExtensions.param
 import no.nav.sokos.skattekort.person.database.RepositoryExtensions.toList
 import no.nav.sokos.skattekort.person.database.RepositoryExtensions.withParameters
 import no.nav.sokos.skattekort.person.domain.SkattekortTilArbeidsgiver
+import no.nav.sokos.skattekort.person.util.xmlMapper
 
 object SkattekortPersonRepository {
     fun Connection.hentSkattekortPaaFnrOgInntektsAar(

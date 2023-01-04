@@ -5,14 +5,10 @@ import io.ktor.server.engine.stop
 import io.ktor.server.netty.Netty
 import java.util.concurrent.TimeUnit
 import kotlin.properties.Delegates
-import no.nav.sokos.skattekort.person.config.Config
-import no.nav.sokos.skattekort.person.config.configureCallId
-import no.nav.sokos.skattekort.person.config.configureMetrics
-import no.nav.sokos.skattekort.person.config.configureRequestValidation
-import no.nav.sokos.skattekort.person.config.configureRouting
-import no.nav.sokos.skattekort.person.config.configureSecurity
-import no.nav.sokos.skattekort.person.config.configureSerialization
-import no.nav.sokos.skattekort.person.config.configureStatusPages
+import no.nav.sokos.skattekort.person.config.PropertiesConfig
+import no.nav.sokos.skattekort.person.config.commonConfig
+import no.nav.sokos.skattekort.person.config.routingConfig
+import no.nav.sokos.skattekort.person.config.securityConfig
 import no.nav.sokos.skattekort.person.database.OracleDataSource
 import no.nav.sokos.skattekort.person.metrics.appStateReadyFalse
 import no.nav.sokos.skattekort.person.metrics.appStateRunningFalse
@@ -20,7 +16,7 @@ import no.nav.sokos.skattekort.person.service.SkattekortPersonService
 
 fun main() {
     val applicationState = ApplicationState()
-    val applicationConfiguration = Config.Configuration()
+    val applicationConfiguration = PropertiesConfig.Configuration()
     val oracleDataSource = OracleDataSource(applicationConfiguration.databaseConfig)
     val skattekortPersonService = SkattekortPersonService(oracleDataSource)
 
@@ -30,7 +26,7 @@ fun main() {
 
 class HttpServer(
     private val applicationState: ApplicationState,
-    private val applicationConfiguration: Config.Configuration,
+    private val applicationConfiguration: PropertiesConfig.Configuration,
     private val skattekortPersonService: SkattekortPersonService,
     private val oracleDataSource: OracleDataSource,
     port: Int = 8080,
@@ -43,13 +39,9 @@ class HttpServer(
     }
 
     private val embeddedServer = embeddedServer(Netty, port) {
-        configureSecurity(applicationConfiguration.azureAdConfig, applicationConfiguration.useAuthentication)
-        configureSerialization()
-        configureCallId()
-        configureMetrics()
-        configureRequestValidation()
-        configureStatusPages()
-        configureRouting(applicationState, skattekortPersonService, applicationConfiguration.useAuthentication)
+        commonConfig()
+        securityConfig(applicationConfiguration.azureAdConfig, applicationConfiguration.useAuthentication)
+        routingConfig(applicationState, skattekortPersonService, applicationConfiguration.useAuthentication)
     }
 
     fun start() {

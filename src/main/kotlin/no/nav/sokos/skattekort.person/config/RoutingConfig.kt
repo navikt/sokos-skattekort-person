@@ -10,7 +10,7 @@ import no.nav.sokos.skattekort.person.api.naisRoutes
 import no.nav.sokos.skattekort.person.api.skattekortRoutes
 import no.nav.sokos.skattekort.person.service.SkattekortPersonService
 
-fun Application.configureRouting(
+fun Application.routingConfig(
     applicationState: ApplicationState,
     skattekortPersonService: SkattekortPersonService,
     useAuthentication: Boolean
