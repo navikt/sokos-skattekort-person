@@ -21,7 +21,7 @@ object Config {
     private val localDevProperties = ConfigurationMap(
         mapOf(
             "application.profile" to Profile.LOCAL.toString(),
-            "USE_AUTHENTICATION" to "false",
+            "USE_AUTHENTICATION" to "true",
             // TODO: Skal fjernes når tester med mock-oauth-server er på plass, disse to under er  egentlig for integrasjontest
             "AZURE_APP_CLIENT_ID" to UUID.randomUUID().toString(),
             "AZURE_APP_WELL_KNOWN_URL" to "https://fakedings.dev-gcp.nais.io/default/.well-known/openid-configuration",

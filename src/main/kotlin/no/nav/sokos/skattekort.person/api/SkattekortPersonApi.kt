@@ -26,7 +26,6 @@ fun Route.skattekortRoutes(
                 logger.info { "Henter skattekort" }
                 val skattekortPersonRequest: SkattekortPersonRequest = call.receive()
                 secureLogger.info { "Henter skattekort for år: ${skattekortPersonRequest.inntektsaar} for person med fnr: ${skattekortPersonRequest.fnr}" }
-
                 skattekortPersonService.hentSkattekortPerson(skattekortPersonRequest).let {
                     call.respond(HttpStatusCode.OK, SkattekortPersonResponse(it))
                 }
