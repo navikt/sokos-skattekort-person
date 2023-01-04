@@ -33,8 +33,6 @@
         </then>
     </if>
 
-    <logger name="STDOUT" level="INFO"/>
-
     <root level="INFO">
         <if condition='isDefined("NAIS_CLUSTER_NAME")'>
             <then>
@@ -46,7 +44,7 @@
         </if>
     </root>
 
-    <logger name="no.nav" level="DEBUG"/>
-    <logger name="ktor.application" level="DEBUG"/>
+    <logger name="STDOUT" level="INFO"/>
+    <logger name="no.nav.sokos.skattekort.person" level="INFO"/>
 
 </configuration>
