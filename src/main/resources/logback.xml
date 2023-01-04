@@ -33,6 +33,7 @@
         <if condition='isDefined("NAIS_CLUSTER_NAME")'>
             <then>
                 <appender-ref ref="STDOUT"/>
+                <appender-ref ref="secureLog"/>
             </then>
             <else>
                 <appender-ref ref="CONSOLE"/>
