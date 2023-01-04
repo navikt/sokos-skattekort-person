@@ -1,26 +1,30 @@
 package no.nav.sokos.skattekort.person.database
 
 import java.sql.Connection
-import java.sql.ResultSet
-import no.nav.sokos.skattekort.person.api.model.SkattekortPerson
+import no.nav.sokos.skattekort.person.api.model.SkattekortPersonRequest
+import no.nav.sokos.skattekort.person.config.xmlMapper
+import no.nav.sokos.skattekort.person.database.RepositoryExtensions.param
+import no.nav.sokos.skattekort.person.database.RepositoryExtensions.toList
+import no.nav.sokos.skattekort.person.database.RepositoryExtensions.withParameters
+import no.nav.sokos.skattekort.person.domain.SkattekortTilArbeidsgiver
 
-fun Connection.hentSkattekortPaaFnrOgInntektsAar(
-    skattekortPerson: SkattekortPerson
-): String {
-    return prepareStatement(
-        """
+object SkattekortPersonRepository {
+    fun Connection.hentSkattekortPaaFnrOgInntektsAar(
+        skattekortPersonRequest: SkattekortPersonRequest
+    ): List<SkattekortTilArbeidsgiver> =
+        prepareStatement(
+            """
             SELECT NVL2(DATA_MOTTATT, (DATA_MOTTATT).getClobVal(), null)
             FROM OSESKATT_U4.T1_SKATTEKORT_BESTILLING
             WHERE FNR = (?) AND INNTEKTSAAR = (?)
-        """.trimIndent()
-    ).apply {
-        setString(1, skattekortPerson.fnr)
-        setString(2, skattekortPerson.inntektsaar)
-    }.use { statement ->
-        statement.executeQuery().asSequence { statement.resultSet.getString(1) }.first()
-    }
-}
-
-private fun <T> ResultSet.asSequence(extract: () -> T): Sequence<T> = generateSequence {
-    if (this.next()) extract() else null
+        """
+        ).withParameters(
+            param(skattekortPersonRequest.fnr),
+            param(skattekortPersonRequest.inntektsaar)
+        ).run {
+            executeQuery().toList {
+                val xmlSkattekort = getString(1)
+                xmlMapper.readValue(xmlSkattekort, SkattekortTilArbeidsgiver::class.java)
+            }
+        }
 }

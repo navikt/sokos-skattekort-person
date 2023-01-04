@@ -20,3 +20,10 @@ val appStateReadyFalse: Counter = Counter.build()
     .help("app state ready changed to false")
     .register(prometheusMeterRegistry.prometheusRegistry)
 
+val databaseFailureCounter: Counter = Counter.build()
+    .namespace(METRICS_NAMESPACE)
+    .name("database_failure_counter")
+    .labelNames("errorCode", "sqlState")
+    .help("Count database errors")
+    .register(prometheusMeterRegistry.prometheusRegistry)
+

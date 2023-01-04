@@ -7,11 +7,15 @@ import io.ktor.server.response.respond
 import io.ktor.server.routing.Route
 import io.ktor.server.routing.post
 import io.ktor.server.routing.route
-import no.nav.sokos.skattekort.person.api.model.SkattekortPerson
+import mu.KotlinLogging
+import no.nav.sokos.skattekort.person.api.model.SkattekortPersonRequest
+import no.nav.sokos.skattekort.person.api.model.SkattekortPersonResponse
 import no.nav.sokos.skattekort.person.config.AUTHENTICATION_NAME
 import no.nav.sokos.skattekort.person.config.authenticate
 import no.nav.sokos.skattekort.person.service.SkattekortPersonService
 
+private val logger = KotlinLogging.logger {}
+private val secureLogger = KotlinLogging.logger("secureLogger")
 fun Route.skattekortRoutes(
     skattekortPersonService: SkattekortPersonService,
     useAuthentication: Boolean
@@ -19,9 +23,14 @@ fun Route.skattekortRoutes(
     authenticate(useAuthentication, AUTHENTICATION_NAME) {
         route("/api") {
             post("/v1/skattekort") {
-                val skattekortPerson: SkattekortPerson = call.receive()
-                val skattekort = skattekortPersonService.hentSkattekortPerson(skattekortPerson)
-                call.respond(HttpStatusCode.OK, skattekort)
+                logger.info { "Henter skattekort" }
+                val skattekortPersonRequest: SkattekortPersonRequest = call.receive()
+                secureLogger.info { "Henter skattekort for år: ${skattekortPersonRequest.inntektsaar} for person med fnr: ${skattekortPersonRequest.fnr}" }
+
+                skattekortPersonService.hentSkattekortPerson(skattekortPersonRequest).let {
+                    call.respond(HttpStatusCode.OK, SkattekortPersonResponse(it))
+                }
+
             }
         }
     }

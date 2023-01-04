@@ -8,9 +8,11 @@ import kotlin.properties.Delegates
 import no.nav.sokos.skattekort.person.config.Config
 import no.nav.sokos.skattekort.person.config.configureCallId
 import no.nav.sokos.skattekort.person.config.configureMetrics
+import no.nav.sokos.skattekort.person.config.configureRequestValidation
 import no.nav.sokos.skattekort.person.config.configureRouting
 import no.nav.sokos.skattekort.person.config.configureSecurity
 import no.nav.sokos.skattekort.person.config.configureSerialization
+import no.nav.sokos.skattekort.person.config.configureStatusPages
 import no.nav.sokos.skattekort.person.database.OracleDataSource
 import no.nav.sokos.skattekort.person.metrics.appStateReadyFalse
 import no.nav.sokos.skattekort.person.metrics.appStateRunningFalse
@@ -45,6 +47,8 @@ class HttpServer(
         configureSerialization()
         configureCallId()
         configureMetrics()
+        configureRequestValidation()
+        configureStatusPages()
         configureRouting(applicationState, skattekortPersonService, applicationConfiguration.useAuthentication)
     }
 
