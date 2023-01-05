@@ -18,6 +18,7 @@ class OracleDataSource(
         jdbcUrl = oseskattDatabaseConfig.jdbcUrl
         username = oseskattDatabaseConfig.username
         password = oseskattDatabaseConfig.password
+        schema = oseskattDatabaseConfig.schema
         maximumPoolSize = 10
         isAutoCommit = true
     }

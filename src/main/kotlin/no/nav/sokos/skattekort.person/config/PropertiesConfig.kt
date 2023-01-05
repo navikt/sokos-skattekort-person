@@ -53,6 +53,7 @@ object PropertiesConfig {
         val host: String = get("DATABASE_HOST"),
         val port: String = get("DATABASE_PORT"),
         val name: String = get("DATABASE_NAME"),
+        val schema: String = get("DATABASE_SCHEMA"),
         val username: String = get("DATABASE_USERNAME"),
         val password: String = get("DATABASE_PASSWORD")
     ) {
