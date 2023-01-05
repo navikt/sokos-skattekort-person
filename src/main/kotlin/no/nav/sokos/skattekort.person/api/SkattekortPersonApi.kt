@@ -29,7 +29,6 @@ fun Route.skattekortRoutes(
                 skattekortPersonService.hentSkattekortPerson(skattekortPersonRequest).let {
                     call.respond(HttpStatusCode.OK, SkattekortPersonResponse(it))
                 }
-
             }
         }
     }

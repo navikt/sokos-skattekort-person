@@ -7,10 +7,8 @@ import com.natpryce.konfig.Key
 import com.natpryce.konfig.overriding
 import com.natpryce.konfig.stringType
 import java.io.File
-import java.util.UUID
 
 object PropertiesConfig {
-
 
     private val defaultProperties = ConfigurationMap(
         mapOf(
@@ -18,19 +16,14 @@ object PropertiesConfig {
             "NAIS_NAMESPACE" to "okonomi"
         )
     )
-
     private val localDevProperties = ConfigurationMap(
         mapOf(
-            "application.profile" to Profile.LOCAL.toString(),
-            "USE_AUTHENTICATION" to "true",
-            // TODO: Skal fjernes når tester med mock-oauth-server er på plass, disse to under er  egentlig for integrasjontest
-            "AZURE_APP_CLIENT_ID" to UUID.randomUUID().toString(),
-            "AZURE_APP_WELL_KNOWN_URL" to "https://fakedings.dev-gcp.nais.io/default/.well-known/openid-configuration",
+        "APPLICATION_PROFILE" to Profile.LOCAL.toString(),
+        "USE_AUTHENTICATION" to "false"
         )
     )
-
-    private val devProperties = ConfigurationMap(mapOf("application.profile" to Profile.DEV.toString()))
-    private val prodProperties = ConfigurationMap(mapOf("application.profile" to Profile.PROD.toString()))
+    private val devProperties = ConfigurationMap(mapOf("APPLICATION_PROFILE" to Profile.DEV.toString()))
+    private val prodProperties = ConfigurationMap(mapOf("APPLICATION_PROFILE" to Profile.PROD.toString()))
 
     private val config = when (System.getenv("NAIS_CLUSTER_NAME") ?: System.getProperty("NAIS_CLUSTER_NAME")) {
         "dev-fss" -> ConfigurationProperties.systemProperties() overriding EnvironmentVariables() overriding devProperties overriding defaultProperties
@@ -42,11 +35,10 @@ object PropertiesConfig {
     }
 
     operator fun get(key: String): String = config[Key(key, stringType)]
-    fun getOrNull(key: String): String? = config.getOrNull(Key(key, stringType))
 
     data class Configuration(
         val naisAppName: String = get("NAIS_APP_NAME"),
-        val profile: Profile = Profile.valueOf(this["application.profile"]),
+        val profile: Profile = Profile.valueOf(this["APPLICATION_PROFILE"]),
         val useAuthentication: Boolean = get("USE_AUTHENTICATION").toBoolean(),
         val azureAdConfig: AzureAdConfig = AzureAdConfig(),
         val databaseConfig: OseskattDatabaseConfig = OseskattDatabaseConfig()
@@ -70,5 +62,6 @@ object PropertiesConfig {
     enum class Profile {
         LOCAL, DEV, PROD
     }
+
 }
 

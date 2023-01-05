@@ -44,7 +44,6 @@
         </if>
     </root>
 
-    <logger name="STDOUT" level="INFO"/>
     <logger name="no.nav.sokos.skattekort.person" level="INFO"/>
 
 </configuration>
