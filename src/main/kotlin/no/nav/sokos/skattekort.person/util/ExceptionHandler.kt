@@ -11,7 +11,7 @@ fun StatusPagesConfig.exceptionHandler() {
 
     exception<RequestValidationException> { call, cause ->
         call.respond(
-            HttpStatusCode.BadRequest, FeilmeldingResponse(
+            HttpStatusCode.BadRequest, ApiError(
                 ZonedDateTime.now(),
                 HttpStatusCode.BadRequest.value,
                 HttpStatusCode.BadRequest.description,
@@ -22,7 +22,7 @@ fun StatusPagesConfig.exceptionHandler() {
     }
 }
 
-data class FeilmeldingResponse(
+data class ApiError(
     val timestamp: ZonedDateTime,
     val status: Int,
     val error: String,

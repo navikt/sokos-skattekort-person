@@ -15,7 +15,7 @@ object SkattekortPersonRepository {
         prepareStatement(
             """
             SELECT NVL2(DATA_MOTTATT, (DATA_MOTTATT).getClobVal(), null)
-            FROM OSESKATT_U4.T1_SKATTEKORT_BESTILLING
+            FROM T1_SKATTEKORT_BESTILLING
             WHERE FNR = (?) AND INNTEKTSAAR = (?)
         """
         ).withParameters(
