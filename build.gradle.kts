@@ -65,7 +65,7 @@ dependencies {
     // Logging
     implementation("io.github.microutils:kotlin-logging-jvm:$kotlinLoggingVersion")
     implementation("io.ktor:ktor-server-host-common-jvm:2.2.1")
-    implementation("io.ktor:ktor-server-status-pages-jvm:2.2.1")
+    implementation("io.ktor:ktor-server-status-pages-jvm:2.2.2")
     runtimeOnly("org.codehaus.janino:janino:$janionVersion")
     runtimeOnly("ch.qos.logback:logback-classic:$logbackVersion")
     runtimeOnly("net.logstash.logback:logstash-logback-encoder:$logstashVersion")
