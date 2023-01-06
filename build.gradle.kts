@@ -1,6 +1,5 @@
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import org.openapitools.generator.gradle.plugin.tasks.GenerateTask
 
 plugins {
     kotlin("jvm") version "1.8.0"
@@ -27,6 +26,7 @@ val kotlinLoggingVersion = "3.0.4"
 val janionVersion = "3.1.9"
 val natpryceVersion = "1.6.10.0"
 val kotestVersion = "5.5.4"
+val swaggerUiVersion = "4.15.0"
 
 dependencies {
 
@@ -39,6 +39,7 @@ dependencies {
     implementation("io.ktor:ktor-server-content-negotiation-jvm:$ktorVersion")
     implementation("io.ktor:ktor-server-request-validation:$ktorVersion")
     implementation("io.ktor:ktor-server-status-pages:$ktorVersion")
+    implementation("io.ktor:ktor-server-swagger:$ktorVersion")
 
     // Ktor client
     implementation("io.ktor:ktor-client-content-negotiation:$ktorVersion")
@@ -98,22 +99,8 @@ application {
 
 tasks {
 
-    withType<GenerateTask> {
-        generatorName.set("kotlin")
-        generateModelDocumentation.set(false)
-        inputSpec.set("$rootDir/specs/sokos-skattekort-person-v1-swagger.json")
-        outputDir.set("$buildDir/generated")
-        globalProperties.set(
-            mapOf(
-                "models" to ""
-            )
-        )
-        configOptions.set(
-            mapOf(
-                "library" to "jvm-ktor",
-                "serializationLibrary" to "jackson"
-            )
-        )
+    withType<KotlinCompile> {
+        kotlinOptions.jvmTarget = "17"
     }
 
     withType().named("buildFatJar") {
@@ -126,11 +113,6 @@ tasks {
 
     withType().named("jar") {
         enabled = false
-    }
-
-    withType<KotlinCompile> {
-        dependsOn("openApiGenerate")
-        kotlinOptions.jvmTarget = "17"
     }
 
     withType<Test> {

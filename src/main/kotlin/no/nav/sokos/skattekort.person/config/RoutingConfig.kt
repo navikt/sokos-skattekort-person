@@ -8,6 +8,7 @@ import no.nav.sokos.skattekort.person.ApplicationState
 import no.nav.sokos.skattekort.person.api.metricsRoutes
 import no.nav.sokos.skattekort.person.api.naisRoutes
 import no.nav.sokos.skattekort.person.api.skattekortRoutes
+import no.nav.sokos.skattekort.person.api.swaggerRoutes
 import no.nav.sokos.skattekort.person.service.SkattekortPersonService
 
 fun Application.routingConfig(
@@ -18,6 +19,7 @@ fun Application.routingConfig(
     routing {
         naisRoutes({ applicationState.initialized }, { applicationState.running })
         metricsRoutes()
+        swaggerRoutes()
         skattekortRoutes(skattekortPersonService, useAuthentication)
     }
 }
