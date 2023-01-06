@@ -37,7 +37,6 @@ dependencies {
     implementation("io.ktor:ktor-server-status-pages:$ktorVersion")
     implementation("io.ktor:ktor-server-content-negotiation-jvm:$ktorVersion")
     implementation("io.ktor:ktor-server-request-validation:$ktorVersion")
-    implementation("io.ktor:ktor-server-status-pages:$ktorVersion")
     implementation("io.ktor:ktor-server-swagger:$ktorVersion")
 
     // Ktor client
@@ -64,8 +63,6 @@ dependencies {
 
     // Logging
     implementation("io.github.microutils:kotlin-logging-jvm:$kotlinLoggingVersion")
-    implementation("io.ktor:ktor-server-host-common-jvm:2.2.2")
-    implementation("io.ktor:ktor-server-status-pages-jvm:2.2.2")
     runtimeOnly("org.codehaus.janino:janino:$janionVersion")
     runtimeOnly("ch.qos.logback:logback-classic:$logbackVersion")
     runtimeOnly("net.logstash.logback:logstash-logback-encoder:$logstashVersion")
