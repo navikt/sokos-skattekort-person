@@ -26,7 +26,6 @@ val kotlinLoggingVersion = "3.0.4"
 val janionVersion = "3.1.9"
 val natpryceVersion = "1.6.10.0"
 val kotestVersion = "5.5.4"
-val swaggerUiVersion = "4.15.0"
 
 dependencies {
 
