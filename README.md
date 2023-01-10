@@ -8,7 +8,7 @@
 * [5. Autentisering](#5-autentisering)
 * [6. Drift og støtte](#6-drift-og-støtte)
 * [7. Swagger](#7-swagger)
-* [8. Henvendelser](#7-henvendelser)
+* [8. Henvendelser](#8-henvendelser)
 ---
 
 # 1. Funksjonelle Krav
@@ -93,8 +93,9 @@ kubectl logs -f sokos-skattekort-person-<POD-ID> --namespace okonomi -c sokos-sk
 ```
 
 ### Alarmer
-Vi bruker [nais-alerts](https://doc.nais.io/observability/alerts) for å sette opp alarmer. 
-Disse finner man konfigurert i [alerterator-dev.yaml](.nais/alerterator-prod.yaml) for dev miljø og [alerterator-prod.yaml](.nais/alerterator-prod.yaml) for prod miljø.
+Vi bruker [nais-alerts](https://doc.nais.io/observability/alerts) for å sette opp alarmer. Disse finner man konfigurert i 
+- [Dev-miljø](.nais/alerterator-dev.yaml)
+- [Prod-miljø](.nais/alerterator-prod.yaml)
 
 ### Grafana
 
@@ -104,5 +105,9 @@ Disse finner man konfigurert i [alerterator-dev.yaml](.nais/alerterator-prod.yam
 - [Prod-gcp](https://sokos-skattekort-person.intern.nav.no/api/v1/docs)
 - [Dev-gcp](https://sokos-skattekort-person.dev.intern.nav.no/api/v1/docs)
 - [Lokalt](http://0.0.0.0:8080/api/v1/docs)
+
+# 8. Henvendelser
+Spørsmål knyttet til koden eller prosjektet kan stilles som issues her på Github.
+Interne henvendelser kan sendes via Slack i kanalen `#po-utbetaling`
 
 
