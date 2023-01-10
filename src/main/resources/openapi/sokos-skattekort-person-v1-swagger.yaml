@@ -1,0 +1,94 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "Dette er et REST-API for å tilby funksjonalitet for å hente ut skattekort for personer for år 2022-2023",
+    "version": "1.0.0",
+    "title": "Skattekort for personer",
+    "contact": {
+      "name": "TØB",
+      "email": "okonomi@nav.no"
+    }
+  },
+  "basePath": "/api",
+  "tags": [
+    {
+      "name": "Skattekort",
+      "description": "Hent ut skattekort for en person av gangen for år 2022-2023"
+    }
+  ],
+  "schemes": [
+    "https",
+    "http"
+  ],
+  "paths": {
+    "/v1/skattekort": {
+      "post": {
+        "tags": [
+          "Skattekort"
+        ],
+        "summary": "Hente ut skattekort for personer for år 2022-2023",
+        "operationId": "hentSkattekortUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "skattekortPersonRequest",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": ""
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/SkatteKortPersonRequest"
+            }
+          },
+          "401": {
+            "description": "Invalid authorization token provided",
+            "schema": {
+              "$ref": "#/definitions/apiError"
+            }
+          },
+          "403": {
+            "description": "Forbidden, required scopes not associated with provided token",
+            "schema": {
+              "$ref": "#/definitions/apiError"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error, the server encountered an unexpected condition that prevented it from fulfilling the request",
+            "schema": {
+              "$ref": "#/definitions/apiError"
+            }
+          }
+        },
+        "deprecated": false
+      }
+    }
+  },
+  "securityDefinitions": {
+    "Bearer": {
+      "description": "OIDC-token (JWT via OAuth2.0).\n Følgende format må brukes i input-feltet \"Value\" under: <strong>\"Bearer {token}\"</strong>.\n Eksempel på verdi i input-felt: <strong>Bearer eYdmifml0ejugm</strong>",
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header"
+    }
+  },
+  "definitions": {
+    "SkatteKortPersonRequest": {
+      "type": "object",
+      "required": [
+        "fnr",
+        "inntektsaar"
+      ]
+    }
+  }
+}

@@ -11,11 +11,13 @@ import mu.KotlinLogging
 import no.nav.sokos.skattekort.person.api.model.SkattekortPersonRequest
 import no.nav.sokos.skattekort.person.api.model.SkattekortPersonResponse
 import no.nav.sokos.skattekort.person.config.AUTHENTICATION_NAME
+import no.nav.sokos.skattekort.person.config.SECURE_LOGGER
 import no.nav.sokos.skattekort.person.config.authenticate
 import no.nav.sokos.skattekort.person.service.SkattekortPersonService
 
 private val logger = KotlinLogging.logger {}
-private val secureLogger = KotlinLogging.logger("secureLogger")
+private val secureLogger = KotlinLogging.logger(SECURE_LOGGER)
+
 fun Route.skattekortRoutes(
     skattekortPersonService: SkattekortPersonService,
     useAuthentication: Boolean
