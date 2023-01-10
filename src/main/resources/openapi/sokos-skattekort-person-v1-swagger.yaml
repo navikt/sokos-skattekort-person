@@ -61,11 +61,11 @@ components:
       properties:
         fnr:
           type: string
-          example: "02016126007"
+          example: "fødelsnummer"
           description: Fødelsnummer 11 siffer
         inntektsaar:
           type: string
-          example: "2022"
+          example: "2023"
           description: Skatteår 2022 eller 2023
 
     SkattekortPersonResponse:
