@@ -1,3 +1,4 @@
+import io.ktor.plugin.features.FatJarExtension
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
@@ -5,7 +6,6 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     kotlin("jvm") version "1.8.0"
     kotlin("plugin.serialization") version "1.8.0"
-    id("org.openapi.generator") version "6.2.1"
     id("io.ktor.plugin") version "2.2.2"
 }
 
@@ -94,11 +94,11 @@ application {
 
 tasks {
 
-    withType<KotlinCompile> {
+    withType<KotlinCompile>().configureEach {
         compilerOptions.jvmTarget.set(JVM_17)
     }
 
-    withType().named("buildFatJar") {
+    ("buildFatJar") {
         ktor {
             fatJar {
                 archiveFileName.set("app.jar")
@@ -106,11 +106,11 @@ tasks {
         }
     }
 
-    withType().named("jar") {
+    ("jar") {
         enabled = false
     }
 
-    withType<Test> {
+    withType<Test>().configureEach {
         useJUnitPlatform()
         testLogging {
             exceptionFormat = FULL
@@ -123,7 +123,7 @@ tasks {
         reports.forEach { report -> report.required.value(false) }
     }
 
-    withType<Wrapper> {
+    withType<Wrapper>().configureEach {
         gradleVersion = "7.6"
     }
 }
