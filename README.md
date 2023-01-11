@@ -44,7 +44,7 @@ Distribusjon av tjenesten er gjort med bruk av Github Actions.
 
 Push/merge til master branche vil teste, bygge og deploye til produksjonsmiljø og testmiljø.
 
-# 7. Autentisering
+# 5. Autentisering
 Applikasjonen bruker [AzureAD](https://docs.nais.io/security/auth/azure-ad/) autentisering
 
 ### Hente token

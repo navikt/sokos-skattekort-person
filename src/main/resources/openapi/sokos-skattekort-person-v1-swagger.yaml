@@ -21,6 +21,7 @@ paths:
       summary: Hente skattekort for person
       description: Kun tilgjengelige inntektsår er 2022 og 2023
       operationId: hentSkattekortPerson
+
       requestBody:
         description: SkattekortPersonRequest
         content:
@@ -28,6 +29,7 @@ paths:
             schema:
               $ref: '#/components/schemas/SkattekortPersonRequest'
         required: true
+
       responses:
         200:
           description: OK - Hvis skattekort ikke finnes, returneres tomt objekt
@@ -49,10 +51,13 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ApiError'
+
       security:
         - Bearer: []
+
 components:
   schemas:
+
     SkattekortPersonRequest:
       type: object
       required:
@@ -230,6 +235,7 @@ components:
           type: string
           example: /api/v1/skattekort
           description: Endepunktet hvor feilen oppstå
+
   securitySchemes:
     Bearer:
       type: apiKey
