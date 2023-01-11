@@ -1,18 +1,17 @@
-package no.nav.sokos.skattekort.person
+package no.nav.sokos.skattekort.person.util
 
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldContain
 import io.kotest.matchers.types.shouldBeInstanceOf
-import no.nav.sokos.skattekort.person.util.Util.readFromResource
 import no.nav.sokos.skattekort.person.domain.Frikort
 import no.nav.sokos.skattekort.person.domain.SkattekortTilArbeidsgiver
 import no.nav.sokos.skattekort.person.domain.Trekkprosent
 import no.nav.sokos.skattekort.person.domain.Trekktabell
-import no.nav.sokos.skattekort.person.util.xmlMapper
+import no.nav.sokos.skattekort.person.readFromResource
 
 
-class XmlToSkattekortTilArbeidsgiverTest : FunSpec({
+class XmlMapperTest : FunSpec({
 
     test("test konverting av frikort xml til SkattekortTilArbeidsgiver klasse") {
         val frikortXml = "frikort.xml".readFromResource()
