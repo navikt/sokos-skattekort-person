@@ -10,13 +10,12 @@ import no.nav.sokos.skattekort.person.domain.Trekkprosent
 import no.nav.sokos.skattekort.person.domain.Trekktabell
 import no.nav.sokos.skattekort.person.readFromResource
 
-
 class XmlMapperTest : FunSpec({
 
     test("test konverting av frikort xml til SkattekortTilArbeidsgiver klasse") {
-        val frikortXml = "frikort.xml".readFromResource()
+        val frikort = "frikort.xml".readFromResource()
 
-        val skattekortTilArbeidsgiver = xmlMapper.readValue(frikortXml, SkattekortTilArbeidsgiver::class.java)
+        val skattekortTilArbeidsgiver = xmlMapper.readValue(frikort, SkattekortTilArbeidsgiver::class.java)
 
         val forskuddstrekk =
             skattekortTilArbeidsgiver.arbeidsgiver.first().arbeidstaker.first().skattekort.forskuddstrekk

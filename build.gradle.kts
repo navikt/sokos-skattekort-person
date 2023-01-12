@@ -28,6 +28,9 @@ val kotlinLoggingVersion = "3.0.4"
 val janionVersion = "3.1.9"
 val natpryceVersion = "1.6.10.0"
 val kotestVersion = "5.5.4"
+val mockkVersion = "1.13.3"
+val restAssuredVersion = "5.3.0"
+val swaggerRequestValidatorVersion = "2.32.0"
 
 dependencies {
 
@@ -80,6 +83,10 @@ dependencies {
     testImplementation("io.kotest:kotest-assertions-core-jvm:$kotestVersion")
     testImplementation("io.kotest:kotest-runner-junit5:$kotestVersion")
     testImplementation("io.ktor:ktor-server-test-host-jvm:$ktorVersion")
+    testImplementation("io.mockk:mockk:$mockkVersion")
+    testImplementation("io.rest-assured:rest-assured:$restAssuredVersion")
+    testImplementation("com.atlassian.oai:swagger-request-validator-restassured:$swaggerRequestValidatorVersion")
+
 }
 
 application {

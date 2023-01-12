@@ -53,7 +53,7 @@ paths:
                 $ref: '#/components/schemas/ApiError'
 
       security:
-        - Bearer: []
+        - Bearer: [ ]
 
 components:
   schemas:
@@ -124,15 +124,14 @@ components:
 
     Resultatstatus:
       type: string
-      items:
-        enum:
-          - ikkeSkattekort
-          - vurderArbeidstillatelse
-          - ikkeTrekkplikt
-          - skattekortopplysningerOK
-          - ugyldigOrganisasjonsnummer
-          - ugyldigFoedselsEllerDnummer
-          - utgaattDnummerSkattekortForFoedselsnummerErLevert
+      enum:
+        - ikkeSkattekort
+        - vurderArbeidstillatelse
+        - ikkeTrekkplikt
+        - skattekortopplysningerOK
+        - ugyldigOrganisasjonsnummer
+        - ugyldigFoedselsEllerDnummer
+        - utgaattDnummerSkattekortForFoedselsnummerErLevert
 
     Skattekort:
       type: object
@@ -161,11 +160,11 @@ components:
           - kildeskattPaaLoenn
 
     Forskuddstrekk:
-      type: object
       oneOf:
         - $ref: '#/components/schemas/Frikort'
         - $ref: '#/components/schemas/Trekktabell'
         - $ref: '#/components/schemas/Trekkprosent'
+        - type: object
 
     Frikort:
       type: object
@@ -201,10 +200,9 @@ components:
 
     Tabelltype:
       type: string
-      items:
-        enum:
-          - trekktabellForPensjon
-          - trekktabellForLoenn
+      enum:
+        - trekktabellForPensjon
+        - trekktabellForLoenn
 
     ApiError:
       type: object
