@@ -1,3 +1,4 @@
+import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
@@ -5,8 +6,9 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     kotlin("jvm") version "1.8.0"
     kotlin("plugin.serialization") version "1.8.0"
-    id("org.openapi.generator") version "6.2.1"
-    id("io.ktor.plugin") version "2.2.2"
+    id("com.github.johnrengelman.shadow") version "7.1.2"
+
+    application
 }
 
 group = "no.nav.sokos"
@@ -80,6 +82,10 @@ dependencies {
     testImplementation("io.ktor:ktor-server-test-host-jvm:$ktorVersion")
 }
 
+application {
+    mainClass.set("no.nav.sokos.skattekort.person.ApplicationKt")
+}
+
 sourceSets {
     main {
         java {
@@ -88,29 +94,25 @@ sourceSets {
     }
 }
 
-application {
-    mainClass.set("no.nav.sokos.skattekort.person.ApplicationKt")
-}
-
 tasks {
 
-    withType<KotlinCompile> {
+    withType<KotlinCompile>().configureEach {
         compilerOptions.jvmTarget.set(JVM_17)
     }
 
-    withType().named("buildFatJar") {
-        ktor {
-            fatJar {
-                archiveFileName.set("app.jar")
-            }
+    withType<ShadowJar>().configureEach {
+        enabled = true
+        archiveFileName.set("app.jar")
+        manifest {
+            attributes["Main-Class"] = "no.nav.sokos.skattekort.person.ApplicationKt"
         }
     }
 
-    withType().named("jar") {
+    ("jar") {
         enabled = false
     }
 
-    withType<Test> {
+    withType<Test>().configureEach {
         useJUnitPlatform()
         testLogging {
             exceptionFormat = FULL
@@ -123,7 +125,7 @@ tasks {
         reports.forEach { report -> report.required.value(false) }
     }
 
-    withType<Wrapper> {
+    withType<Wrapper>().configureEach {
         gradleVersion = "7.6"
     }
 }
