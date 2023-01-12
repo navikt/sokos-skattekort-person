@@ -23,7 +23,7 @@ Ved å kalle på rest tjenesten gjør applikasjonen et oppslag i databasen (med 
 * [Kotest Plugin](https://plugins.jetbrains.com/plugin/14080-kotest) for å kjøre tester
 
 ### Bygge prosjekt
-`./gradlew clean buildFatJar`
+`./gradlew build`
 
 ### Lokal utvikling
 For å kjøre applikasjonen må du gjøre følgende:
