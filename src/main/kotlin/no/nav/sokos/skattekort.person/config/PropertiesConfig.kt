@@ -7,6 +7,7 @@ import com.natpryce.konfig.Key
 import com.natpryce.konfig.overriding
 import com.natpryce.konfig.stringType
 import java.io.File
+import java.util.UUID
 
 object PropertiesConfig {
 
@@ -22,6 +23,8 @@ object PropertiesConfig {
         "USE_AUTHENTICATION" to "true",
         "DATABASE_USERNAME" to "testUser",
         "DATABASE_PASSWORD" to "testPassword",
+        "AZURE_APP_CLIENT_ID" to UUID.randomUUID().toString(),
+        "AZURE_APP_WELL_KNOWN_URL" to "https://fakedings.dev-gcp.nais.io/default/.well-known/openid-configuration",
         )
     )
     private val devProperties = ConfigurationMap(mapOf("APPLICATION_PROFILE" to Profile.DEV.toString()))
