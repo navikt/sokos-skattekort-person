@@ -53,5 +53,3 @@ spec:
       value: "1521"
     - name: DATABASE_NAME
       value: oseskatt_u4
-    - name: USE_AUTHENTICATION
-      value: "true"

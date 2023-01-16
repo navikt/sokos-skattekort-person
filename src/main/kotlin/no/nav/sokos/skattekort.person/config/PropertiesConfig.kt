@@ -7,20 +7,19 @@ import com.natpryce.konfig.Key
 import com.natpryce.konfig.overriding
 import com.natpryce.konfig.stringType
 import java.io.File
-import java.util.UUID
 
 object PropertiesConfig {
 
     private val defaultProperties = ConfigurationMap(
         mapOf(
             "NAIS_APP_NAME" to "sokos-skattekort-person",
-            "NAIS_NAMESPACE" to "okonomi"
-        )
+            "NAIS_NAMESPACE" to "okonomi",
+            "USE_AUTHENTICATION" to "true"
+            )
     )
     private val localDevProperties = ConfigurationMap(
         mapOf(
         "APPLICATION_PROFILE" to Profile.LOCAL.toString(),
-        "USE_AUTHENTICATION" to "true",
         "DATABASE_HOST" to "databaseHost",
         "DATABASE_PORT" to "databasePort",
         "DATABASE_NAME" to "databaseName",

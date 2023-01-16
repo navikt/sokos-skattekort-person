@@ -1,8 +1,6 @@
 package no.nav.sokos.skattekort.person.util
 
 import io.ktor.client.plugins.ClientRequestException
-import io.ktor.client.plugins.ResponseException
-import io.ktor.client.plugins.ServerResponseException
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.log
 import io.ktor.server.plugins.requestvalidation.RequestValidationException

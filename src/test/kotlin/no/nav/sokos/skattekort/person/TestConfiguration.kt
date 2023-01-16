@@ -1,9 +1,7 @@
 package no.nav.sokos.skattekort.person
 
-import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import io.ktor.server.config.MapApplicationConfig
 import io.ktor.server.routing.routing
