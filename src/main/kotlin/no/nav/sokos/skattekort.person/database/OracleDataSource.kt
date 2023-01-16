@@ -13,8 +13,8 @@ class OracleDataSource(
     fun close() = dataSource.close()
 
     private fun hikariConfig() = HikariConfig().apply {
-        driverClassName = "oracle.jdbc.OracleDriver"
-        poolName = "HikariPool-OSESKATT"
+        driverClassName = oseskattDatabaseConfig.jdbcDriver
+        poolName = oseskattDatabaseConfig.poolName
         jdbcUrl = oseskattDatabaseConfig.jdbcUrl
         username = oseskattDatabaseConfig.username
         password = oseskattDatabaseConfig.password

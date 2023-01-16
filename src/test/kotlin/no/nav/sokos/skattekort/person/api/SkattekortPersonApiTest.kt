@@ -22,6 +22,7 @@ import no.nav.sokos.skattekort.person.readFromResource
 import no.nav.sokos.skattekort.person.service.SkattekortPersonService
 import no.nav.sokos.skattekort.person.toJson
 import no.nav.sokos.skattekort.person.util.xmlMapper
+import org.hamcrest.Matchers.equalTo
 
 internal const val API_SKATTEKORT_PATH = "/api/v1/skattekort"
 internal const val PORT = 9090
@@ -113,6 +114,8 @@ internal class SkattekortPersonApiTest: FunSpec ({
             .then()
             .assertThat()
             .statusCode(HttpStatusCode.BadRequest.value)
+            .body("message", equalTo("Fnr er ugyldig"))
+
     }
 
     test("hent skattekort med ugyldig inntektsaar") {
@@ -127,6 +130,8 @@ internal class SkattekortPersonApiTest: FunSpec ({
             .then()
             .assertThat()
             .statusCode(HttpStatusCode.BadRequest.value)
+            .body("message", equalTo("Inntektår er ugyldig"))
+
     }
 
     test("hent skattekort for mindre enn nåværende år minus 1") {
@@ -141,6 +146,8 @@ internal class SkattekortPersonApiTest: FunSpec ({
             .then()
             .assertThat()
             .statusCode(HttpStatusCode.BadRequest.value)
+            .body("message", equalTo("Inntektsår kan ikke være mindre enn ${Year.now().value - 1}"))
+
     }
 
     test("hent skattekort for mer enn nåværende år") {
@@ -155,6 +162,8 @@ internal class SkattekortPersonApiTest: FunSpec ({
             .then()
             .assertThat()
             .statusCode(HttpStatusCode.BadRequest.value)
+            .body("message", equalTo("Inntektsår kan ikke være mer enn ${Year.now().value}"))
+
     }
 
     test("hent skattekort ved å sende mindre enn 11 siffer fødelsnummer") {
@@ -163,12 +172,14 @@ internal class SkattekortPersonApiTest: FunSpec ({
             .filter(validationFilter)
             .header(HttpHeaders.ContentType, APPLICATION_JSON)
             .header(HttpHeaders.Authorization, "Bearer dummytoken")
-            .body(SkattekortPersonRequest(fnr = "1234567890", inntektsaar = "${Year.now().value + 1}").toJson())
+            .body(SkattekortPersonRequest(fnr = "1234567890", inntektsaar = "${Year.now().value}").toJson())
             .port(PORT)
             .post(API_SKATTEKORT_PATH)
             .then()
             .assertThat()
             .statusCode(HttpStatusCode.BadRequest.value)
+            .body("message", equalTo("Fnr er mindre enn 11 siffer"))
+
     }
 
     test("hent skattekort ved å sende mer enn 11 siffer fødelsnummer") {
@@ -177,12 +188,13 @@ internal class SkattekortPersonApiTest: FunSpec ({
             .filter(validationFilter)
             .header(HttpHeaders.ContentType, APPLICATION_JSON)
             .header(HttpHeaders.Authorization, "Bearer dummytoken")
-            .body(SkattekortPersonRequest(fnr = "123456789012", inntektsaar = "${Year.now().value + 1}").toJson())
+            .body(SkattekortPersonRequest(fnr = "123456789012", inntektsaar = "${Year.now().value}").toJson())
             .port(PORT)
             .post(API_SKATTEKORT_PATH)
             .then()
             .assertThat()
             .statusCode(HttpStatusCode.BadRequest.value)
+            .body("message", equalTo("Fnr er større enn 11 siffer"))
     }
 
 })

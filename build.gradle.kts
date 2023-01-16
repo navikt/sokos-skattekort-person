@@ -31,6 +31,7 @@ val kotestVersion = "5.5.4"
 val mockkVersion = "1.13.3"
 val restAssuredVersion = "5.3.0"
 val swaggerRequestValidatorVersion = "2.32.0"
+val mockOAuth2ServerVersion = "0.5.7"
 
 dependencies {
 
@@ -86,6 +87,7 @@ dependencies {
     testImplementation("io.mockk:mockk:$mockkVersion")
     testImplementation("io.rest-assured:rest-assured:$restAssuredVersion")
     testImplementation("com.atlassian.oai:swagger-request-validator-restassured:$swaggerRequestValidatorVersion")
+    testImplementation("no.nav.security:mock-oauth2-server:$mockOAuth2ServerVersion")
 
 }
 

@@ -34,7 +34,7 @@ fun ApplicationTestBuilder.configureTestApplication() {
     }
 }
 
-private fun jsonMapper() : ObjectMapper = jacksonObjectMapper().apply {
+private fun jsonMapper(): ObjectMapper = jacksonObjectMapper().apply {
     configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
     findAndRegisterModules()
 }

@@ -19,7 +19,9 @@ object PropertiesConfig {
     private val localDevProperties = ConfigurationMap(
         mapOf(
         "APPLICATION_PROFILE" to Profile.LOCAL.toString(),
-        "USE_AUTHENTICATION" to "true"
+        "USE_AUTHENTICATION" to "true",
+        "DATABASE_USERNAME" to "testUser",
+        "DATABASE_PASSWORD" to "testPassword",
         )
     )
     private val devProperties = ConfigurationMap(mapOf("APPLICATION_PROFILE" to Profile.DEV.toString()))
@@ -34,7 +36,7 @@ object PropertiesConfig {
         ) overriding localDevProperties overriding defaultProperties
     }
 
-    operator fun get(key: String): String = config[Key(key, stringType)]
+    private operator fun get(key: String): String = config[Key(key, stringType)]
 
     data class Configuration(
         val naisAppName: String = get("NAIS_APP_NAME"),
@@ -55,7 +57,9 @@ object PropertiesConfig {
         val name: String = get("DATABASE_NAME"),
         val schema: String = get("DATABASE_SCHEMA"),
         val username: String = get("DATABASE_USERNAME"),
-        val password: String = get("DATABASE_PASSWORD")
+        val password: String = get("DATABASE_PASSWORD"),
+        val jdbcDriver: String = "oracle.jdbc.OracleDriver",
+        val poolName: String = "HikariPool-OSESKATT"
     ) {
         val jdbcUrl: String = "jdbc:oracle:thin:@$host:$port/$name"
     }
