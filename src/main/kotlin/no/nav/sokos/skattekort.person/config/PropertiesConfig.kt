@@ -27,8 +27,8 @@ object PropertiesConfig {
         "DATABASE_SCHEMA" to "databaseSchema",
         "DATABASE_USERNAME" to "databaseUsername",
         "DATABASE_PASSWORD" to "databasePassword",
-        "AZURE_APP_CLIENT_ID" to UUID.randomUUID().toString(),
-        "AZURE_APP_WELL_KNOWN_URL" to "https://fakedings.dev-gcp.nais.io/default/.well-known/openid-configuration",
+        "AZURE_APP_CLIENT_ID" to "azure-app-client-id",
+        "AZURE_APP_WELL_KNOWN_URL" to "azure-app-well-known-url",
         )
     )
     private val devProperties = ConfigurationMap(mapOf("APPLICATION_PROFILE" to Profile.DEV.toString()))
