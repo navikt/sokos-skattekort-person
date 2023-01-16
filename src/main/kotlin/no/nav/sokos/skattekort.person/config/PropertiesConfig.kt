@@ -21,8 +21,12 @@ object PropertiesConfig {
         mapOf(
         "APPLICATION_PROFILE" to Profile.LOCAL.toString(),
         "USE_AUTHENTICATION" to "true",
-        "DATABASE_USERNAME" to "testUser",
-        "DATABASE_PASSWORD" to "testPassword",
+        "DATABASE_HOST" to "databaseHost",
+        "DATABASE_PORT" to "databasePort",
+        "DATABASE_NAME" to "databaseName",
+        "DATABASE_SCHEMA" to "databaseSchema",
+        "DATABASE_USERNAME" to "databaseUsername",
+        "DATABASE_PASSWORD" to "databasePassword",
         "AZURE_APP_CLIENT_ID" to UUID.randomUUID().toString(),
         "AZURE_APP_WELL_KNOWN_URL" to "https://fakedings.dev-gcp.nais.io/default/.well-known/openid-configuration",
         )
