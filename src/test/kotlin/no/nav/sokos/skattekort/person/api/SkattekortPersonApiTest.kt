@@ -1,10 +1,11 @@
 package no.nav.sokos.skattekort.person.api
 
-import io.ktor.server.application.Application
 import com.atlassian.oai.validator.restassured.OpenApiValidationFilter
 import io.kotest.core.spec.style.FunSpec
+import io.kotest.matchers.shouldBe
 import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpStatusCode
+import io.ktor.server.application.Application
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
 import io.ktor.server.netty.NettyApplicationEngine
@@ -32,7 +33,7 @@ lateinit var server: NettyApplicationEngine
 val validationFilter = OpenApiValidationFilter("openapi/sokos-skattekort-person-v1-swagger.yaml")
 val skattekortPersonService: SkattekortPersonService = mockk()
 
-internal class SkattekortPersonApiTest: FunSpec ({
+internal class SkattekortPersonApiTest : FunSpec({
 
     beforeEach {
         server = embeddedServer(Netty, PORT, module = Application::myApplicationModule).start()
@@ -50,7 +51,7 @@ internal class SkattekortPersonApiTest: FunSpec ({
 
         every { skattekortPersonService.hentSkattekortPerson(any()) } returns skattekortPersonResponseObject.skattekortListe
 
-        RestAssured.given()
+        val response = RestAssured.given()
             .filter(validationFilter)
             .header(HttpHeaders.ContentType, APPLICATION_JSON)
             .header(HttpHeaders.Authorization, "Bearer dummytoken")
@@ -60,17 +61,23 @@ internal class SkattekortPersonApiTest: FunSpec ({
             .then()
             .assertThat()
             .statusCode(HttpStatusCode.OK.value)
+            .extract()
+            .response()
+
+        response.body.`as`(SkattekortPersonResponse::class.java) shouldBe skattekortPersonResponseObject
+
     }
 
     test("hent skattekort med trekkprosent") {
 
         val trekkprosentXml = "trekkprosent.xml".readFromResource()
-        val skattekortTilArbeidsgiverObject = xmlMapper.readValue(trekkprosentXml, SkattekortTilArbeidsgiver::class.java)
+        val skattekortTilArbeidsgiverObject =
+            xmlMapper.readValue(trekkprosentXml, SkattekortTilArbeidsgiver::class.java)
         val skattekortPersonResponseObject = SkattekortPersonResponse(listOf(skattekortTilArbeidsgiverObject))
 
         every { skattekortPersonService.hentSkattekortPerson(any()) } returns skattekortPersonResponseObject.skattekortListe
 
-        RestAssured.given()
+        val response = RestAssured.given()
             .filter(validationFilter)
             .header(HttpHeaders.ContentType, APPLICATION_JSON)
             .header(HttpHeaders.Authorization, "Bearer dummytoken")
@@ -80,6 +87,10 @@ internal class SkattekortPersonApiTest: FunSpec ({
             .then()
             .assertThat()
             .statusCode(HttpStatusCode.OK.value)
+            .extract()
+            .response()
+
+        response.body.`as`(SkattekortPersonResponse::class.java) shouldBe skattekortPersonResponseObject
     }
 
     test("hent skattekort med trekktabell") {
@@ -90,7 +101,7 @@ internal class SkattekortPersonApiTest: FunSpec ({
 
         every { skattekortPersonService.hentSkattekortPerson(any()) } returns skattekortPersonResponseObject.skattekortListe
 
-        RestAssured.given()
+        val response = RestAssured.given()
             .filter(validationFilter)
             .header(HttpHeaders.ContentType, APPLICATION_JSON)
             .header(HttpHeaders.Authorization, "Bearer dummytoken")
@@ -100,6 +111,10 @@ internal class SkattekortPersonApiTest: FunSpec ({
             .then()
             .assertThat()
             .statusCode(HttpStatusCode.OK.value)
+            .extract()
+            .response()
+
+        response.body.`as`(SkattekortPersonResponse::class.java) shouldBe skattekortPersonResponseObject
     }
 
     test("hent skattekort med ugyldig fnr") {

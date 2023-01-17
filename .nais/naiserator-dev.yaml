@@ -61,3 +61,5 @@ spec:
       value: oseskatt_q1
     - name: DATABASE_SCHEMA
       value: OSESKATT_P
+    - name: USE_AUTHENTICATION
+      value: "true"

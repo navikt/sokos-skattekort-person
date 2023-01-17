@@ -14,11 +14,11 @@ object PropertiesConfig {
         mapOf(
             "NAIS_APP_NAME" to "sokos-skattekort-person",
             "NAIS_NAMESPACE" to "okonomi",
-            "USE_AUTHENTICATION" to "true"
             )
     )
     private val localDevProperties = ConfigurationMap(
         mapOf(
+        "USE_AUTHENTICATION" to "true",
         "APPLICATION_PROFILE" to Profile.LOCAL.toString(),
         "DATABASE_HOST" to "databaseHost",
         "DATABASE_PORT" to "databasePort",
