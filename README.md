@@ -32,12 +32,12 @@ For å kjøre applikasjonen må du gjøre følgende:
       chmod 755 setupLocalEnvironment.sh && ./setupLocalEnvironment.sh
       ```
    Denne vil opprette [default.properties](defaults.properties) med alle environment variabler du trenger for å kjøre applikasjonen som er definert i [PropertiesConfig](src/main/kotlin/no/nav/sokos/skattekort.person/config/PropertiesConfig.kt).
-   Her vil du også kunne f.eks endre om du ønsker slå på autentisering eller ikke i koden linje 22 `"USE_AUTHENTICATION" to "true"`.
+   Her vil du også kunne f.eks endre om du ønsker slå på autentisering eller ikke i koden `"USE_AUTHENTICATION" to "true"` i filen [PropertiesConfig](src/main/kotlin/no/nav/sokos/skattekort.person/config/PropertiesConfig.kt).
    Husk å endre 
   - `DATABASE_HOST=a01dbfl032.adeo.no` til `DATABASE_HOST=10.51.9.59` 
   - `DATABASE_NAME=oseskatt_q1` til `DATABASE_NAME=oseskatt_u4` 
   - `DATABASE_SCHEMA=OSESKATT_P` til `DATABASE_SCHEMA=oseskatt_u4`
-  - for `oseskatt_u4` databasen i [default.properties](defaults.properties) fordi dette er eneste databasen som kan nåes via [naisdevice](https://docs.nais.io/device/?h=naisdevice)
+  - `oseskatt_u4` databasen fordi dette er eneste databasen som kan nåes via [naisdevice](https://docs.nais.io/device/?h=naisdevice)
 
 # 3. Programvarearkitektur
 [System diagram](./dokumentasjon/system-diagram.md)
@@ -54,7 +54,7 @@ Applikasjonen bruker [AzureAD](https://docs.nais.io/security/auth/azure-ad/) aut
 ### Hente token
 1. Installer `vault` kommandolinje verktøy: https://github.com/navikt/utvikling/blob/main/docs/teknisk/Vault.md
 2. Installer `jq` kommandolinje verktøy: https://github.com/stedolan/jq
-3. Gi rettighet for å kjøre scriptet `chmod 755 getToken.sh`
+3. Gi rettighet for å kjøre scriptet `chmod 755 getAzureAdToken.sh`
 4. Kjør scriptet [getAzureAdToken.sh](getAzureAdToken.sh)
       ```
       chmod 755 getAzureAdToken.sh && ./getAzureAdToken.sh
