@@ -34,7 +34,7 @@ spec:
     - https://sokos-skattekort-person.intern.nav.no
   prometheus:
     enabled: true
-    path: /internal/metrics
+    path: /metrics
   secureLogs:
     enabled: true
   azure:
