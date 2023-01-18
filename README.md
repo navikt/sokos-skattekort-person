@@ -102,7 +102,7 @@ Vi bruker [nais-alerts](https://doc.nais.io/observability/alerts) for å sette o
 - [Prod-miljø](.nais/alerterator-prod.yaml)
 
 ### Grafana
-
+- [sokos-skattekort-person dashboard](https://grafana.nais.io/d/JC31xmTVz/sokos-skattekort-person?orgId=1&refresh=30s&from=now-24h&to=now)
 ---
 
 # 7. Swagger
