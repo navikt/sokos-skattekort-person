@@ -8,7 +8,7 @@
 * [5. Autentisering](#5-autentisering)
 * [6. Drift og støtte](#6-drift-og-støtte)
 * [7. Swagger](#7-swagger)
-* [8. Henvendelser](#8-henvendelser)
+* [8. Henvendelser og tilgang](#8-henvendelser-og-tilgang)
 ---
 
 # 1. Funksjonelle Krav
@@ -110,8 +110,10 @@ Vi bruker [nais-alerts](https://doc.nais.io/observability/alerts) for å sette o
 - [Dev-gcp](https://sokos-skattekort-person.dev.intern.nav.no/api/v1/docs)
 - [Lokalt](http://0.0.0.0:8080/api/v1/docs)
 
-# 8. Henvendelser
-Spørsmål knyttet til koden eller prosjektet kan stilles som issues her på Github.
-Interne henvendelser kan sendes via Slack i kanalen `#po-utbetaling`
+# 8. Henvendelser og tilgang
+Spørsmål knyttet til koden eller prosjektet kan stilles som issues her på Github.\
+Interne henvendelser kan sendes via Slack i kanalen `#po-utbetaling`\
+Tilgang til denne tjenesten kan bestilles gjennom [Porten](https://jira.adeo.no/plugins/servlet/desk/portal/541)
+
 
 
