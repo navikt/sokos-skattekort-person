@@ -25,7 +25,7 @@ import no.nav.sokos.skattekort.person.toJson
 import no.nav.sokos.skattekort.person.util.xmlMapper
 import org.hamcrest.Matchers.equalTo
 
-internal const val API_SKATTEKORT_PATH = "/api/v1/skattekort"
+internal const val API_SKATTEKORT_PATH = "/api/v1/hent-skattekort"
 internal const val PORT = 9090
 
 lateinit var server: NettyApplicationEngine
