@@ -23,8 +23,8 @@ fun Route.skattekortRoutes(
     useAuthentication: Boolean
 ) {
     authenticate(useAuthentication, AUTHENTICATION_NAME) {
-        route("/api") {
-            post("/v1/skattekort") {
+        route("/api/v1") {
+            post("hent-skattekort") {
                 logger.info { "Henter skattekort" }
                 val skattekortPersonRequest: SkattekortPersonRequest = call.receive()
                 secureLogger.info { "Henter skattekort for år: ${skattekortPersonRequest.inntektsaar} for person med fnr: ${skattekortPersonRequest.fnr}" }

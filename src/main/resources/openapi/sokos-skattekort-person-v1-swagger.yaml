@@ -14,7 +14,7 @@ tags:
     description: Skattekort informasjon
 
 paths:
-  /api/v1/skattekort:
+  /api/v1/hent-skattekort:
     post:
       tags:
         - skattekort
