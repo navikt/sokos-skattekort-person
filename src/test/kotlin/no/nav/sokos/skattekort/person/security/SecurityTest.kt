@@ -17,6 +17,7 @@ import io.mockk.mockk
 import no.nav.security.mock.oauth2.MockOAuth2Server
 import no.nav.security.mock.oauth2.token.DefaultOAuth2TokenCallback
 import no.nav.security.mock.oauth2.withMockOAuth2Server
+import no.nav.sokos.skattekort.person.api.API_SKATTEKORT_PATH
 import no.nav.sokos.skattekort.person.api.model.SkattekortPersonRequest
 import no.nav.sokos.skattekort.person.api.skattekortRoutes
 import no.nav.sokos.skattekort.person.config.PropertiesConfig
@@ -39,7 +40,7 @@ class SecurityTest : FunSpec({
                         skattekortRoutes(skattekortPersonService, true)
                     }
                 }
-                val response = client.post("/api/v1/skattekort")
+                val response = client.post(API_SKATTEKORT_PATH)
                 response.status shouldBe HttpStatusCode.Unauthorized
             }
         }
@@ -66,7 +67,7 @@ class SecurityTest : FunSpec({
 
                 every { skattekortPersonService.hentSkattekortPerson(any()) } returns emptyList()
 
-                val response = client.post("/api/v1/skattekort") {
+                val response = client.post(API_SKATTEKORT_PATH) {
                     header("Authorization", "Bearer ${mockOAuth2Server.tokenFromDefaultProvider()}")
                     contentType(ContentType.Application.Json)
                     setBody(SkattekortPersonRequest("12345678901", "2022"))
