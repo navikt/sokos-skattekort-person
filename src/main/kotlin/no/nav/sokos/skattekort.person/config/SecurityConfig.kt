@@ -11,11 +11,11 @@ import io.ktor.server.application.Application
 import io.ktor.server.auth.authentication
 import io.ktor.server.auth.jwt.JWTPrincipal
 import io.ktor.server.auth.jwt.jwt
-import mu.KotlinLogging
-import no.nav.sokos.skattekort.person.config.PropertiesConfig.AzureAdConfig
 import java.net.URL
 import java.util.concurrent.TimeUnit
 import kotlinx.coroutines.runBlocking
+import mu.KotlinLogging
+import no.nav.sokos.skattekort.person.config.PropertiesConfig.AzureAdConfig
 import no.nav.sokos.skattekort.person.util.httpClient
 
 private val log = KotlinLogging.logger {}
@@ -66,7 +66,11 @@ private fun cachedJwkProvider(jwksUri: String): JwkProvider {
 
     return jwkProviderBuilder
         .cached(10, 24, TimeUnit.HOURS) // cache up to 10 JWKs for 24 hours
-        .rateLimited(10, 1, TimeUnit.MINUTES) // if not cached, only allow max 10 different keys per minute to be fetched from external provider
+        .rateLimited(
+            10,
+            1,
+            TimeUnit.MINUTES
+        ) // if not cached, only allow max 10 different keys per minute to be fetched from external provider
         .build()
 }
 

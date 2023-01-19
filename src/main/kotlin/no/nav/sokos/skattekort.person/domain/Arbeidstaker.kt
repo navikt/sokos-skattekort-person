@@ -1,6 +1,6 @@
 package no.nav.sokos.skattekort.person.domain
 
-data class Arbeidstaker (
+data class Arbeidstaker(
     val inntektsaar: Long,
     val arbeidstakeridentifikator: String,
     val resultatPaaForespoersel: Resultatstatus,

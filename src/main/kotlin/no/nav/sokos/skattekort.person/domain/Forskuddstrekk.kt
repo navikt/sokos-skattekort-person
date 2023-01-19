@@ -6,7 +6,8 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo
 @JsonTypeInfo(
     use = JsonTypeInfo.Id.NAME,
     include = JsonTypeInfo.As.PROPERTY,
-    property = "type")
+    property = "type"
+)
 @JsonSubTypes(
     JsonSubTypes.Type(value = Frikort::class, name = "Frikort"),
     JsonSubTypes.Type(value = Trekktabell::class, name = "Trekktabell"),

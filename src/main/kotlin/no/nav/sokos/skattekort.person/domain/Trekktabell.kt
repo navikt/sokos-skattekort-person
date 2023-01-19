@@ -2,7 +2,7 @@ package no.nav.sokos.skattekort.person.domain
 
 import java.math.BigDecimal
 
-data class Trekktabell (
+data class Trekktabell(
     override val trekkode: Trekkode,
     val tabelltype: Tabelltype? = null,
     val tabellnummer: String? = null,

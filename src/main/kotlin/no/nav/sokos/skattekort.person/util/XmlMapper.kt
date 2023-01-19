@@ -12,5 +12,5 @@ val xmlMapper: ObjectMapper = XmlMapper(JacksonXmlModule()
     .apply { setDefaultUseWrapper(false) })
     .registerKotlinModule()
     .apply { JsonMapper.builder().enable(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES) }
-    .registerModule( JavaTimeModule() )
+    .registerModule(JavaTimeModule())
 

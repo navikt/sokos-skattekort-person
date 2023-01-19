@@ -48,6 +48,7 @@ class HttpServer(
         applicationState.running = true
         embeddedServer.start(wait = true)
     }
+
     private fun stop() {
         applicationState.running = false
         embeddedServer.stop(5, 5, TimeUnit.SECONDS)

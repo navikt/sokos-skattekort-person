@@ -26,19 +26,19 @@ jobs:
           CLUSTER: dev-fss
           RESOURCE: .nais/alerterator-dev.yaml
 
-#  deploy-alerts-prod:
-#    name: Deploy alarmer til prod
-#    needs: deploy-alerts-dev
-#    runs-on: ubuntu-latest
-#    steps:
-#      - name: Sjekker ut kode
-#        uses: actions/checkout@v3
-#      - name: Deploy til prod
-#        uses: nais/deploy/actions/deploy@v1
-#        env:
-#          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
-#          CLUSTER: prod-fss
-#          RESOURCE: .nais/alerterator-prod.yaml
+  #  deploy-alerts-prod:
+  #    name: Deploy alarmer til prod
+  #    needs: deploy-alerts-dev
+  #    runs-on: ubuntu-latest
+  #    steps:
+  #      - name: Sjekker ut kode
+  #        uses: actions/checkout@v3
+  #      - name: Deploy til prod
+  #        uses: nais/deploy/actions/deploy@v1
+  #        env:
+  #          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
+  #          CLUSTER: prod-fss
+  #          RESOURCE: .nais/alerterator-prod.yaml
 
   reportFailure:
     name: Slack notifikasjon bygg feiler
