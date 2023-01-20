@@ -5,10 +5,10 @@ import io.ktor.server.auth.authenticate
 import io.ktor.server.routing.Route
 import io.ktor.server.routing.routing
 import no.nav.sokos.skattekort.person.ApplicationState
-import no.nav.sokos.skattekort.person.api.metricsRoutes
-import no.nav.sokos.skattekort.person.api.naisRoutes
-import no.nav.sokos.skattekort.person.api.skattekortRoutes
-import no.nav.sokos.skattekort.person.api.swaggerRoutes
+import no.nav.sokos.skattekort.person.api.metricsApi
+import no.nav.sokos.skattekort.person.api.naisApi
+import no.nav.sokos.skattekort.person.api.skattekortApi
+import no.nav.sokos.skattekort.person.api.swaggerApi
 import no.nav.sokos.skattekort.person.service.SkattekortPersonService
 
 fun Application.routingConfig(
@@ -17,10 +17,10 @@ fun Application.routingConfig(
     useAuthentication: Boolean
 ) {
     routing {
-        naisRoutes({ applicationState.initialized }, { applicationState.running })
-        metricsRoutes()
-        swaggerRoutes()
-        skattekortRoutes(skattekortPersonService, useAuthentication)
+        naisApi({ applicationState.initialized }, { applicationState.running })
+        metricsApi()
+        swaggerApi()
+        skattekortApi(skattekortPersonService, useAuthentication)
     }
 }
 

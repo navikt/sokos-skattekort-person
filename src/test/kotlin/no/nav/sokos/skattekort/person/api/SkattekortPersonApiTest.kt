@@ -217,6 +217,6 @@ internal class SkattekortPersonApiTest : FunSpec({
 private fun Application.myApplicationModule() {
     commonConfig()
     routing {
-        skattekortRoutes(skattekortPersonService, false)
+        skattekortApi(skattekortPersonService, false)
     }
 }

@@ -18,7 +18,7 @@ import no.nav.sokos.skattekort.person.service.SkattekortPersonService
 private val logger = KotlinLogging.logger {}
 private val secureLogger = KotlinLogging.logger(SECURE_LOGGER)
 
-fun Route.skattekortRoutes(
+fun Route.skattekortApi(
     skattekortPersonService: SkattekortPersonService,
     useAuthentication: Boolean
 ) {

@@ -28,13 +28,11 @@ fun StatusPagesConfig.exceptionHandler() {
             }
 
             is ClientRequestException -> {
-                val httpStatusCode = cause.response.status
-                val httpStatusCodeDescription = cause.response.status.description
                 Pair(
-                    httpStatusCode, ApiError(
+                    cause.response.status, ApiError(
                         ZonedDateTime.now(),
-                        httpStatusCode.value,
-                        httpStatusCodeDescription,
+                        cause.response.status.value,
+                        cause.response.status.description,
                         cause.message,
                         call.request.path()
                     )
