@@ -19,7 +19,7 @@ import no.nav.security.mock.oauth2.token.DefaultOAuth2TokenCallback
 import no.nav.security.mock.oauth2.withMockOAuth2Server
 import no.nav.sokos.skattekort.person.api.API_SKATTEKORT_PATH
 import no.nav.sokos.skattekort.person.api.model.SkattekortPersonRequest
-import no.nav.sokos.skattekort.person.api.skattekortRoutes
+import no.nav.sokos.skattekort.person.api.skattekortApi
 import no.nav.sokos.skattekort.person.config.PropertiesConfig
 import no.nav.sokos.skattekort.person.config.securityConfig
 import no.nav.sokos.skattekort.person.configureTestApplication
@@ -37,7 +37,7 @@ class SecurityTest : FunSpec({
                 this.application {
                     securityConfig(authConfig())
                     routing {
-                        skattekortRoutes(skattekortPersonService, true)
+                        skattekortApi(skattekortPersonService, true)
                     }
                 }
                 val response = client.post(API_SKATTEKORT_PATH)
@@ -61,7 +61,7 @@ class SecurityTest : FunSpec({
                 this.application {
                     securityConfig(authConfig())
                     routing {
-                        skattekortRoutes(skattekortPersonService, true)
+                        skattekortApi(skattekortPersonService, true)
                     }
                 }
 
