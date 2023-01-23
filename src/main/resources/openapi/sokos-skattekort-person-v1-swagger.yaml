@@ -97,7 +97,7 @@ components:
           items:
             $ref: "#/components/schemas/Arbeidstaker"
         arbeidsgiveridentifikator:
-          $ref: '#/components/schemas/IdentifikatorForEnhetEllerPerson'
+            $ref: '#/components/schemas/IdentifikatorForEnhetEllerPerson'
 
     Arbeidstaker:
       type: object
@@ -160,11 +160,12 @@ components:
           - kildeskattPaaLoenn
 
     Forskuddstrekk:
-      oneOf:
-        - $ref: '#/components/schemas/Frikort'
-        - $ref: '#/components/schemas/Trekktabell'
-        - $ref: '#/components/schemas/Trekkprosent'
-        - type: object
+      type: array
+      items:
+        oneOf:
+          - $ref: '#/components/schemas/Frikort'
+          - $ref: '#/components/schemas/Trekktabell'
+          - $ref: '#/components/schemas/Trekkprosent'
 
     Frikort:
       type: object
@@ -172,7 +173,8 @@ components:
         trekkode:
           type: string
         frikortbeloep:
-          type: string
+          type: number
+          format: double
 
     Trekktabell:
       type: object
@@ -184,9 +186,11 @@ components:
         tabellnummer:
           type: string
         prosentsats:
-          type: string
+          type: number
+          format: double
         antallMaanederForTrekk:
-          type: string
+          type: number
+          format: double
 
     Trekkprosent:
       type: object
@@ -194,9 +198,11 @@ components:
         trekkode:
           type: string
         prosentsats:
-          type: string
+          type: number
+          format: double
         antallMaanederForTrekk:
-          type: string
+          type: number
+          format: double
 
     Tabelltype:
       type: string
