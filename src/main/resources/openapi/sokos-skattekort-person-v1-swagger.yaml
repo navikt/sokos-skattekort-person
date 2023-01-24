@@ -124,6 +124,7 @@ components:
 
     Resultatstatus:
       type: string
+      default: string
       enum:
         - ikkeSkattekort
         - vurderArbeidstillatelse
@@ -152,6 +153,7 @@ components:
 
     Tilleggsopplysning:
       type: string
+      default: string
       items:
         enum:
           - oppholdPaaSvalbard
@@ -219,6 +221,7 @@ components:
 
     Tabelltype:
       type: string
+      default: string
       enum:
         - trekktabellForPensjon
         - trekktabellForLoenn
