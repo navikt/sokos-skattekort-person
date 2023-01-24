@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo
 @JsonTypeInfo(
     use = JsonTypeInfo.Id.NAME,
     include = JsonTypeInfo.As.PROPERTY,
-    property = "type"
+    property = "type" // Type blir med i JSON responsen som forteller hvilken type Forskuddstrekk dette er
 )
 @JsonSubTypes(
     JsonSubTypes.Type(value = Frikort::class, name = "Frikort"),

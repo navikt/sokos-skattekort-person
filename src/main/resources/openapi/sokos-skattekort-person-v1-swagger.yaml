@@ -146,7 +146,7 @@ components:
           type: integer
           format: int64
         forskuddstrekk:
-          type: object
+          type: array
           items:
             $ref: '#/components/schemas/Forskuddstrekk'
 
@@ -160,24 +160,31 @@ components:
           - kildeskattPaaLoenn
 
     Forskuddstrekk:
-      type: array
-      items:
-        oneOf:
-          - $ref: '#/components/schemas/Frikort'
-          - $ref: '#/components/schemas/Trekktabell'
-          - $ref: '#/components/schemas/Trekkprosent'
+      type: object
+      anyOf:
+        - $ref: '#/components/schemas/Frikort'
+        - $ref: '#/components/schemas/Trekktabell'
+        - $ref: '#/components/schemas/Trekkprosent'
+      discriminator:
+        propertyName: type
 
     Frikort:
       type: object
+      required:
+        - type
       properties:
         trekkode:
           type: string
         frikortbeloep:
           type: number
           format: double
+        type:
+          type: string
 
     Trekktabell:
       type: object
+      required:
+        - type
       properties:
         trekkode:
           type: string
@@ -191,9 +198,13 @@ components:
         antallMaanederForTrekk:
           type: number
           format: double
+        type:
+          type: string
 
     Trekkprosent:
       type: object
+      required:
+        - type
       properties:
         trekkode:
           type: string
@@ -203,6 +214,8 @@ components:
         antallMaanederForTrekk:
           type: number
           format: double
+        type:
+          type: string
 
     Tabelltype:
       type: string
