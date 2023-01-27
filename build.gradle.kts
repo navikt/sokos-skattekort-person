@@ -30,7 +30,7 @@ val natpryceVersion = "1.6.10.0"
 val kotestVersion = "5.5.4"
 val mockkVersion = "1.13.3"
 val restAssuredVersion = "5.3.0"
-val swaggerRequestValidatorVersion = "2.32.0"
+val swaggerRequestValidatorVersion = "2.32.1"
 val mockOAuth2ServerVersion = "0.5.7"
 
 dependencies {
