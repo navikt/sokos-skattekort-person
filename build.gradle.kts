@@ -4,8 +4,8 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    kotlin("jvm") version "1.8.0"
-    kotlin("plugin.serialization") version "1.8.0"
+    kotlin("jvm") version "1.8.10"
+    kotlin("plugin.serialization") version "1.8.10"
     id("com.github.johnrengelman.shadow") version "7.1.2"
 
     application
@@ -19,18 +19,18 @@ repositories {
     maven { url = uri("https://maven.pkg.jetbrains.space/public/p/ktor/eap") }
 }
 
-val ktorVersion = "2.2.2"
+val ktorVersion = "2.2.3"
 val logbackVersion = "1.4.5"
 val logstashVersion = "7.2"
 val jacksonVersion = "2.14.2"
 val prometheusVersion = "1.10.3"
-val kotlinLoggingVersion = "3.0.4"
+val kotlinLoggingVersion = "3.0.5"
 val janionVersion = "3.1.9"
 val natpryceVersion = "1.6.10.0"
 val kotestVersion = "5.5.4"
 val mockkVersion = "1.13.4"
 val restAssuredVersion = "5.3.0"
-val swaggerRequestValidatorVersion = "2.32.1"
+val swaggerRequestValidatorVersion = "2.33.1"
 val mockOAuth2ServerVersion = "0.5.7"
 
 dependencies {
