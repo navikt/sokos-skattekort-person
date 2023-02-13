@@ -78,7 +78,7 @@ dependencies {
 
     // Database
     implementation("com.zaxxer:HikariCP:5.0.1")
-    implementation("com.oracle.database.jdbc:ojdbc10:19.17.0.0")
+    implementation("com.oracle.database.jdbc:ojdbc10:19.18.0.0")
 
     // Test
     testImplementation("io.kotest:kotest-assertions-core-jvm:$kotestVersion")
