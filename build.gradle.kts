@@ -31,7 +31,7 @@ val kotestVersion = "5.5.5"
 val mockkVersion = "1.13.4"
 val restAssuredVersion = "5.3.0"
 val swaggerRequestValidatorVersion = "2.33.1"
-val mockOAuth2ServerVersion = "0.5.7"
+val mockOAuth2ServerVersion = "0.5.8"
 
 dependencies {
 
