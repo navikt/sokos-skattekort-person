@@ -32,6 +32,7 @@ val mockkVersion = "1.13.4"
 val restAssuredVersion = "5.3.0"
 val swaggerRequestValidatorVersion = "2.33.1"
 val mockOAuth2ServerVersion = "0.5.8"
+val ojdbc10 = "19.18.0.0"
 
 dependencies {
 
@@ -78,7 +79,7 @@ dependencies {
 
     // Database
     implementation("com.zaxxer:HikariCP:5.0.1")
-    implementation("com.oracle.database.jdbc:ojdbc10:19.17.0.0")
+    implementation("com.oracle.database.jdbc:ojdbc10:$ojdbc10")
 
     // Test
     testImplementation("io.kotest:kotest-assertions-core-jvm:$kotestVersion")
