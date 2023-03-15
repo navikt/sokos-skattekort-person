@@ -1,6 +1,6 @@
 #!/bin/bash
 
-PROJECT_NAME='sokos-skattekort-person'
+PROJECT_NAME='sokos-pdl-proxy'
 CILENT_SECRET_NAME='sokos-skattekort-person'
 
 # Gcloud authorized and switch to namespace okonomi
