@@ -1,5 +1,6 @@
 package no.nav.sokos.skattekort.person
 
+import io.ktor.server.application.Application
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.engine.stop
 import io.ktor.server.netty.Netty
@@ -24,7 +25,7 @@ fun main() {
 
 }
 
-class HttpServer(
+private class HttpServer(
     private val applicationState: ApplicationState,
     private val applicationConfiguration: PropertiesConfig.Configuration,
     private val skattekortPersonService: SkattekortPersonService,
@@ -38,11 +39,9 @@ class HttpServer(
         })
     }
 
-    private val embeddedServer = embeddedServer(Netty, port) {
-        commonConfig()
-        securityConfig(applicationConfiguration.azureAdConfig, applicationConfiguration.useAuthentication)
-        routingConfig(applicationState, skattekortPersonService, applicationConfiguration.useAuthentication)
-    }
+    private val embeddedServer = embeddedServer(Netty, port, module = {
+        applicationModule(applicationConfiguration, applicationState, skattekortPersonService)
+    })
 
     fun start() {
         applicationState.running = true
@@ -66,4 +65,10 @@ class ApplicationState(
     var running: Boolean by Delegates.observable(ready) { _, _, newValue ->
         if (!newValue) appStateRunningFalse.inc()
     }
+}
+
+private fun Application.applicationModule(applicationConfiguration: PropertiesConfig.Configuration, applicationState: ApplicationState, skattekortPersonService: SkattekortPersonService) {
+    commonConfig()
+    securityConfig(applicationConfiguration.azureAdConfig, applicationConfiguration.useAuthentication)
+    routingConfig(applicationState, skattekortPersonService, applicationConfiguration.useAuthentication)
 }
