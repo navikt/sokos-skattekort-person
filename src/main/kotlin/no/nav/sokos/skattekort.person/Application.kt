@@ -67,7 +67,11 @@ class ApplicationState(
     }
 }
 
-private fun Application.applicationModule(applicationConfiguration: PropertiesConfig.Configuration, applicationState: ApplicationState, skattekortPersonService: SkattekortPersonService) {
+private fun Application.applicationModule(
+    applicationConfiguration: PropertiesConfig.Configuration,
+    applicationState: ApplicationState,
+    skattekortPersonService: SkattekortPersonService
+) {
     commonConfig()
     securityConfig(applicationConfiguration.azureAdConfig, applicationConfiguration.useAuthentication)
     routingConfig(applicationState, skattekortPersonService, applicationConfiguration.useAuthentication)
