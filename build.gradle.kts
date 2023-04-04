@@ -4,8 +4,8 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    kotlin("jvm") version "1.8.10"
-    kotlin("plugin.serialization") version "1.8.10"
+    kotlin("jvm") version "1.8.20"
+    kotlin("plugin.serialization") version "1.8.20"
     id("com.github.johnrengelman.shadow") version "8.1.1"
 
     application
@@ -30,7 +30,7 @@ val natpryceVersion = "1.6.10.0"
 val kotestVersion = "5.5.5"
 val mockkVersion = "1.13.4"
 val restAssuredVersion = "5.3.0"
-val swaggerRequestValidatorVersion = "2.34.0"
+val swaggerRequestValidatorVersion = "2.34.1"
 val mockOAuth2ServerVersion = "0.5.8"
 val ojdbc10 = "19.18.0.0"
 
