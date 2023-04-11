@@ -97,7 +97,7 @@ components:
           items:
             $ref: "#/components/schemas/Arbeidstaker"
         arbeidsgiveridentifikator:
-            $ref: '#/components/schemas/IdentifikatorForEnhetEllerPerson'
+          $ref: '#/components/schemas/IdentifikatorForEnhetEllerPerson'
 
     Arbeidstaker:
       type: object
