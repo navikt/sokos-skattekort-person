@@ -31,7 +31,7 @@ spec:
       cpu: 80m
       memory: 1536Mi
   ingresses:
-    - https://sokos-skattekort-person.intern.dev.nav.no
+    - https://sokos-skattekort-person.dev.intern.nav.no
   prometheus:
     enabled: true
     path: /metrics
