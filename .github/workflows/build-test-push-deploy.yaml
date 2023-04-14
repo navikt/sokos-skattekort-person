@@ -12,7 +12,7 @@ on:
       - '.github/workflows/build-pr.yaml'
       - '.github/workflows/security.yaml'
       - '.github/workflows/alerts.yaml'
-      - '.nais/alerts-prod.yaml'
+      - '.nais/alerts.yaml'
 
 jobs:
   bygg-test-push-image:
