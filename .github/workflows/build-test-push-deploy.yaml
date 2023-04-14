@@ -59,8 +59,8 @@ jobs:
     outputs:
       image: ${{ steps.docker-build-push.outputs.image }}
 
-  deploy-dev-gcp:
-    name: Deploy til dev-gcp
+  deploy-dev-fss:
+    name: Deploy til dev-fss
     needs: bygg-test-push-image
     runs-on: ubuntu-latest
     steps:
@@ -72,9 +72,9 @@ jobs:
           IMAGE: ${{ needs.bygg-test-push-image.outputs.image }}
           RESOURCE: .nais/naiserator-dev.yaml
 
-  #  deploy-prod-gcp:
-  #    name: Deploy til prod-gcp
-  #    needs: deploy-dev-gcp
+  #  deploy-prod-fss:
+  #    name: Deploy til prod-fss
+  #    needs: deploy-dev-fss
   #    if: github.ref == 'refs/heads/master'
   #    runs-on: ubuntu-latest
   #    steps:

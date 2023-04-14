@@ -135,8 +135,8 @@ i
 
 # 7. Swagger
 
-- [Prod-gcp](https://sokos-skattekort-person.intern.nav.no/api/v1/docs)
-- [Dev-gcp](https://sokos-skattekort-person.dev.intern.nav.no/api/v1/docs)
+- [Prod-fss](https://sokos-skattekort-person.intern.nav.no/api/v1/docs)
+- [Dev-fss](https://sokos-skattekort-person.dev.intern.nav.no/api/v1/docs)
 - [Lokalt](http://0.0.0.0:8080/api/v1/docs)
 
 # 8. Henvendelser og tilgang
