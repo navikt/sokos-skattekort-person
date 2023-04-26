@@ -137,9 +137,6 @@ components:
     Skattekort:
       type: object
       properties:
-        inntektsaar:
-          type: integer
-          format: int64
         utstedtDato:
           type: string
           format: date
