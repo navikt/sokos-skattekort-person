@@ -28,7 +28,7 @@ fun RequestValidationConfig.validationHandler() {
 }
 
 fun isNumberInputValidNumber(numberInput: String): Boolean {
-    return numberInput.all { char -> char.isDigit() }
+    return numberInput.isEmpty() || numberInput.all { it.isDigit() }
 }
 
 fun isYearInputMoreThanCurrentYear(yearInput: Int): Boolean {
