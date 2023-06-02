@@ -1,7 +1,6 @@
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.gradle.api.tasks.testing.logging.TestLogEvent
 
 plugins {
     kotlin("jvm") version "1.8.21"
@@ -12,7 +11,6 @@ plugins {
 }
 
 group = "no.nav.sokos"
-java.sourceCompatibility = JavaVersion.VERSION_17
 
 repositories {
     mavenCentral()
@@ -104,11 +102,13 @@ sourceSets {
     }
 }
 
-tasks {
-
-    withType<KotlinCompile>().configureEach {
-        compilerOptions.jvmTarget.set(JVM_17)
+kotlin {
+    jvmToolchain {
+        languageVersion.set(JavaLanguageVersion.of(17))
     }
+}
+
+tasks {
 
     withType<ShadowJar>().configureEach {
         enabled = true
@@ -124,11 +124,13 @@ tasks {
 
     withType<Test>().configureEach {
         useJUnitPlatform()
-        testLogging {
-            exceptionFormat = FULL
-            events("passed", "skipped", "failed")
-        }
 
+        testLogging {
+            showExceptions = true
+            showStackTraces = true
+            exceptionFormat = FULL
+            events = setOf(TestLogEvent.PASSED, TestLogEvent.SKIPPED, TestLogEvent.FAILED)
+        }
 
         // For å øke hastigheten på build kan vi benytte disse metodene
         maxParallelForks = Runtime.getRuntime().availableProcessors() / 2
