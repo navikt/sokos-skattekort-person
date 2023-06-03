@@ -39,6 +39,13 @@ spec:
   azure:
     application:
       enabled: true
+      allowAllUsers: true
+  accessPolicy:
+    inbound:
+      rules:
+        - application: salesforce
+          namespace: teamcrm
+          cluster: dev-external
   webproxy: true
   vault:
     enabled: true
