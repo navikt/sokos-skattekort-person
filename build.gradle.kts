@@ -133,7 +133,6 @@ tasks {
         }
 
         // For å øke hastigheten på build kan vi benytte disse metodene
-        maxParallelForks = Runtime.getRuntime().availableProcessors() / 2
         reports.forEach { report -> report.required.value(false) }
     }
 }
