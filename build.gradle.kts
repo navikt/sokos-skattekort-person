@@ -123,7 +123,6 @@ tasks {
     }
 
     withType<Test>().configureEach {
-        useJUnitPlatform()
 
         testLogging {
             showExceptions = true
@@ -132,7 +131,6 @@ tasks {
             events = setOf(TestLogEvent.PASSED, TestLogEvent.SKIPPED, TestLogEvent.FAILED)
         }
 
-        // For å øke hastigheten på build kan vi benytte disse metodene
         reports.forEach { report -> report.required.value(false) }
     }
 }
