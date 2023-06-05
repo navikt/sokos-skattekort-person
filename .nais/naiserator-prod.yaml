@@ -50,7 +50,7 @@ spec:
   vault:
     enabled: true
     paths:
-      - kvPath: /oracle/data/dev/creds/oseskatt_p-sokos_les
+      - kvPath: /oracle/data/prod/creds/oseskatt_p-sokos_les
         mountPath: /var/run/secrets/nais.io/database-user
   env:
     - name: DATABASE_HOST
