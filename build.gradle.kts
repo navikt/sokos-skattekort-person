@@ -123,6 +123,7 @@ tasks {
     }
 
     withType<Test>().configureEach {
+        useJUnitPlatform()
 
         testLogging {
             showExceptions = true
