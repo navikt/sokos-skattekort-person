@@ -50,16 +50,16 @@ spec:
   vault:
     enabled: true
     paths:
-      - kvPath: /oracle/data/dev/creds/oseskatt_read_u4-user
+      - kvPath: /oracle/data/dev/creds/oseskatt_p-sokos_les
         mountPath: /var/run/secrets/nais.io/database-user
   env:
     - name: DATABASE_HOST
-      value: d26dbvl020.test.local
+      value: a01dbfl037.adeo.no
     - name: DATABASE_PORT
       value: "1521"
     - name: DATABASE_NAME
-      value: oseskatt_u4
+      value: oseskatt_p
     - name: DATABASE_SCHEMA
-      value: OSESKATT_U4
+      value: OSESKATT_P
     - name: USE_AUTHENTICATION
       value: "true"

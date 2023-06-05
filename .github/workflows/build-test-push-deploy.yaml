@@ -72,15 +72,15 @@ jobs:
           IMAGE: ${{ needs.bygg-test-push-image.outputs.image }}
           RESOURCE: .nais/naiserator-dev.yaml
 
-  #  deploy-prod-fss:
-  #    name: Deploy til prod-fss
-  #    needs: [ deploy-dev-fss, bygg-test-push-image ]
-  #    runs-on: ubuntu-latest
-  #    steps:
-  #      - uses: actions/checkout@v3
-  #      - uses: nais/deploy/actions/deploy@v1
-  #        env:
-  #          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
-  #          CLUSTER: prod-fss
-  #          IMAGE: ${{ needs.bygg-test-push-image.outputs.image }}
-  #          RESOURCE: .nais/naiserator-prod.yaml
+  deploy-prod-fss:
+    name: Deploy til prod-fss
+    needs: [ deploy-dev-fss, bygg-test-push-image ]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: nais/deploy/actions/deploy@v1
+        env:
+          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
+          CLUSTER: prod-fss
+          IMAGE: ${{ needs.bygg-test-push-image.outputs.image }}
+          RESOURCE: .nais/naiserator-prod.yaml
