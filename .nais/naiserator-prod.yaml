@@ -45,7 +45,7 @@ spec:
       rules:
         - application: salesforce
           namespace: teamcrm
-          cluster: external
+          cluster: prod-external
   webproxy: true
   vault:
     enabled: true
