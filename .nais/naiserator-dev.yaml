@@ -54,7 +54,7 @@ spec:
         mountPath: /var/run/secrets/nais.io/database-user
   env:
     - name: DATABASE_HOST
-      value: d26dbvl020.test.local
+      value: d06dbvl000.test.local
     - name: DATABASE_PORT
       value: "1521"
     - name: DATABASE_NAME
