@@ -104,7 +104,7 @@ spec:
             name: slack-webhook
           channel: '#team-mob-alerts-dev' # Endres til #team-mob-alerts-prod når applikasjonen prodsettes
           iconEmoji: ':alert:'
-          username: 'Alert sokos-skattekort-person {{ cluster }}'
+          username: 'Alert dev-fssg'
           sendResolved: true
           httpConfig:
             proxyURL: http://webproxy.nais:8088
