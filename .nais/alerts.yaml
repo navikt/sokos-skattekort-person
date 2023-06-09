@@ -21,6 +21,18 @@ spec:
             sokos_skattekort_person_type: sokos-skattekort-person
             alert_type: custom
 
+        - alert: IntancesRestarting
+          expr: sum(increase(kube_pod_container_status_restarts_total{container=~"soknad-api"}[5m])) by (container) > 2
+          for: 2m
+          annotations:
+            action: "Se `kubectl describe pod soknad-api` for events, og `kubectl logs soknad-api` for logger"
+            summary: "soknad-api har restartet flere ganger de siste 5 minuttene!"
+          labels:
+            namespace: okonomi
+            severity: danger
+            sokos_skattekort_person_type: sokos-skattekort-person
+            alert_type: custom
+
         - alert: Høy andel error i logger
           expr: sum by (app, container, pod, namespace) (floor(increase(logback_events_total{app="sokos-skattekort-person", level="error"} [3m]))) > 0
           for: 5m
