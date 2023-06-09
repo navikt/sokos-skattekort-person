@@ -125,7 +125,10 @@ kubectl logs -f sokos-skattekort-person-<POD-ID> --namespace okonomi -c sokos-sk
 Vi bruker [nais-alerts](https://doc.nais.io/observability/alerts) for å sette opp alarmer. Disse finner man konfigurert
 i
 
-- [Prod-miljø](.nais/alerts.yaml)
+- [Dev-miljø](.nais/alerts-dev.yaml)
+- [Prod-miljø](.nais/alerts-prod.yaml)
+
+Disse dukker opp i `#team-mob-alerts-dev` og `#team-mob-alers-prod`kanalene på Slack
 
 ### Grafana
 
@@ -143,7 +146,7 @@ i
 
 Spørsmål knyttet til koden eller prosjektet kan stilles som issues her på Github.\
 Interne henvendelser kan sendes via Slack i kanalen `#po-utbetaling`\
-Tilgang til denne tjenesten kan bestilles gjennom [Porten](https://jira.adeo.no/plugins/servlet/desk/portal/541)
+Tilgang til denne tjenesten kan bestilles gjennom [Porten](https://jira.adeo.no/plugins/servlet/desk/portal/541?requestGroup=824)
 
 
 

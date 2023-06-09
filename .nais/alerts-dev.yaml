@@ -47,7 +47,7 @@ spec:
 
         - alert: Høy andel HTTP serverfeil (5xx responser)
           expr: floor(increase(ktor_http_server_requests_seconds_count{status=~"5.*", app="sokos-skattekort-person"}[3m])) > 1
-          for: 1m
+          for: 2m
           annotations:
             summary: "Følgende request feilet: `Status {{ $labels.status }} - {{ $labels.method }} {{ $labels.route }}`.\n
                     Grunn:\n ```{{ $labels.problem_details }}```\n
@@ -61,7 +61,7 @@ spec:
 
         - alert: Høy andel HTTP klientfeil (4xx responser)
           expr: floor(increase(ktor_http_server_requests_seconds_count{status=~"4.*", status!~"404", app="sokos-skattekort-person"}[3m])) > 0
-          for: 1m
+          for: 2m
           annotations:
             summary: "Følgende request feilet: `Status {{ $labels.status }} - {{ $labels.method }} {{ $labels.route }}`.\n
                     Grunn:\n ```{{ $labels.problem_details }}```\n
@@ -90,9 +90,9 @@ spec:
         - apiURL:
             key: apiUrl
             name: slack-webhook
-          channel: '#team-mob-alerts-dev' # Endres til #team-mob-alerts-prod når applikasjonen prodsettes
+          channel: '#team-mob-alerts-dev'
           iconEmoji: ':alert:'
-          username: 'Alert dev-fssg'
+          username: 'Alert dev-fss'
           sendResolved: true
           httpConfig:
             proxyURL: http://webproxy.nais:8088
