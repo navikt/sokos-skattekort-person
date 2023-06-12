@@ -165,13 +165,13 @@ internal class SkattekortPersonApiTest : FunSpec({
 
     }
 
-    test("hent skattekort for mer enn nåværende år") {
+    test("hent skattekort for mer enn nåværende år pluss 1") {
 
         RestAssured.given()
             .filter(validationFilter)
             .header(HttpHeaders.ContentType, APPLICATION_JSON)
             .header(HttpHeaders.Authorization, "Bearer dummytoken")
-            .body(SkattekortPersonRequest(fnr = "12345678901", inntektsaar = "${Year.now().value + 1}").toJson())
+            .body(SkattekortPersonRequest(fnr = "12345678901", inntektsaar = "${Year.now().value + 2}").toJson())
             .port(PORT)
             .post(API_SKATTEKORT_PATH)
             .then()
