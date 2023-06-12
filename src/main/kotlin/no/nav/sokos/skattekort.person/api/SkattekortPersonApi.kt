@@ -9,6 +9,7 @@ import io.ktor.server.routing.post
 import io.ktor.server.routing.route
 import mu.KotlinLogging
 import no.nav.sokos.skattekort.person.api.model.SkattekortPersonRequest
+import no.nav.sokos.skattekort.person.api.model.SkattekortPersonResponse
 import no.nav.sokos.skattekort.person.config.AUTHENTICATION_NAME
 import no.nav.sokos.skattekort.person.config.SECURE_LOGGER
 import no.nav.sokos.skattekort.person.config.authenticate
@@ -27,8 +28,9 @@ fun Route.skattekortApi(
                 logger.info { "Henter skattekort" }
                 val skattekortPersonRequest: SkattekortPersonRequest = call.receive()
                 secureLogger.info { "Henter skattekort for år: ${skattekortPersonRequest.inntektsaar} for person med fnr: ${skattekortPersonRequest.fnr}" }
-                val skattekortPerson = skattekortPersonService.hentSkattekortPerson(skattekortPersonRequest)
-                call.respond(HttpStatusCode.OK, skattekortPerson)
+                skattekortPersonService.hentSkattekortPerson(skattekortPersonRequest).let {
+                    call.respond(HttpStatusCode.OK, SkattekortPersonResponse(it))
+                }
             }
         }
     }
