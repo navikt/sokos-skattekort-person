@@ -3,7 +3,7 @@ openapi: '3.0.3'
 info:
   version: 1.0.0
   title: sokos-skattekort-person API
-  description: Dette er et REST-API for å hente ut skattekort på person for år 2022-2023 som får ytelser i NAV
+  description: Dette er et REST-API for å hente ut skattekort på person for gjeldende år +/- 1 år som får ytelser i NAV
   contact:
     name: PO Utbetaling
     email: okonomi@nav.no
@@ -19,7 +19,7 @@ paths:
       tags:
         - skattekort
       summary: Hente skattekort for person
-      description: Kun tilgjengelige inntektsår er 2022 og 2023
+      description: Kun tilgjengelige inntektsår er gjeldende år +/- 1 år
       operationId: hentSkattekortPerson
 
       requestBody:
@@ -71,7 +71,7 @@ components:
         inntektsaar:
           type: string
           example: "2023"
-          description: Skatteår 2022 eller 2023
+          description: Skattekort for gjeldende år +/- 1 år
 
     SkattekortPersonResponse:
       type: object

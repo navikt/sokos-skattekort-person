@@ -43,7 +43,7 @@ internal class SkattekortPersonApiTest : FunSpec({
         server.stop(1000, 10000)
     }
 
-    test("hent skattekort med frikort") {
+    test("hent skattekort med frikort for gjeldende år minus 1") {
 
         val frikortXml = "frikort.xml".readFromResource()
         val skattekortTilArbeidsgiverObject = xmlMapper.readValue(frikortXml, SkattekortTilArbeidsgiver::class.java)
@@ -68,7 +68,7 @@ internal class SkattekortPersonApiTest : FunSpec({
 
     }
 
-    test("hent skattekort med trekkprosent") {
+    test("hent skattekort med trekkprosent for gjeldende år") {
 
         val trekkprosentXml = "trekkprosent.xml".readFromResource()
         val skattekortTilArbeidsgiverObject =
@@ -93,7 +93,7 @@ internal class SkattekortPersonApiTest : FunSpec({
         response.body.`as`(SkattekortPersonResponse::class.java) shouldBe skattekortPersonResponseObject
     }
 
-    test("hent skattekort med trekktabell") {
+    test("hent skattekort med trekktabell for gjeldende år pluss 1") {
 
         val trekktabellXml = "trekktabell.xml".readFromResource()
         val skattekortTilArbeidsgiverObject = xmlMapper.readValue(trekktabellXml, SkattekortTilArbeidsgiver::class.java)
@@ -105,7 +105,7 @@ internal class SkattekortPersonApiTest : FunSpec({
             .filter(validationFilter)
             .header(HttpHeaders.ContentType, APPLICATION_JSON)
             .header(HttpHeaders.Authorization, "Bearer dummytoken")
-            .body(SkattekortPersonRequest(fnr = "12345678901", inntektsaar = "${Year.now().value}").toJson())
+            .body(SkattekortPersonRequest(fnr = "12345678901", inntektsaar = "${Year.now().value + 1}").toJson())
             .port(PORT)
             .post(API_SKATTEKORT_PATH)
             .then()
@@ -165,19 +165,19 @@ internal class SkattekortPersonApiTest : FunSpec({
 
     }
 
-    test("hent skattekort for mer enn nåværende år") {
+    test("hent skattekort for mer enn nåværende år pluss 1") {
 
         RestAssured.given()
             .filter(validationFilter)
             .header(HttpHeaders.ContentType, APPLICATION_JSON)
             .header(HttpHeaders.Authorization, "Bearer dummytoken")
-            .body(SkattekortPersonRequest(fnr = "12345678901", inntektsaar = "${Year.now().value + 1}").toJson())
+            .body(SkattekortPersonRequest(fnr = "12345678901", inntektsaar = "${Year.now().value + 2}").toJson())
             .port(PORT)
             .post(API_SKATTEKORT_PATH)
             .then()
             .assertThat()
             .statusCode(HttpStatusCode.BadRequest.value)
-            .body("message", equalTo("Inntektsår kan ikke være mer enn ${Year.now().value}"))
+            .body("message", equalTo("Inntektsår kan ikke være mer enn ${Year.now().value + 2}"))
 
     }
 

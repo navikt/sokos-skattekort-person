@@ -21,23 +21,24 @@ internal class ValidationHandlerTest : FunSpec({
         result shouldBe false
     }
 
-    test("test årstall er gyldig nåværende år") {
-        val result = isYearInputMoreThanCurrentYear(Year.now().value)
-        result shouldBe false
-    }
-
-    test("test årstall ikke er mer enn nåværende år") {
-        val result = isYearInputMoreThanCurrentYear(Year.now().value + 1)
-        result shouldBe true
-    }
-
     test("test årstall er gyldig nåværende år minus 1") {
         val result = isYearInputLessThanPreviousYear(Year.now().value - 1)
         result shouldBe false
     }
 
-    test("test årstall ikke er mindre nn nåværende år minus 1") {
+    test("test årstall er gyldig nåværende år pluss 1") {
+        val result = isYearInputMoreThanNextYear(Year.now().value + 1)
+        result shouldBe false
+    }
+
+    test("test årstall ikke er mindre enn nåværende år minus 1") {
         val result = isYearInputLessThanPreviousYear(Year.now().value - 2)
         result shouldBe true
     }
+
+    test("test årstall ikke er mer enn nåværende år pluss 1") {
+        val result = isYearInputMoreThanNextYear(Year.now().value + 2)
+        result shouldBe true
+    }
+
 })
