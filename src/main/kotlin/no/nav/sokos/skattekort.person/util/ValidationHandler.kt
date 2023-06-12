@@ -17,7 +17,7 @@ fun RequestValidationConfig.validationHandler() {
                 ValidationResult.Invalid("Inntektsår kan ikke være mindre enn ${Year.now().value - 1}")
 
             isYearInputMoreThanNextYear(skattekortPersonRequest.inntektsaar.toInt()) ->
-                ValidationResult.Invalid("Inntektsår kan ikke være mer enn ${Year.now().value + 2}")
+                ValidationResult.Invalid("Inntektsår kan ikke være mer enn ${Year.now().value + 1}")
 
             !isNumberInputValidNumber(skattekortPersonRequest.fnr) -> ValidationResult.Invalid("Fnr er ugyldig")
             skattekortPersonRequest.fnr.length < 11 -> ValidationResult.Invalid("Fnr er mindre enn 11 siffer")
