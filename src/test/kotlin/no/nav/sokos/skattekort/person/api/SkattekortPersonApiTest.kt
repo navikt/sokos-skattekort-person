@@ -177,7 +177,7 @@ internal class SkattekortPersonApiTest : FunSpec({
             .then()
             .assertThat()
             .statusCode(HttpStatusCode.BadRequest.value)
-            .body("message", equalTo("Inntektsår kan ikke være mer enn ${Year.now().value + 2}"))
+            .body("message", equalTo("Inntektsår kan ikke være mer enn ${Year.now().value + 1}"))
 
     }
 
