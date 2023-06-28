@@ -1,39 +1,27 @@
-name: Bygg, test og deploy til dev/prod
+name: Manuell deploy til dev
 
 on:
-  push:
-    branches:
-      - master
-    paths-ignore:
-      - '**.md'
-      - 'LICENCE'
-      - 'CODEOWNERS'
-      - '.gitignore'
-      - '.github/workflows/build-pr.yaml'
-      - '.github/workflows/manual-deploy-dev.yaml'
-      - '.github/workflows/security.yaml'
-      - '.github/workflows/alerts.yaml'
-      - '.nais/alerts-dev.yaml'
-      - '.nais/alerts-prod.yaml'
+  workflow_dispatch:
 env:
   TZ: Europe/Oslo
 
 jobs:
-  bygg-test-push-image:
+  bygg-push-image:
     permissions:
-      contents: "read"
-      id-token: "write"
-    name: Bygg/test og push Docker image
+      contents: read
+      id-token: write
+    name: Bygg og push Docker container
     runs-on: ubuntu-latest
     steps:
       - name: Sjekker ut repo
         uses: actions/checkout@v3
+        with:
+          ref: ${{ github.sha }}
       - uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
           java-version: '17'
-
-      - name: Cache gradle artifakter
+      - name: Cacher gradle artifakter
         uses: actions/cache@v3
         with:
           path: |
@@ -42,7 +30,6 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
-
       - name: Bygg og test shadowJar
         run: ./gradlew test shadowJar
         env:
@@ -59,32 +46,19 @@ jobs:
           team: okonomi
           identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}
           project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}
-          tag: latest
+          tag: manuell
     outputs:
       image: ${{ steps.docker-build-push.outputs.image }}
 
-  deploy-dev-fss:
-    name: Deploy til dev-fss
-    needs: bygg-test-push-image
+  deploy-manuell-dev-gcp:
+    name: Deploy manuelt til dev-gcp
+    needs: bygg-push-image
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - uses: nais/deploy/actions/deploy@v1
         env:
           APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
-          CLUSTER: dev-fss
-          IMAGE: ${{ needs.bygg-test-push-image.outputs.image }}
+          CLUSTER: dev-gcp
+          IMAGE: ${{ needs.bygg-push-image.outputs.image }}
           RESOURCE: .nais/naiserator-dev.yaml
-
-  deploy-prod-fss:
-    name: Deploy til prod-fss
-    needs: [ deploy-dev-fss, bygg-test-push-image ]
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: nais/deploy/actions/deploy@v1
-        env:
-          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
-          CLUSTER: prod-fss
-          IMAGE: ${{ needs.bygg-test-push-image.outputs.image }}
-          RESOURCE: .nais/naiserator-prod.yaml
