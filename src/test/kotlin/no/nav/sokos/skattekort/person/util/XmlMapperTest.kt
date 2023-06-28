@@ -18,7 +18,7 @@ class XmlMapperTest : FunSpec({
         val skattekortTilArbeidsgiver = xmlMapper.readValue(frikort, SkattekortTilArbeidsgiver::class.java)
 
         val forskuddstrekk =
-            skattekortTilArbeidsgiver.arbeidsgiver.first().arbeidstaker.first().skattekort.forskuddstrekk
+            skattekortTilArbeidsgiver.arbeidsgiver.first().arbeidstaker.first().skattekort?.forskuddstrekk
 
         forskuddstrekk!!.first().shouldBeInstanceOf<Frikort>()
         forskuddstrekk.size.shouldBe(3)
@@ -32,7 +32,7 @@ class XmlMapperTest : FunSpec({
         val skattekortTilArbeidsgiver = xmlMapper.readValue(trekkprosent, SkattekortTilArbeidsgiver::class.java)
 
         val forskuddstrekk =
-            skattekortTilArbeidsgiver.arbeidsgiver.first().arbeidstaker.first().skattekort.forskuddstrekk
+            skattekortTilArbeidsgiver.arbeidsgiver.first().arbeidstaker.first().skattekort?.forskuddstrekk
 
         forskuddstrekk!!.first().shouldBeInstanceOf<Trekkprosent>()
         forskuddstrekk.size.shouldBe(1)
@@ -48,11 +48,22 @@ class XmlMapperTest : FunSpec({
         val skattekortTilArbeidsgiver = xmlMapper.readValue(trekktabell, SkattekortTilArbeidsgiver::class.java)
 
         val forskuddstrekk =
-            skattekortTilArbeidsgiver.arbeidsgiver.first().arbeidstaker.first().skattekort.forskuddstrekk
+            skattekortTilArbeidsgiver.arbeidsgiver.first().arbeidstaker.first().skattekort?.forskuddstrekk
 
         forskuddstrekk!!.first().shouldBeInstanceOf<Trekktabell>()
         forskuddstrekk.size.shouldBe(6)
 
+    }
+
+    test("test konvertering av ikkeSkattekort xml til SkattekortTilArbeidsgiver klasse") {
+        val ikkeSkattekort = "ikkeSkattekort.xml".readFromResource()
+
+        val skattekortTilArbeidsgiver = xmlMapper.readValue(ikkeSkattekort, SkattekortTilArbeidsgiver::class.java)
+
+        val ingenSkattekort =
+            skattekortTilArbeidsgiver.arbeidsgiver.first().arbeidstaker.first().skattekort
+
+        ingenSkattekort shouldBe null
     }
 
 })

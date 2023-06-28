@@ -18,6 +18,7 @@ import no.nav.sokos.skattekort.person.APPLICATION_JSON
 import no.nav.sokos.skattekort.person.api.model.SkattekortPersonRequest
 import no.nav.sokos.skattekort.person.api.model.SkattekortPersonResponse
 import no.nav.sokos.skattekort.person.config.commonConfig
+import no.nav.sokos.skattekort.person.domain.Resultatstatus
 import no.nav.sokos.skattekort.person.domain.SkattekortTilArbeidsgiver
 import no.nav.sokos.skattekort.person.readFromResource
 import no.nav.sokos.skattekort.person.service.SkattekortPersonService
@@ -115,6 +116,35 @@ internal class SkattekortPersonApiTest : FunSpec({
             .response()
 
         response.body.`as`(SkattekortPersonResponse::class.java) shouldBe skattekortPersonResponseObject
+    }
+
+    test("hent skattekort med status resultatPaaForespoersel 'ikkeSkattekort'") {
+        val ikkeSkattekort = "ikkeSkattekort.xml".readFromResource()
+        val skattekortTilArbeidsgiverObject = xmlMapper.readValue(ikkeSkattekort, SkattekortTilArbeidsgiver::class.java)
+        val skattekortPersonResponseObject = SkattekortPersonResponse(listOf(skattekortTilArbeidsgiverObject))
+
+        every { skattekortPersonService.hentSkattekortPerson(any()) } returns skattekortPersonResponseObject.skattekortListe
+
+        val response = RestAssured.given()
+            .filter(validationFilter)
+            .header(HttpHeaders.ContentType, APPLICATION_JSON)
+            .header(HttpHeaders.Authorization, "Bearer dummytoken")
+            .body(SkattekortPersonRequest(fnr = "11111111111", inntektsaar = "${Year.now()}").toJson())
+            .port(PORT)
+            .post(API_SKATTEKORT_PATH)
+            .then()
+            .assertThat()
+            .statusCode(HttpStatusCode.OK.value)
+            .extract()
+            .response()
+
+        response.body.`as`(SkattekortPersonResponse::class.java) shouldBe skattekortPersonResponseObject
+        response.body.`as`(SkattekortPersonResponse::class.java)
+            .skattekortListe[0]
+            .arbeidsgiver[0]
+            .arbeidstaker[0]
+            .resultatPaaForespoersel shouldBe Resultatstatus.IKKE_SKATTEKORT
+
     }
 
     test("hent skattekort med ugyldig fnr") {

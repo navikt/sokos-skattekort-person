@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone='yes'?>
+<skattekortTilArbeidsgiver xmlns="urn:no:skatteetaten:fastsetting:formueinntekt:forskudd:skattekorttilarbeidsgiver:v3">
+    <arbeidsgiver>
+        <arbeidsgiveridentifikator>
+            <organisasjonsnummer>910962728</organisasjonsnummer>
+        </arbeidsgiveridentifikator>
+        <arbeidstaker>
+            <arbeidstakeridentifikator>11111111111</arbeidstakeridentifikator>
+            <resultatPaaForespoersel>ikkeSkattekort</resultatPaaForespoersel>
+            <inntektsaar>2023</inntektsaar>
+        </arbeidstaker>
+    </arbeidsgiver>
+</skattekortTilArbeidsgiver>
