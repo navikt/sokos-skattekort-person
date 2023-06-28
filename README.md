@@ -16,7 +16,7 @@
 # 1. Funksjonelle Krav
 
 Applikasjonen er en tjeneste som tilbyr uthenting av skattekort for personer som idag får ytelser fra NAV.
-Per dags dato er det kun skattekort for 2022-2023 som er tilgjengelig.
+Per dags dato er det kun skattekort for nåværende år +/- 1 år som er tilgjengelig.
 Ved å kalle på rest tjenesten gjør applikasjonen et oppslag i databasen (med KUN lese rettigheter) som eies av
 os-eskatt.
 
@@ -138,7 +138,7 @@ Disse dukker opp i `#team-mob-alerts-dev` og `#team-mob-alers-prod`kanalene på 
 
 # 7. Swagger
 
-- [Prod-fss](https://sokos-skattekort-person.intern.nav.no/api/v1/docs)
+- [Prod-fss](https://sokos-skattekort-person.intern.nav.no/api/v1/docs) (Du må be om tilgang til onprem-k8s-prod i naisdevice)
 - [Dev-fss](https://sokos-skattekort-person.dev.intern.nav.no/api/v1/docs)
 - [Lokalt](http://0.0.0.0:8080/api/v1/docs)
 
@@ -147,6 +147,3 @@ Disse dukker opp i `#team-mob-alerts-dev` og `#team-mob-alers-prod`kanalene på 
 Spørsmål knyttet til koden eller prosjektet kan stilles som issues her på Github.\
 Interne henvendelser kan sendes via Slack i kanalen `#po-utbetaling`\
 Tilgang til denne tjenesten kan bestilles gjennom [Porten](https://jira.adeo.no/plugins/servlet/desk/portal/541?requestGroup=824)
-
-
-
