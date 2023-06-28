@@ -4,6 +4,6 @@ data class Arbeidstaker(
     val inntektsaar: Long,
     val arbeidstakeridentifikator: String,
     val resultatPaaForespoersel: Resultatstatus,
-    val skattekort: Skattekort,
+    val skattekort: Skattekort? = null,
     val tilleggsopplysning: List<Tilleggsopplysning>? = null
 )

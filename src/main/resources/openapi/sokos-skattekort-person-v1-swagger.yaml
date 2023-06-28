@@ -136,6 +136,7 @@ components:
 
     Skattekort:
       type: object
+      nullable: true
       properties:
         utstedtDato:
           type: string
