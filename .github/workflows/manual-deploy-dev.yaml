@@ -50,8 +50,8 @@ jobs:
     outputs:
       image: ${{ steps.docker-build-push.outputs.image }}
 
-  deploy-manuell-dev-gcp:
-    name: Deploy manuelt til dev-gcp
+  deploy-manuell-dev-fss:
+    name: Deploy manuelt til dev-fss
     needs: bygg-push-image
     runs-on: ubuntu-latest
     steps:
@@ -59,6 +59,6 @@ jobs:
       - uses: nais/deploy/actions/deploy@v1
         env:
           APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
-          CLUSTER: dev-gcp
+          CLUSTER: dev-fss
           IMAGE: ${{ needs.bygg-push-image.outputs.image }}
           RESOURCE: .nais/naiserator-dev.yaml
