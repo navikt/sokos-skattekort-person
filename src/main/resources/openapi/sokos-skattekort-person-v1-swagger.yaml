@@ -124,7 +124,6 @@ components:
 
     Resultatstatus:
       type: string
-      default: string
       enum:
         - ikkeSkattekort
         - vurderArbeidstillatelse
@@ -218,7 +217,6 @@ components:
 
     Tabelltype:
       type: string
-      default: string
       enum:
         - trekktabellForPensjon
         - trekktabellForLoenn
