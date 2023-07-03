@@ -46,6 +46,9 @@ spec:
         - application: salesforce
           namespace: teamcrm
           cluster: dev-external
+        - application: sokos-op-fasade
+          namespace: okonomi
+          cluster: dev-gcp
   webproxy: true
   vault:
     enabled: true
