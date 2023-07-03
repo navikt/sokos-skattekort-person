@@ -31,6 +31,7 @@ spec:
       memory: 4096Mi
   ingresses:
     - https://sokos-skattekort-person.intern.nav.no
+    - https://sokos-skattekort-person.prod-fss-pub.nais.io
   prometheus:
     enabled: true
     path: /metrics
@@ -46,6 +47,9 @@ spec:
         - application: salesforce
           namespace: teamcrm
           cluster: prod-external
+        - application: sokos-op-fasade
+          namespace: okonomi
+          cluster: prod-gcp
   webproxy: true
   vault:
     enabled: true

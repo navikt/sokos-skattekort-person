@@ -31,6 +31,7 @@ spec:
       memory: 4096Mi
   ingresses:
     - https://sokos-skattekort-person.dev.intern.nav.no
+    - https://sokos-skattekort-person.dev-fss-pub.nais.io
   prometheus:
     enabled: true
     path: /metrics
