@@ -3,8 +3,8 @@ import org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
 import org.gradle.api.tasks.testing.logging.TestLogEvent
 
 plugins {
-    kotlin("jvm") version "1.8.22"
-    kotlin("plugin.serialization") version "1.8.22"
+    kotlin("jvm") version "1.9.0"
+    kotlin("plugin.serialization") version "1.9.0"
     id("com.github.johnrengelman.shadow") version "8.1.1"
 
     application
@@ -17,19 +17,19 @@ repositories {
     maven { url = uri("https://maven.pkg.jetbrains.space/public/p/ktor/eap") }
 }
 
-val ktorVersion = "2.3.1"
+val ktorVersion = "2.3.2"
 val logbackVersion = "1.4.8"
 val logstashVersion = "7.4"
 val jacksonVersion = "2.15.2"
 val prometheusVersion = "1.11.1"
 val kotlinLoggingVersion = "3.0.5"
-val janionVersion = "3.1.9"
+val janionVersion = "3.1.10"
 val natpryceVersion = "1.6.10.0"
 val kotestVersion = "5.6.2"
 val mockkVersion = "1.13.5"
 val restAssuredVersion = "5.3.1"
 val swaggerRequestValidatorVersion = "2.35.1"
-val mockOAuth2ServerVersion = "0.5.8"
+val mockOAuth2ServerVersion = "0.5.10"
 val ojdbc10 = "19.19.0.0"
 
 dependencies {
