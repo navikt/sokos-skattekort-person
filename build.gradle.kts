@@ -28,7 +28,7 @@ val natpryceVersion = "1.6.10.0"
 val kotestVersion = "5.6.2"
 val mockkVersion = "1.13.5"
 val restAssuredVersion = "5.3.1"
-val swaggerRequestValidatorVersion = "2.35.1"
+val swaggerRequestValidatorVersion = "2.35.2"
 val mockOAuth2ServerVersion = "0.5.10"
 val ojdbc10 = "19.19.0.0"
 
