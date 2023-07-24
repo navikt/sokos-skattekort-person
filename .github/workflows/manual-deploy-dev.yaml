@@ -1,4 +1,4 @@
-name: Manuell deploy til dev
+name: Manuell deploy to dev
 
 on:
   workflow_dispatch:
@@ -6,40 +6,28 @@ env:
   TZ: Europe/Oslo
 
 jobs:
-  bygg-push-image:
+  build:
     permissions:
-      contents: read
-      id-token: write
-    name: Bygg og push Docker container
+      contents: "read"
+      id-token: "write"
+    name: Build/test & push image
     runs-on: ubuntu-latest
     steps:
-      - name: Sjekker ut repo
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
         with:
           ref: ${{ github.sha }}
       - uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
           java-version: '17'
-      - name: Cacher gradle artifakter
-        uses: actions/cache@v3
+      - uses: gradle/gradle-build-action@v2.6.1
         with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-
-      - name: Bygg og test shadowJar
-        run: ./gradlew test shadowJar
-        env:
-          ORG_GRADLE_PROJECT_githubUser: x-access-token
-          ORG_GRADLE_PROJECT_githubPassword: ${{ secrets.GITHUB_TOKEN }}
+          arguments: --configuration-cache build
 
-      - name: Bygg docker image
+      - name: Build docker image
         uses: docker/setup-buildx-action@v2
 
-      - name: Push docker image til Google Artifact Registry
+      - name: Push docker image to Google Artifact Registry
         uses: nais/docker-build-push@v0
         id: docker-build-push
         with:
@@ -50,9 +38,9 @@ jobs:
     outputs:
       image: ${{ steps.docker-build-push.outputs.image }}
 
-  deploy-manuell-dev-fss:
-    name: Deploy manuelt til dev-fss
-    needs: bygg-push-image
+  deploy-dev:
+    name: Manual deploy to dev
+    needs: build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -60,5 +48,5 @@ jobs:
         env:
           APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
           CLUSTER: dev-fss
-          IMAGE: ${{ needs.bygg-push-image.outputs.image }}
+          IMAGE: ${{ needs.build.outputs.image }}
           RESOURCE: .nais/naiserator-dev.yaml
