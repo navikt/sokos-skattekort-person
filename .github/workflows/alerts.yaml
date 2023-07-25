@@ -1,4 +1,4 @@
-name: Deploy alarmer
+name: Deploy alerts
 on:
   push:
     branches:
@@ -12,15 +12,14 @@ on:
       - '.github/workflows/build-pr.yaml'
       - '.github/workflows/security.yaml'
       - '.github/workflows/deploy.yaml'
-      - '.github/dependabot.yml'
+      - '.github/dependabot.yaml'
 
 jobs:
   deploy-alerts-dev:
     name: Deploy alerts to dev
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
       - name: Deploy to dev
         uses: nais/deploy/actions/deploy@v1
         env:
@@ -32,8 +31,7 @@ jobs:
     name: Deploy alerts to prod
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
       - name: Deploy to dev
         uses: nais/deploy/actions/deploy@v1
         env:
