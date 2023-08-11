@@ -30,7 +30,7 @@ val mockkVersion = "1.13.5"
 val restAssuredVersion = "5.3.1"
 val swaggerRequestValidatorVersion = "2.35.2"
 val mockOAuth2ServerVersion = "1.0.0"
-val ojdbc10 = "19.19.0.0"
+val ojdbc10 = "19.20.0.0"
 
 dependencies {
 
