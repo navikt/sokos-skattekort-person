@@ -3,8 +3,8 @@ import org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
 import org.gradle.api.tasks.testing.logging.TestLogEvent
 
 plugins {
-    kotlin("jvm") version "1.9.0"
-    kotlin("plugin.serialization") version "1.9.0"
+    kotlin("jvm") version "1.9.10"
+    kotlin("plugin.serialization") version "1.9.10"
     id("com.github.johnrengelman.shadow") version "8.1.1"
 
     application
@@ -28,7 +28,7 @@ val natpryceVersion = "1.6.10.0"
 val kotestVersion = "5.6.2"
 val mockkVersion = "1.13.7"
 val restAssuredVersion = "5.3.1"
-val swaggerRequestValidatorVersion = "2.35.2"
+val swaggerRequestValidatorVersion = "2.36.0"
 val mockOAuth2ServerVersion = "1.0.0"
 val ojdbc10 = "19.20.0.0"
 
