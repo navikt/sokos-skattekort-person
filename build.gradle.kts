@@ -29,7 +29,7 @@ val kotestVersion = "5.7.2"
 val mockkVersion = "1.13.7"
 val restAssuredVersion = "5.3.2"
 val swaggerRequestValidatorVersion = "2.37.0"
-val mockOAuth2ServerVersion = "1.0.0"
+val mockOAuth2ServerVersion = "2.0.0"
 val ojdbc10 = "19.20.0.0"
 
 dependencies {
