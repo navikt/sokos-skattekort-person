@@ -27,6 +27,7 @@ import no.nav.sokos.skattekort.person.util.validationHandler
 import org.slf4j.event.Level
 
 const val SECURE_LOGGER = "secureLogger"
+const val AUDIT_LOGGER = "auditLogger"
 
 fun Application.commonConfig() {
     install(CallId) {
