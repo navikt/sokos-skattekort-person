@@ -26,7 +26,9 @@ os-eskatt.
 
 * Java 17
 * Gradle
-* [Kotest Plugin](https://plugins.jetbrains.com/plugin/14080-kotest) for å kjøre tester
+* [Kotest](https://plugins.jetbrains.com/plugin/14080-kotest) plugin for å kjøre Kotest tester
+* [vault](https://github.com/navikt/utvikling/blob/main/docs/teknisk/Vault.md) for å kjøre `setupLocalEnvironment.sh` og `getAzureAdToken.sh`
+* [jq](https://github.com/stedolan/jq) for å kjøre `setupLocalEnvironment.sh` og `getAzureAdToken.sh`
 
 ### Bygge prosjekt
 
@@ -35,7 +37,6 @@ os-eskatt.
 ### Lokal utvikling
 
 For å kjøre applikasjonen må du gjøre følgende:
-
 - Kjør scriptet [setupLocalEnvironment.sh](setupLocalEnvironment.sh)
      ```
      chmod 755 setupLocalEnvironment.sh && ./setupLocalEnvironment.sh
@@ -47,7 +48,7 @@ For å kjøre applikasjonen må du gjøre følgende:
   koden `"USE_AUTHENTICATION" to "true"` i
   filen [PropertiesConfig](src/main/kotlin/no/nav/sokos/skattekort.person/config/PropertiesConfig.kt).
   Husk å endre
-- `DATABASE_HOST=a01dbfl032.adeo.no` til `DATABASE_HOST=10.51.9.59`
+- `DATABASE_HOST=a01dbfl032.adeo.no` til `DATABASE_HOST=10.51.9.59` (nåes gjennom naisdevice)
 - `DATABASE_NAME=oseskatt_q1` til `DATABASE_NAME=oseskatt_u4`
 - `DATABASE_SCHEMA=OSESKATT_P` til `DATABASE_SCHEMA=oseskatt_u4`
 - `oseskatt_u4` databasen fordi dette er eneste databasen som kan nåes
@@ -69,11 +70,7 @@ Push/merge til master branche vil teste, bygge og deploye til produksjonsmiljø 
 Applikasjonen bruker [AzureAD](https://docs.nais.io/security/auth/azure-ad/) autentisering
 
 ### Hente token
-
-1. Installer `vault` kommandolinje verktøy: https://github.com/navikt/utvikling/blob/main/docs/teknisk/Vault.md
-2. Installer `jq` kommandolinje verktøy: https://github.com/stedolan/jq
-3. Gi rettighet for å kjøre scriptet `chmod 755 getAzureAdToken.sh`
-4. Kjør scriptet [getAzureAdToken.sh](getAzureAdToken.sh)
+- Kjør scriptet [getAzureAdToken.sh](getAzureAdToken.sh)
       ```
       chmod 755 getAzureAdToken.sh && ./getAzureAdToken.sh
       ```
