@@ -5,7 +5,7 @@ import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
 import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpStatusCode
-import io.ktor.server.application.Application
+import io.ktor.server.application.*
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
 import io.ktor.server.netty.NettyApplicationEngine
@@ -13,6 +13,8 @@ import io.ktor.server.routing.routing
 import io.mockk.every
 import io.mockk.mockk
 import io.restassured.RestAssured
+import no.nav.security.mock.oauth2.MockOAuth2Server
+import no.nav.security.mock.oauth2.token.DefaultOAuth2TokenCallback
 import java.time.Year
 import no.nav.sokos.skattekort.person.APPLICATION_JSON
 import no.nav.sokos.skattekort.person.api.model.SkattekortPersonRequest
@@ -22,7 +24,6 @@ import no.nav.sokos.skattekort.person.domain.Resultatstatus
 import no.nav.sokos.skattekort.person.domain.SkattekortTilArbeidsgiver
 import no.nav.sokos.skattekort.person.readFromResource
 import no.nav.sokos.skattekort.person.service.SkattekortPersonService
-import no.nav.sokos.skattekort.person.toJson
 import no.nav.sokos.skattekort.person.util.xmlMapper
 import org.hamcrest.Matchers.equalTo
 
@@ -33,6 +34,8 @@ lateinit var server: NettyApplicationEngine
 
 val validationFilter = OpenApiValidationFilter("openapi/sokos-skattekort-person-v1-swagger.yaml")
 val skattekortPersonService: SkattekortPersonService = mockk()
+val mockOAuth2Server = MockOAuth2Server()
+
 
 internal class SkattekortPersonApiTest : FunSpec({
 
@@ -50,12 +53,12 @@ internal class SkattekortPersonApiTest : FunSpec({
         val skattekortTilArbeidsgiverObject = xmlMapper.readValue(frikortXml, SkattekortTilArbeidsgiver::class.java)
         val skattekortPersonResponseObject = SkattekortPersonResponse(listOf(skattekortTilArbeidsgiverObject))
 
-        every { skattekortPersonService.hentSkattekortPerson(any()) } returns skattekortPersonResponseObject.skattekortListe
+        every { skattekortPersonService.hentSkattekortPerson(any(), any()) } returns skattekortPersonResponseObject.skattekortListe
 
         val response = RestAssured.given()
             .filter(validationFilter)
             .header(HttpHeaders.ContentType, APPLICATION_JSON)
-            .header(HttpHeaders.Authorization, "Bearer dummytoken")
+            .header(HttpHeaders.Authorization, "Bearer ${mockOAuth2Server.tokenFromDefaultProvider()}")
             .body(SkattekortPersonRequest(fnr = "12345678901", inntektsaar = "${Year.now().value - 1}").toJson())
             .port(PORT)
             .post(API_SKATTEKORT_PATH)
@@ -76,12 +79,12 @@ internal class SkattekortPersonApiTest : FunSpec({
             xmlMapper.readValue(trekkprosentXml, SkattekortTilArbeidsgiver::class.java)
         val skattekortPersonResponseObject = SkattekortPersonResponse(listOf(skattekortTilArbeidsgiverObject))
 
-        every { skattekortPersonService.hentSkattekortPerson(any()) } returns skattekortPersonResponseObject.skattekortListe
+        every { skattekortPersonService.hentSkattekortPerson(any(), any()) } returns skattekortPersonResponseObject.skattekortListe
 
         val response = RestAssured.given()
             .filter(validationFilter)
             .header(HttpHeaders.ContentType, APPLICATION_JSON)
-            .header(HttpHeaders.Authorization, "Bearer dummytoken")
+            .header(HttpHeaders.Authorization, "Bearer ${mockOAuth2Server.tokenFromDefaultProvider()}")
             .body(SkattekortPersonRequest(fnr = "12345678901", inntektsaar = "${Year.now().value}").toJson())
             .port(PORT)
             .post(API_SKATTEKORT_PATH)
@@ -100,12 +103,12 @@ internal class SkattekortPersonApiTest : FunSpec({
         val skattekortTilArbeidsgiverObject = xmlMapper.readValue(trekktabellXml, SkattekortTilArbeidsgiver::class.java)
         val skattekortPersonResponseObject = SkattekortPersonResponse(listOf(skattekortTilArbeidsgiverObject))
 
-        every { skattekortPersonService.hentSkattekortPerson(any()) } returns skattekortPersonResponseObject.skattekortListe
+        every { skattekortPersonService.hentSkattekortPerson(any(), any()) } returns skattekortPersonResponseObject.skattekortListe
 
         val response = RestAssured.given()
             .filter(validationFilter)
             .header(HttpHeaders.ContentType, APPLICATION_JSON)
-            .header(HttpHeaders.Authorization, "Bearer dummytoken")
+            .header(HttpHeaders.Authorization, "Bearer ${mockOAuth2Server.tokenFromDefaultProvider()}")
             .body(SkattekortPersonRequest(fnr = "12345678901", inntektsaar = "${Year.now().value + 1}").toJson())
             .port(PORT)
             .post(API_SKATTEKORT_PATH)
@@ -123,12 +126,12 @@ internal class SkattekortPersonApiTest : FunSpec({
         val skattekortTilArbeidsgiverObject = xmlMapper.readValue(ikkeSkattekort, SkattekortTilArbeidsgiver::class.java)
         val skattekortPersonResponseObject = SkattekortPersonResponse(listOf(skattekortTilArbeidsgiverObject))
 
-        every { skattekortPersonService.hentSkattekortPerson(any()) } returns skattekortPersonResponseObject.skattekortListe
+        every { skattekortPersonService.hentSkattekortPerson(any(), any()) } returns skattekortPersonResponseObject.skattekortListe
 
         val response = RestAssured.given()
             .filter(validationFilter)
             .header(HttpHeaders.ContentType, APPLICATION_JSON)
-            .header(HttpHeaders.Authorization, "Bearer dummytoken")
+            .header(HttpHeaders.Authorization, "Bearer ${mockOAuth2Server.tokenFromDefaultProvider()}")
             .body(SkattekortPersonRequest(fnr = "11111111111", inntektsaar = "${Year.now()}").toJson())
             .port(PORT)
             .post(API_SKATTEKORT_PATH)
@@ -250,3 +253,12 @@ private fun Application.myApplicationModule() {
         skattekortApi(skattekortPersonService, false)
     }
 }
+
+private fun MockOAuth2Server.tokenFromDefaultProvider() =
+    issueToken(
+        issuerId = "default",
+        clientId = "default",
+        tokenCallback = DefaultOAuth2TokenCallback(
+            claims = mapOf(
+                "NAVident" to "Z123456"))
+    ).serialize()

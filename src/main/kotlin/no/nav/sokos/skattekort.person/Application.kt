@@ -11,6 +11,7 @@ import no.nav.sokos.skattekort.person.config.commonConfig
 import no.nav.sokos.skattekort.person.config.routingConfig
 import no.nav.sokos.skattekort.person.config.securityConfig
 import no.nav.sokos.skattekort.person.database.OracleDataSource
+import no.nav.sokos.skattekort.person.gdpr.GdprLogger
 import no.nav.sokos.skattekort.person.metrics.appStateReadyFalse
 import no.nav.sokos.skattekort.person.metrics.appStateRunningFalse
 import no.nav.sokos.skattekort.person.service.SkattekortPersonService
@@ -19,7 +20,8 @@ fun main() {
     val applicationState = ApplicationState()
     val applicationConfiguration = PropertiesConfig.Configuration()
     val oracleDataSource = OracleDataSource(applicationConfiguration.databaseConfig)
-    val skattekortPersonService = SkattekortPersonService(oracleDataSource)
+    val gdprLogger = GdprLogger()
+    val skattekortPersonService = SkattekortPersonService(oracleDataSource, gdprLogger)
 
     HttpServer(applicationState, applicationConfiguration, skattekortPersonService, oracleDataSource).start()
 
