@@ -46,7 +46,7 @@ class SecurityTest : FunSpec({
         }
     }
 
-    test("http POST endepunkt skal bare godkjenne token fra default provider") {
+    test("http POST endepunkt med token bør returnere 200") {
         withMockOAuth2Server {
             val mockOAuth2Server = this
             testApplication {
@@ -65,7 +65,7 @@ class SecurityTest : FunSpec({
                     }
                 }
 
-                every { skattekortPersonService.hentSkattekortPerson(any()) } returns emptyList()
+                every { skattekortPersonService.hentSkattekortPerson(any(), any()) } returns emptyList()
 
                 val response = client.post(API_SKATTEKORT_PATH) {
                     header("Authorization", "Bearer ${mockOAuth2Server.tokenFromDefaultProvider()}")
@@ -78,6 +78,8 @@ class SecurityTest : FunSpec({
             }
         }
     }
+
+
 })
 
 
@@ -89,8 +91,8 @@ private fun MockOAuth2Server.authConfig() =
 
 private fun MockOAuth2Server.tokenFromDefaultProvider() =
     issueToken(
-        "default",
+        issuerId = "default",
         clientId = "default",
-        tokenCallback = DefaultOAuth2TokenCallback()
-
-    ).serialize()
+        tokenCallback = DefaultOAuth2TokenCallback(
+            claims = mapOf(
+                "NAVident" to "Z123456"))).serialize()

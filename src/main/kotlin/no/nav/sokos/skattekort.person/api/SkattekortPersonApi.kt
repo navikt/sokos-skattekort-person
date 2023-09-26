@@ -1,6 +1,5 @@
 package no.nav.sokos.skattekort.person.api
 
-import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.call
 import io.ktor.server.request.receive
 import io.ktor.server.response.respond
@@ -13,6 +12,7 @@ import no.nav.sokos.skattekort.person.api.model.SkattekortPersonResponse
 import no.nav.sokos.skattekort.person.config.AUTHENTICATION_NAME
 import no.nav.sokos.skattekort.person.config.SECURE_LOGGER
 import no.nav.sokos.skattekort.person.config.authenticate
+import no.nav.sokos.skattekort.person.security.getSaksbehandler
 import no.nav.sokos.skattekort.person.service.SkattekortPersonService
 
 private val logger = KotlinLogging.logger {}
@@ -25,10 +25,15 @@ fun Route.skattekortApi(
     authenticate(useAuthentication, AUTHENTICATION_NAME) {
         route("/api/v1") {
             post("hent-skattekort") {
-                logger.info { "Henter skattekort" }
                 val skattekortPersonRequest: SkattekortPersonRequest = call.receive()
-                secureLogger.info { "Henter skattekort for år: ${skattekortPersonRequest.inntektsaar} for person med fnr: ${skattekortPersonRequest.fnr}" }
-                val response = SkattekortPersonResponse(skattekortPersonService.hentSkattekortPerson(skattekortPersonRequest))
+                logger.info("Henter skattekort")
+                secureLogger.info("Henter skattekort for: ${skattekortPersonRequest.toJson()}")
+                val saksbehandler = getSaksbehandler(call)
+                val response = SkattekortPersonResponse(skattekortPersonService.hentSkattekortPerson(
+                    skattekortPersonRequest,
+                    saksbehandler
+                ))
+                secureLogger.info("Returnerer følgende respons: ${response.toJson()}")
                 call.respond(response)
             }
         }
