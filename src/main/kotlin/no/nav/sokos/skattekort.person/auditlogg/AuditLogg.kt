@@ -1,4 +1,4 @@
-package no.nav.sokos.skattekort.person.gdpr
+package no.nav.sokos.skattekort.person.auditlogg
 
 /**
  * Loggeformat
@@ -6,7 +6,7 @@ package no.nav.sokos.skattekort.person.gdpr
  */
 
 
-data class GdprLogg(
+data class AuditLogg(
     val saksbehandler: String,
     val fnr: String,
 ) {
