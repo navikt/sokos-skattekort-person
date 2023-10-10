@@ -9,7 +9,7 @@ import no.nav.sokos.skattekort.person.configureTestApplication
 
 internal class ServerApiTest : FunSpec({
 
-    test("test nais og prometheus readiness") {
+    test("test nais og prometheus responderer med 200 OK") {
 
         testApplication {
             configureTestApplication()

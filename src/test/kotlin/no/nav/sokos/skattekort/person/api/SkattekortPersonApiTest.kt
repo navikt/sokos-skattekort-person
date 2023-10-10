@@ -162,7 +162,7 @@ internal class SkattekortPersonApiTest : FunSpec({
             .then()
             .assertThat()
             .statusCode(HttpStatusCode.BadRequest.value)
-            .body("message", equalTo("Fnr er ugyldig"))
+            .body("message", equalTo("Fødelsnummer er ugyldig"))
 
     }
 
@@ -178,7 +178,7 @@ internal class SkattekortPersonApiTest : FunSpec({
             .then()
             .assertThat()
             .statusCode(HttpStatusCode.BadRequest.value)
-            .body("message", equalTo("Inntektår er ugyldig"))
+            .body("message", equalTo("Inntektsår er ugyldig"))
 
     }
 
@@ -194,7 +194,7 @@ internal class SkattekortPersonApiTest : FunSpec({
             .then()
             .assertThat()
             .statusCode(HttpStatusCode.BadRequest.value)
-            .body("message", equalTo("Inntektsår kan ikke være mindre enn ${Year.now().value - 1}"))
+            .body("message", equalTo("Inntektsår kan ikke være utenfor intervallet ${Year.now().value - 1} til ${Year.now().value + 1}"))
 
     }
 
@@ -210,7 +210,7 @@ internal class SkattekortPersonApiTest : FunSpec({
             .then()
             .assertThat()
             .statusCode(HttpStatusCode.BadRequest.value)
-            .body("message", equalTo("Inntektsår kan ikke være mer enn ${Year.now().value + 1}"))
+            .body("message", equalTo("Inntektsår kan ikke være utenfor intervallet ${Year.now().value - 1} til ${Year.now().value + 1}"))
 
     }
 
@@ -226,7 +226,7 @@ internal class SkattekortPersonApiTest : FunSpec({
             .then()
             .assertThat()
             .statusCode(HttpStatusCode.BadRequest.value)
-            .body("message", equalTo("Fnr er mindre enn 11 siffer"))
+            .body("message", equalTo("Fødelsnummer må være 11 siffer"))
 
     }
 
@@ -242,7 +242,7 @@ internal class SkattekortPersonApiTest : FunSpec({
             .then()
             .assertThat()
             .statusCode(HttpStatusCode.BadRequest.value)
-            .body("message", equalTo("Fnr er større enn 11 siffer"))
+            .body("message", equalTo("Fødelsnummer må være 11 siffer"))
     }
 
 })

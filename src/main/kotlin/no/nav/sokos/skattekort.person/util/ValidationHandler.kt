@@ -6,35 +6,30 @@ import java.time.Year
 import no.nav.sokos.skattekort.person.api.model.SkattekortPersonRequest
 
 fun RequestValidationConfig.validationHandler() {
-
     validate<SkattekortPersonRequest> { skattekortPersonRequest ->
 
         when {
-            !isNumberInputValidNumber(skattekortPersonRequest.inntektsaar) ->
-                ValidationResult.Invalid("Inntektår er ugyldig")
+            !validInput(skattekortPersonRequest.inntektsaar) -> ValidationResult.Invalid("Inntektsår er ugyldig")
 
-            isYearInputLessThanPreviousYear(skattekortPersonRequest.inntektsaar.toInt()) ->
-                ValidationResult.Invalid("Inntektsår kan ikke være mindre enn ${Year.now().value - 1}")
+            validYear(skattekortPersonRequest.inntektsaar) ->
+                ValidationResult.Invalid("Inntektsår kan ikke være utenfor intervallet ${Year.now().value - 1} til ${Year.now().value + 1}")
 
-            isYearInputMoreThanNextYear(skattekortPersonRequest.inntektsaar.toInt()) ->
-                ValidationResult.Invalid("Inntektsår kan ikke være mer enn ${Year.now().value + 1}")
-
-            !isNumberInputValidNumber(skattekortPersonRequest.fnr) -> ValidationResult.Invalid("Fnr er ugyldig")
-            skattekortPersonRequest.fnr.length < 11 -> ValidationResult.Invalid("Fnr er mindre enn 11 siffer")
-            skattekortPersonRequest.fnr.length > 11 -> ValidationResult.Invalid("Fnr er større enn 11 siffer")
+            !validInput(skattekortPersonRequest.fnr) -> ValidationResult.Invalid("Fødelsnummer er ugyldig")
+            !validFnr(skattekortPersonRequest.fnr) -> ValidationResult.Invalid("Fødelsnummer må være 11 siffer")
             else -> ValidationResult.Valid
         }
     }
 }
 
-fun isNumberInputValidNumber(numberInput: String): Boolean {
+fun validInput(numberInput: String): Boolean {
     return numberInput.isEmpty() || numberInput.all { it.isDigit() }
 }
 
-fun isYearInputMoreThanNextYear(yearInput: Int): Boolean {
-    return yearInput > Year.now().value + 1
+fun validYear(year: String): Boolean {
+    val currentYear = Year.now().value
+    return year.toInt() < currentYear - 1 || year.toInt() > currentYear + 1
 }
 
-fun isYearInputLessThanPreviousYear(yearInput: Int): Boolean {
-    return yearInput < Year.now().value - 1
+fun validFnr(fnr: String): Boolean {
+    return fnr.length == 11
 }

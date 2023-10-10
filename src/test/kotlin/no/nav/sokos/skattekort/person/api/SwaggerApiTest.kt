@@ -9,7 +9,7 @@ import no.nav.sokos.skattekort.person.configureTestApplication
 
 internal class SwaggerApiTest : FunSpec({
 
-    test("test swagger api") {
+    test("test swagger api responderer med 200 OK") {
         testApplication {
             configureTestApplication()
 

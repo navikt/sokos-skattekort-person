@@ -5,9 +5,9 @@ import io.kotest.matchers.string.shouldEndWith
 import io.kotest.matchers.string.shouldStartWith
 import no.nav.sokos.skattekort.person.auditlogg.AuditLogg
 
-internal class GdprLoggerTest: FunSpec({
+internal class AuditLoggerTest: FunSpec({
 
-    test("test auditLog") {
+    test("test auditLogger har riktig melding format") {
         val expectedLogMessageStart = "CEF:0|OKONOMI|AuditLogger|1.0|audit:access|sokos-skattekort-person|INFO|suid=Z12345 duid=24417337179 end="
         val expectedLogMessageEnd = " msg=NAV-ansatt har søkt etter skattekort for bruker"
         val logData = AuditLogg(

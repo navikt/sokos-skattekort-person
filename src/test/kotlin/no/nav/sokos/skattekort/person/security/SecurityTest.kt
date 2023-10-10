@@ -30,7 +30,7 @@ val skattekortPersonService: SkattekortPersonService = mockk()
 
 class SecurityTest : FunSpec({
 
-    test("http POST endepunkt uten token bør returnere 401") {
+    test("test http POST endepunkt uten token bør returnere 401") {
         withMockOAuth2Server {
             testApplication {
                 configureTestApplication()
@@ -46,7 +46,7 @@ class SecurityTest : FunSpec({
         }
     }
 
-    test("http POST endepunkt med token bør returnere 200") {
+    test("test http POST endepunkt med token bør returnere 200") {
         withMockOAuth2Server {
             val mockOAuth2Server = this
             testApplication {
