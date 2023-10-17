@@ -4,10 +4,7 @@ import org.gradle.api.tasks.testing.logging.TestLogEvent
 
 plugins {
     kotlin("jvm") version "1.9.10"
-    kotlin("plugin.serialization") version "1.9.10"
     id("com.github.johnrengelman.shadow") version "8.1.1"
-
-    application
 }
 
 group = "no.nav.sokos"
@@ -50,14 +47,13 @@ dependencies {
     implementation("io.ktor:ktor-client-core-jvm:$ktorVersion")
     implementation("io.ktor:ktor-client-apache-jvm:$ktorVersion")
 
-    implementation("io.ktor:ktor-serialization-jackson-jvm:$ktorVersion")
 
     // Security
     implementation("io.ktor:ktor-server-auth-jvm:$ktorVersion")
     implementation("io.ktor:ktor-server-auth-jwt-jvm:$ktorVersion")
 
-    // Jackson
-    implementation("io.ktor:ktor-serialization-jackson:$ktorVersion")
+    // Serialization / Jackson
+    implementation("io.ktor:ktor-serialization-jackson-jvm:$ktorVersion")
     implementation("com.fasterxml.jackson.core:jackson-databind:$jacksonVersion")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion")
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jacksonVersion")
@@ -90,10 +86,6 @@ dependencies {
     testImplementation("com.atlassian.oai:swagger-request-validator-restassured:$swaggerRequestValidatorVersion")
     testImplementation("no.nav.security:mock-oauth2-server:$mockOAuth2ServerVersion")
 
-}
-
-application {
-    mainClass.set("no.nav.sokos.skattekort.person.ApplicationKt")
 }
 
 sourceSets {
