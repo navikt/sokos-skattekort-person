@@ -91,7 +91,7 @@ dependencies {
 sourceSets {
     main {
         java {
-            srcDirs("$buildDir/generated/src/main/kotlin")
+            srcDirs("${layout.buildDirectory.get()}/generated/src/main/kotlin")
         }
     }
 }
@@ -127,5 +127,9 @@ tasks {
         }
 
         reports.forEach { report -> report.required.value(false) }
+    }
+
+    withType<Wrapper>() {
+        gradleVersion = "8.4"
     }
 }
