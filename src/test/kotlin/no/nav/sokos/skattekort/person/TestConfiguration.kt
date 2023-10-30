@@ -14,7 +14,6 @@ import no.nav.sokos.skattekort.person.config.commonConfig
 const val APPLICATION_JSON = "application/json"
 
 fun String.readFromResource() = {}::class.java.classLoader.getResource(this)!!.readText()
-fun Any.toJson() = jsonMapper().writeValueAsString(this)!!
 
 fun ApplicationTestBuilder.configureTestApplication() {
     val mapApplicationConfig = MapApplicationConfig()
@@ -32,9 +31,4 @@ fun ApplicationTestBuilder.configureTestApplication() {
             swaggerApi()
         }
     }
-}
-
-private fun jsonMapper(): ObjectMapper = jacksonObjectMapper().apply {
-    configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
-    findAndRegisterModules()
 }
