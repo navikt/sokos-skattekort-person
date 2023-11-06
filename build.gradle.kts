@@ -22,7 +22,7 @@ val prometheusVersion = "1.11.5"
 val kotlinLoggingVersion = "3.0.5"
 val janionVersion = "3.1.10"
 val natpryceVersion = "1.6.10.0"
-val kotestVersion = "5.7.2"
+val kotestVersion = "5.8.0"
 val mockkVersion = "1.13.8"
 val restAssuredVersion = "5.3.2"
 val swaggerRequestValidatorVersion = "2.38.1"
@@ -74,7 +74,7 @@ dependencies {
     implementation("com.natpryce:konfig:$natpryceVersion")
 
     // Database
-    implementation("com.zaxxer:HikariCP:5.0.1")
+    implementation("com.zaxxer:HikariCP:5.1.0")
     implementation("com.oracle.database.jdbc:ojdbc10:$ojdbc10")
 
     // Test
