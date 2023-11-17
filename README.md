@@ -24,7 +24,7 @@ os-eskatt.
 
 ### Forutsetninger
 
-* Java 17
+* Java 21
 * Gradle
 * [Kotest](https://plugins.jetbrains.com/plugin/14080-kotest) plugin for å kjøre Kotest tester
 * [vault](https://github.com/navikt/utvikling/blob/main/docs/teknisk/Vault.md) for å kjøre `setupLocalEnvironment.sh` og `getAzureAdToken.sh`
