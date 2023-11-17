@@ -63,7 +63,7 @@ For å kjøre applikasjonen må du gjøre følgende:
 Distribusjon av tjenesten er gjort med bruk av Github Actions.
 [sokos-skattekort-person CI / CD](https://github.com/navikt/sokos-skattekort-person/actions)
 
-Push/merge til master branche vil teste, bygge og deploye til produksjonsmiljø og testmiljø.
+Push/merge til main branche vil teste, bygge og deploye til produksjonsmiljø og testmiljø.
 
 # 5. Autentisering
 
