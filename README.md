@@ -69,13 +69,6 @@ Push/merge til main branche vil teste, bygge og deploye til produksjonsmiljø og
 
 Applikasjonen bruker [AzureAD](https://docs.nais.io/security/auth/azure-ad/) autentisering
 
-### Hente token
-- Kjør scriptet [getAzureAdToken.sh](getAzureAdToken.sh)
-      ```
-      chmod 755 getAzureAdToken.sh && ./getAzureAdToken.sh
-      ```
-   Scriptet sørger for at vi kan hente token slik at applikasjonen kan kalle seg selv
-
 # 6. Drift og støtte
 
 ### Logging
