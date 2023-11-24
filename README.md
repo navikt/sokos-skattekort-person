@@ -27,12 +27,10 @@ os-eskatt.
 * Java 21
 * Gradle
 * [Kotest](https://plugins.jetbrains.com/plugin/14080-kotest) plugin for å kjøre Kotest tester
-* [vault](https://github.com/navikt/utvikling/blob/main/docs/teknisk/Vault.md) for å kjøre `setupLocalEnvironment.sh` og `getAzureAdToken.sh`
-* [jq](https://github.com/stedolan/jq) for å kjøre `setupLocalEnvironment.sh` og `getAzureAdToken.sh`
 
 ### Bygge prosjekt
 
-`./gradlew build`
+`./gradlew build shadowJar`
 
 ### Lokal utvikling
 
@@ -63,7 +61,7 @@ For å kjøre applikasjonen må du gjøre følgende:
 Distribusjon av tjenesten er gjort med bruk av Github Actions.
 [sokos-skattekort-person CI / CD](https://github.com/navikt/sokos-skattekort-person/actions)
 
-Push/merge til main branche vil teste, bygge og deploye til produksjonsmiljø og testmiljø.
+Push/merge til main branch vil teste, bygge og deploye til produksjonsmiljø og testmiljø.
 
 # 5. Autentisering
 
@@ -73,9 +71,7 @@ Applikasjonen bruker [AzureAD](https://docs.nais.io/security/auth/azure-ad/) aut
 
 ### Logging
 
-Vi logger til logs.adeo.no.
-
-For å se på logger må man logge seg på logs.adeo.no og velge NAV logs.
+Vi logger til https://logs.adeo.no/.
 
 Feilmeldinger og infomeldinger som ikke innheholder sensitive data logges til indeksen `logstash-apps`, mens meldinger
 som inneholder sensitive data logges til indeksen `tjenestekall`.
@@ -115,10 +111,10 @@ kubectl logs -f sokos-skattekort-person-<POD-ID> --namespace okonomi -c sokos-sk
 Vi bruker [nais-alerts](https://doc.nais.io/observability/alerts) for å sette opp alarmer. Disse finner man konfigurert
 i
 
-- [Dev-miljø](.nais/alerts-dev.yaml)
 - [Prod-miljø](.nais/alerts-prod.yaml)
+- [Dev-miljø](.nais/alerts-dev.yaml)
 
-Disse dukker opp i `#team-mob-alerts-dev` og `#team-mob-alers-prod`kanalene på Slack
+Disse dukker opp i `#team-mob-alerts-dev` og `#team-mob-alers-prod` kanalene på Slack
 
 ### Grafana
 
