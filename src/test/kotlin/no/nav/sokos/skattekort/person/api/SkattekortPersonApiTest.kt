@@ -53,7 +53,7 @@ internal class SkattekortPersonApiTest : FunSpec({
         val skattekortTilArbeidsgiverObject = xmlMapper.readValue(frikortXml, SkattekortTilArbeidsgiver::class.java)
         val skattekortPersonResponseObject = SkattekortPersonResponse(listOf(skattekortTilArbeidsgiverObject))
 
-        every { skattekortPersonService.hentSkattekortPerson(any(), any()) } returns skattekortPersonResponseObject.skattekortListe
+        every { skattekortPersonService.hentSkattekortPerson(any(), any()) } returns skattekortPersonResponseObject.data
 
         val response = RestAssured.given()
             .filter(validationFilter)
@@ -79,7 +79,7 @@ internal class SkattekortPersonApiTest : FunSpec({
             xmlMapper.readValue(trekkprosentXml, SkattekortTilArbeidsgiver::class.java)
         val skattekortPersonResponseObject = SkattekortPersonResponse(listOf(skattekortTilArbeidsgiverObject))
 
-        every { skattekortPersonService.hentSkattekortPerson(any(), any()) } returns skattekortPersonResponseObject.skattekortListe
+        every { skattekortPersonService.hentSkattekortPerson(any(), any()) } returns skattekortPersonResponseObject.data
 
         val response = RestAssured.given()
             .filter(validationFilter)
@@ -103,7 +103,7 @@ internal class SkattekortPersonApiTest : FunSpec({
         val skattekortTilArbeidsgiverObject = xmlMapper.readValue(trekktabellXml, SkattekortTilArbeidsgiver::class.java)
         val skattekortPersonResponseObject = SkattekortPersonResponse(listOf(skattekortTilArbeidsgiverObject))
 
-        every { skattekortPersonService.hentSkattekortPerson(any(), any()) } returns skattekortPersonResponseObject.skattekortListe
+        every { skattekortPersonService.hentSkattekortPerson(any(), any()) } returns skattekortPersonResponseObject.data
 
         val response = RestAssured.given()
             .filter(validationFilter)
@@ -126,7 +126,7 @@ internal class SkattekortPersonApiTest : FunSpec({
         val skattekortTilArbeidsgiverObject = xmlMapper.readValue(ikkeSkattekort, SkattekortTilArbeidsgiver::class.java)
         val skattekortPersonResponseObject = SkattekortPersonResponse(listOf(skattekortTilArbeidsgiverObject))
 
-        every { skattekortPersonService.hentSkattekortPerson(any(), any()) } returns skattekortPersonResponseObject.skattekortListe
+        every { skattekortPersonService.hentSkattekortPerson(any(), any()) } returns skattekortPersonResponseObject.data
 
         val response = RestAssured.given()
             .filter(validationFilter)
@@ -143,7 +143,7 @@ internal class SkattekortPersonApiTest : FunSpec({
 
         response.body.`as`(SkattekortPersonResponse::class.java) shouldBe skattekortPersonResponseObject
         response.body.`as`(SkattekortPersonResponse::class.java)
-            .skattekortListe[0]
+            .data[0]
             .arbeidsgiver[0]
             .arbeidstaker[0]
             .resultatPaaForespoersel shouldBe Resultatstatus.IKKE_SKATTEKORT

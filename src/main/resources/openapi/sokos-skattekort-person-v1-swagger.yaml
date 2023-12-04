@@ -76,7 +76,7 @@ components:
     SkattekortPersonResponse:
       type: object
       properties:
-        skattekortListe:
+        data:
           type: array
           items:
             $ref: '#/components/schemas/SkattekortTilArbeidsgiver'
