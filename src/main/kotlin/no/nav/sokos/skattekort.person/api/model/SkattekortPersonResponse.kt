@@ -4,9 +4,5 @@ import no.nav.sokos.skattekort.person.domain.SkattekortTilArbeidsgiver
 import no.nav.sokos.skattekort.person.util.jsonMapper
 
 data class SkattekortPersonResponse(
-    val skattekortListe: List<SkattekortTilArbeidsgiver>
-) {
-    fun toJson(): String {
-        return jsonMapper.writeValueAsString(this)
-    }
-}
+    val data: List<SkattekortTilArbeidsgiver>
+)
