@@ -13,12 +13,15 @@ import io.ktor.server.routing.routing
 import io.mockk.every
 import io.mockk.mockk
 import io.restassured.RestAssured
+import java.time.Year
 import no.nav.security.mock.oauth2.MockOAuth2Server
 import no.nav.security.mock.oauth2.token.DefaultOAuth2TokenCallback
-import java.time.Year
+import no.nav.sokos.skattekort.person.API_SKATTEKORT_PATH
 import no.nav.sokos.skattekort.person.APPLICATION_JSON
 import no.nav.sokos.skattekort.person.api.model.SkattekortPersonRequest
 import no.nav.sokos.skattekort.person.api.model.SkattekortPersonResponse
+import no.nav.sokos.skattekort.person.config.AUTHENTICATION_NAME
+import no.nav.sokos.skattekort.person.config.authenticate
 import no.nav.sokos.skattekort.person.config.commonConfig
 import no.nav.sokos.skattekort.person.domain.Resultatstatus
 import no.nav.sokos.skattekort.person.domain.SkattekortTilArbeidsgiver
@@ -27,7 +30,6 @@ import no.nav.sokos.skattekort.person.service.SkattekortPersonService
 import no.nav.sokos.skattekort.person.util.xmlMapper
 import org.hamcrest.Matchers.equalTo
 
-internal const val API_SKATTEKORT_PATH = "/api/v1/hent-skattekort"
 internal const val PORT = 9090
 
 lateinit var server: NettyApplicationEngine
@@ -194,7 +196,10 @@ internal class SkattekortPersonApiTest : FunSpec({
             .then()
             .assertThat()
             .statusCode(HttpStatusCode.BadRequest.value)
-            .body("message", equalTo("Inntektsår kan ikke være utenfor intervallet ${Year.now().value - 1} til ${Year.now().value + 1}"))
+            .body(
+                "message",
+                equalTo("Inntektsår kan ikke være utenfor intervallet ${Year.now().value - 1} til ${Year.now().value + 1}")
+            )
 
     }
 
@@ -210,7 +215,10 @@ internal class SkattekortPersonApiTest : FunSpec({
             .then()
             .assertThat()
             .statusCode(HttpStatusCode.BadRequest.value)
-            .body("message", equalTo("Inntektsår kan ikke være utenfor intervallet ${Year.now().value - 1} til ${Year.now().value + 1}"))
+            .body(
+                "message",
+                equalTo("Inntektsår kan ikke være utenfor intervallet ${Year.now().value - 1} til ${Year.now().value + 1}")
+            )
 
     }
 
@@ -250,7 +258,9 @@ internal class SkattekortPersonApiTest : FunSpec({
 private fun Application.myApplicationModule() {
     commonConfig()
     routing {
-        skattekortApi(skattekortPersonService, false)
+        authenticate(false) {
+            skattekortApi(skattekortPersonService)
+        }
     }
 }
 
@@ -260,5 +270,7 @@ private fun MockOAuth2Server.tokenFromDefaultProvider() =
         clientId = "default",
         tokenCallback = DefaultOAuth2TokenCallback(
             claims = mapOf(
-                "NAVident" to "Z123456"))
+                "NAVident" to "Z123456"
+            )
+        )
     ).serialize()

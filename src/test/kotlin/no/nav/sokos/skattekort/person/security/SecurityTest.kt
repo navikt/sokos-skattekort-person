@@ -17,10 +17,12 @@ import io.mockk.mockk
 import no.nav.security.mock.oauth2.MockOAuth2Server
 import no.nav.security.mock.oauth2.token.DefaultOAuth2TokenCallback
 import no.nav.security.mock.oauth2.withMockOAuth2Server
-import no.nav.sokos.skattekort.person.api.API_SKATTEKORT_PATH
+import no.nav.sokos.skattekort.person.API_SKATTEKORT_PATH
 import no.nav.sokos.skattekort.person.api.model.SkattekortPersonRequest
 import no.nav.sokos.skattekort.person.api.skattekortApi
+import no.nav.sokos.skattekort.person.config.AUTHENTICATION_NAME
 import no.nav.sokos.skattekort.person.config.PropertiesConfig
+import no.nav.sokos.skattekort.person.config.authenticate
 import no.nav.sokos.skattekort.person.config.securityConfig
 import no.nav.sokos.skattekort.person.configureTestApplication
 import no.nav.sokos.skattekort.person.service.SkattekortPersonService
@@ -37,7 +39,9 @@ class SecurityTest : FunSpec({
                 this.application {
                     securityConfig(authConfig())
                     routing {
-                        skattekortApi(skattekortPersonService, true)
+                        authenticate(true, AUTHENTICATION_NAME) {
+                            skattekortApi(skattekortPersonService)
+                        }
                     }
                 }
                 val response = client.post(API_SKATTEKORT_PATH)
@@ -61,13 +65,16 @@ class SecurityTest : FunSpec({
                 this.application {
                     securityConfig(authConfig())
                     routing {
-                        skattekortApi(skattekortPersonService, true)
+                        authenticate(true, AUTHENTICATION_NAME) {
+                            skattekortApi(skattekortPersonService)
+                        }
                     }
                 }
 
                 every { skattekortPersonService.hentSkattekortPerson(any(), any()) } returns emptyList()
 
                 val response = client.post(API_SKATTEKORT_PATH) {
+                    println(mockOAuth2Server.tokenFromDefaultProvider())
                     header("Authorization", "Bearer ${mockOAuth2Server.tokenFromDefaultProvider()}")
                     contentType(ContentType.Application.Json)
                     setBody(SkattekortPersonRequest("12345678901", "2022"))
@@ -82,7 +89,6 @@ class SecurityTest : FunSpec({
 
 })
 
-
 private fun MockOAuth2Server.authConfig() =
     PropertiesConfig.AzureAdConfig(
         wellKnownUrl = wellKnownUrl("default").toString(),
@@ -95,4 +101,7 @@ private fun MockOAuth2Server.tokenFromDefaultProvider() =
         clientId = "default",
         tokenCallback = DefaultOAuth2TokenCallback(
             claims = mapOf(
-                "NAVident" to "Z123456"))).serialize()
+                "NAVident" to "Z123456"
+            )
+        )
+    ).serialize()

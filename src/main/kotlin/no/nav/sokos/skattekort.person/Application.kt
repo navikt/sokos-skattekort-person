@@ -11,27 +11,21 @@ import no.nav.sokos.skattekort.person.config.commonConfig
 import no.nav.sokos.skattekort.person.config.routingConfig
 import no.nav.sokos.skattekort.person.config.securityConfig
 import no.nav.sokos.skattekort.person.database.OracleDataSource
-import no.nav.sokos.skattekort.person.auditlogg.AuditLogger
 import no.nav.sokos.skattekort.person.metrics.appStateReadyFalse
 import no.nav.sokos.skattekort.person.metrics.appStateRunningFalse
-import no.nav.sokos.skattekort.person.service.SkattekortPersonService
 
 fun main() {
     val applicationState = ApplicationState()
     val applicationConfiguration = PropertiesConfig.Configuration()
-    val oracleDataSource = OracleDataSource(applicationConfiguration.databaseConfig)
-    val gdprLogger = AuditLogger()
-    val skattekortPersonService = SkattekortPersonService(oracleDataSource, gdprLogger)
 
-    HttpServer(applicationState, applicationConfiguration, skattekortPersonService, oracleDataSource).start()
+    HttpServer(applicationState, applicationConfiguration).start()
 
 }
 
 private class HttpServer(
     private val applicationState: ApplicationState,
     private val applicationConfiguration: PropertiesConfig.Configuration,
-    private val skattekortPersonService: SkattekortPersonService,
-    private val oracleDataSource: OracleDataSource,
+    private val oracleDataSource: OracleDataSource = OracleDataSource(),
     port: Int = 8080,
 ) {
     init {
@@ -42,7 +36,7 @@ private class HttpServer(
     }
 
     private val embeddedServer = embeddedServer(Netty, port, module = {
-        applicationModule(applicationConfiguration, applicationState, skattekortPersonService)
+        applicationModule(applicationConfiguration, applicationState)
     })
 
     fun start() {
@@ -71,10 +65,9 @@ class ApplicationState(
 
 private fun Application.applicationModule(
     applicationConfiguration: PropertiesConfig.Configuration,
-    applicationState: ApplicationState,
-    skattekortPersonService: SkattekortPersonService
+    applicationState: ApplicationState
 ) {
     commonConfig()
     securityConfig(applicationConfiguration.azureAdConfig, applicationConfiguration.useAuthentication)
-    routingConfig(applicationState, skattekortPersonService, applicationConfiguration.useAuthentication)
+    routingConfig(applicationState, applicationConfiguration.useAuthentication)
 }
