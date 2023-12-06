@@ -20,7 +20,6 @@ import no.nav.sokos.skattekort.person.API_SKATTEKORT_PATH
 import no.nav.sokos.skattekort.person.APPLICATION_JSON
 import no.nav.sokos.skattekort.person.api.model.SkattekortPersonRequest
 import no.nav.sokos.skattekort.person.api.model.SkattekortPersonResponse
-import no.nav.sokos.skattekort.person.config.AUTHENTICATION_NAME
 import no.nav.sokos.skattekort.person.config.authenticate
 import no.nav.sokos.skattekort.person.config.commonConfig
 import no.nav.sokos.skattekort.person.domain.Resultatstatus
