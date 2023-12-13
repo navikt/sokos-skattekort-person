@@ -50,7 +50,7 @@ spec:
         - application: salesforce
           namespace: teamcrm
           cluster: prod-external
-        - application: sokos-up-fasade
+        - application: sokos-up-container
           namespace: okonomi
           cluster: prod-gcp
   webproxy: true
