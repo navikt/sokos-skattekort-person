@@ -1,11 +1,14 @@
-package no.nav.sokos.skattekort.person.util
+package no.nav.sokos.skattekort.person.config
 
 import io.ktor.server.plugins.requestvalidation.RequestValidationConfig
 import io.ktor.server.plugins.requestvalidation.ValidationResult
 import java.time.Year
 import no.nav.sokos.skattekort.person.api.model.SkattekortPersonRequest
+import no.nav.sokos.skattekort.person.util.validFnr
+import no.nav.sokos.skattekort.person.util.validInput
+import no.nav.sokos.skattekort.person.util.validYear
 
-fun RequestValidationConfig.validationHandler() {
+fun RequestValidationConfig.requestValidationConfig() {
     validate<SkattekortPersonRequest> { skattekortPersonRequest ->
 
         when {
@@ -19,17 +22,4 @@ fun RequestValidationConfig.validationHandler() {
             else -> ValidationResult.Valid
         }
     }
-}
-
-fun validInput(numberInput: String): Boolean {
-    return numberInput.isEmpty() || numberInput.all { it.isDigit() }
-}
-
-fun validYear(year: String): Boolean {
-    val currentYear = Year.now().value
-    return year.toInt() < currentYear - 1 || year.toInt() > currentYear + 1
-}
-
-fun validFnr(fnr: String): Boolean {
-    return fnr.length == 11
 }

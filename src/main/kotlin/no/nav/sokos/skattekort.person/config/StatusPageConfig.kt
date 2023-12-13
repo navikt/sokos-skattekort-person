@@ -1,4 +1,4 @@
-package no.nav.sokos.skattekort.person.util
+package no.nav.sokos.skattekort.person.config
 
 import io.ktor.client.plugins.ClientRequestException
 import io.ktor.http.HttpStatusCode
@@ -10,7 +10,7 @@ import io.ktor.server.request.path
 import io.ktor.server.response.respond
 import java.time.ZonedDateTime
 
-fun StatusPagesConfig.exceptionHandler() {
+fun StatusPagesConfig.statusPageConfig() {
 
     exception<Throwable> { call, cause ->
         val (responseStatus, apiError) = when (cause) {
