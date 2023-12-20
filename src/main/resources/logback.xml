@@ -5,12 +5,12 @@
     </appender>
 
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
-        <layout class="ch.qos.logback.classic.PatternLayout">
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
             <pattern>
                 %green(%d{HH:mm:ss}) [%X{X-Correlation-ID}] %cyan([%-5.5t]) %boldCyan(%0.-5p) %yellow(%logger{36})
                 %cyan(:) %m%n
             </pattern>
-        </layout>
+        </encoder>
     </appender>
 
     <appender name="secureLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
@@ -27,9 +27,9 @@
     </appender>
 
     <appender name="auditLogger" class="com.papertrailapp.logback.Syslog4jAppender">
-        <layout class="ch.qos.logback.classic.PatternLayout">
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
             <pattern>%m%n%xEx</pattern>
-        </layout>
+        </encoder>
 
         <syslogConfig class="org.productivity.java.syslog4j.impl.net.tcp.TCPNetSyslogConfig">
             <!-- remote system to log to -->
@@ -54,16 +54,18 @@
         </then>
     </if>
 
-    <root level="INFO">
-        <if condition='isDefined("NAIS_CLUSTER_NAME")'>
-            <then>
+    <if condition='isDefined("NAIS_CLUSTER_NAME")'>
+        <then>
+            <root level="INFO">
                 <appender-ref ref="STDOUT"/>
-            </then>
-            <else>
+            </root>
+        </then>
+        <else>
+            <root level="INFO">
                 <appender-ref ref="CONSOLE"/>
-            </else>
-        </if>
-    </root>
+            </root>
+        </else>
+    </if>
 
     <logger name="no.nav.sokos.skattekort.person" level="INFO"/>
 
