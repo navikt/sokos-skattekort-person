@@ -15,7 +15,7 @@ fun RequestValidationConfig.requestValidationConfig() {
             !validInput(skattekortPersonRequest.inntektsaar) -> ValidationResult.Invalid("Inntektsår er ugyldig")
 
             validYear(skattekortPersonRequest.inntektsaar) ->
-                ValidationResult.Invalid("Inntektsår kan ikke være utenfor intervallet ${Year.now().value - 1} til ${Year.now().value + 1}")
+                ValidationResult.Invalid("Inntektsår kan ikke være utenfor intervallet ${Year.now().minusYears(1)} til ${Year.now().plusYears(1)}")
 
             !validInput(skattekortPersonRequest.fnr) -> ValidationResult.Invalid("Fødelsnummer er ugyldig")
             !validFnr(skattekortPersonRequest.fnr) -> ValidationResult.Invalid("Fødelsnummer må være 11 siffer")

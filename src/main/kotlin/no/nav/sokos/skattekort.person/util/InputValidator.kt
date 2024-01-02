@@ -8,7 +8,7 @@ fun validInput(numberInput: String): Boolean {
 
 fun validYear(year: String): Boolean {
     val currentYear = Year.now().value
-    return year.toInt() < currentYear - 1 || year.toInt() > currentYear + 1
+    return year.toInt() < currentYear.minus(1) || year.toInt() > currentYear.plus(1)
 }
 
 fun validFnr(fnr: String): Boolean {

@@ -60,7 +60,7 @@ internal class SkattekortPersonApiTest : FunSpec({
             .filter(validationFilter)
             .header(HttpHeaders.ContentType, APPLICATION_JSON)
             .header(HttpHeaders.Authorization, "Bearer ${mockOAuth2Server.tokenFromDefaultProvider()}")
-            .body(SkattekortPersonRequest(fnr = "12345678901", inntektsaar = "${Year.now().value - 1}").toJson())
+            .body(SkattekortPersonRequest(fnr = "12345678901", inntektsaar = "${Year.now().minusYears(1)}").toJson())
             .port(PORT)
             .post(API_SKATTEKORT_PATH)
             .then()
@@ -86,7 +86,7 @@ internal class SkattekortPersonApiTest : FunSpec({
             .filter(validationFilter)
             .header(HttpHeaders.ContentType, APPLICATION_JSON)
             .header(HttpHeaders.Authorization, "Bearer ${mockOAuth2Server.tokenFromDefaultProvider()}")
-            .body(SkattekortPersonRequest(fnr = "12345678901", inntektsaar = "${Year.now().value}").toJson())
+            .body(SkattekortPersonRequest(fnr = "12345678901", inntektsaar = "${Year.now()}").toJson())
             .port(PORT)
             .post(API_SKATTEKORT_PATH)
             .then()
@@ -110,7 +110,7 @@ internal class SkattekortPersonApiTest : FunSpec({
             .filter(validationFilter)
             .header(HttpHeaders.ContentType, APPLICATION_JSON)
             .header(HttpHeaders.Authorization, "Bearer ${mockOAuth2Server.tokenFromDefaultProvider()}")
-            .body(SkattekortPersonRequest(fnr = "12345678901", inntektsaar = "${Year.now().value + 1}").toJson())
+            .body(SkattekortPersonRequest(fnr = "12345678901", inntektsaar = "${Year.now().plusYears(1)}").toJson())
             .port(PORT)
             .post(API_SKATTEKORT_PATH)
             .then()
@@ -157,7 +157,7 @@ internal class SkattekortPersonApiTest : FunSpec({
             .filter(validationFilter)
             .header(HttpHeaders.ContentType, APPLICATION_JSON)
             .header(HttpHeaders.Authorization, "Bearer dummytoken")
-            .body(SkattekortPersonRequest(fnr = "dummyFnr", inntektsaar = "${Year.now().value}").toJson())
+            .body(SkattekortPersonRequest(fnr = "dummyFnr", inntektsaar = "${Year.now()}").toJson())
             .port(PORT)
             .post(API_SKATTEKORT_PATH)
             .then()
@@ -189,7 +189,7 @@ internal class SkattekortPersonApiTest : FunSpec({
             .filter(validationFilter)
             .header(HttpHeaders.ContentType, APPLICATION_JSON)
             .header(HttpHeaders.Authorization, "Bearer dummytoken")
-            .body(SkattekortPersonRequest(fnr = "12345678901", inntektsaar = "${Year.now().value - 2}").toJson())
+            .body(SkattekortPersonRequest(fnr = "12345678901", inntektsaar = "${Year.now().minusYears(2)}").toJson())
             .port(PORT)
             .post(API_SKATTEKORT_PATH)
             .then()
@@ -197,7 +197,7 @@ internal class SkattekortPersonApiTest : FunSpec({
             .statusCode(HttpStatusCode.BadRequest.value)
             .body(
                 "message",
-                equalTo("Inntektsår kan ikke være utenfor intervallet ${Year.now().value - 1} til ${Year.now().value + 1}")
+                equalTo("Inntektsår kan ikke være utenfor intervallet ${Year.now().minusYears(1)} til ${Year.now().plusYears(1)}")
             )
 
     }
@@ -208,7 +208,7 @@ internal class SkattekortPersonApiTest : FunSpec({
             .filter(validationFilter)
             .header(HttpHeaders.ContentType, APPLICATION_JSON)
             .header(HttpHeaders.Authorization, "Bearer dummytoken")
-            .body(SkattekortPersonRequest(fnr = "12345678901", inntektsaar = "${Year.now().value + 2}").toJson())
+            .body(SkattekortPersonRequest(fnr = "12345678901", inntektsaar = "${Year.now().plusYears(2)}").toJson())
             .port(PORT)
             .post(API_SKATTEKORT_PATH)
             .then()
@@ -216,7 +216,7 @@ internal class SkattekortPersonApiTest : FunSpec({
             .statusCode(HttpStatusCode.BadRequest.value)
             .body(
                 "message",
-                equalTo("Inntektsår kan ikke være utenfor intervallet ${Year.now().value - 1} til ${Year.now().value + 1}")
+                equalTo("Inntektsår kan ikke være utenfor intervallet ${Year.now().minusYears(1)} til ${Year.now().plusYears(1)}")
             )
 
     }
@@ -227,7 +227,7 @@ internal class SkattekortPersonApiTest : FunSpec({
             .filter(validationFilter)
             .header(HttpHeaders.ContentType, APPLICATION_JSON)
             .header(HttpHeaders.Authorization, "Bearer dummytoken")
-            .body(SkattekortPersonRequest(fnr = "1234567890", inntektsaar = "${Year.now().value}").toJson())
+            .body(SkattekortPersonRequest(fnr = "1234567890", inntektsaar = "${Year.now()}").toJson())
             .port(PORT)
             .post(API_SKATTEKORT_PATH)
             .then()
@@ -243,7 +243,7 @@ internal class SkattekortPersonApiTest : FunSpec({
             .filter(validationFilter)
             .header(HttpHeaders.ContentType, APPLICATION_JSON)
             .header(HttpHeaders.Authorization, "Bearer dummytoken")
-            .body(SkattekortPersonRequest(fnr = "123456789012", inntektsaar = "${Year.now().value}").toJson())
+            .body(SkattekortPersonRequest(fnr = "123456789012", inntektsaar = "${Year.now()}").toJson())
             .port(PORT)
             .post(API_SKATTEKORT_PATH)
             .then()
