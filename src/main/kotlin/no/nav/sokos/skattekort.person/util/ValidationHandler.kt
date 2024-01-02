@@ -12,7 +12,7 @@ fun RequestValidationConfig.validationHandler() {
             !validInput(skattekortPersonRequest.inntektsaar) -> ValidationResult.Invalid("Inntektsår er ugyldig")
 
             validYear(skattekortPersonRequest.inntektsaar) ->
-                ValidationResult.Invalid("Inntektsår kan ikke være utenfor intervallet ${Year.now().value - 1} til ${Year.now().value + 1}")
+                ValidationResult.Invalid("Inntektsår kan ikke være utenfor intervallet ${Year.now().minusYears(1)} til ${Year.now().plusYears(1)}")
 
             !validInput(skattekortPersonRequest.fnr) -> ValidationResult.Invalid("Fødelsnummer er ugyldig")
             !validFnr(skattekortPersonRequest.fnr) -> ValidationResult.Invalid("Fødelsnummer må være 11 siffer")
@@ -27,7 +27,7 @@ fun validInput(numberInput: String): Boolean {
 
 fun validYear(year: String): Boolean {
     val currentYear = Year.now().value
-    return year.toInt() < currentYear - 1 || year.toInt() > currentYear + 1
+    return year.toInt() < currentYear.minus(1) || year.toInt() > currentYear.plus(1)
 }
 
 fun validFnr(fnr: String): Boolean {

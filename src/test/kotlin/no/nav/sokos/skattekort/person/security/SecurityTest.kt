@@ -14,6 +14,7 @@ import io.ktor.server.routing.routing
 import io.ktor.server.testing.testApplication
 import io.mockk.every
 import io.mockk.mockk
+import java.time.Year
 import no.nav.security.mock.oauth2.MockOAuth2Server
 import no.nav.security.mock.oauth2.token.DefaultOAuth2TokenCallback
 import no.nav.security.mock.oauth2.withMockOAuth2Server
@@ -70,7 +71,7 @@ class SecurityTest : FunSpec({
                 val response = client.post(API_SKATTEKORT_PATH) {
                     header("Authorization", "Bearer ${mockOAuth2Server.tokenFromDefaultProvider()}")
                     contentType(ContentType.Application.Json)
-                    setBody(SkattekortPersonRequest("12345678901", "2022"))
+                    setBody(SkattekortPersonRequest("12345678901", "${Year.now().minusYears(1)}"))
                 }
 
                 response.status shouldBe HttpStatusCode.OK
