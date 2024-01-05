@@ -2,15 +2,15 @@ package no.nav.sokos.skattekort.person.service
 
 import io.ktor.server.application.ApplicationCall
 import no.nav.sokos.skattekort.person.api.model.SkattekortPersonRequest
+import no.nav.sokos.skattekort.person.auditlogg.AuditLogg
+import no.nav.sokos.skattekort.person.auditlogg.AuditLogger
+import no.nav.sokos.skattekort.person.auditlogg.Saksbehandler
+import no.nav.sokos.skattekort.person.config.logger
+import no.nav.sokos.skattekort.person.config.secureLogger
 import no.nav.sokos.skattekort.person.database.OracleDataSource
 import no.nav.sokos.skattekort.person.database.RepositoryExtensions.useAndHandleErrors
 import no.nav.sokos.skattekort.person.database.SkattekortPersonRepository.hentSkattekortPaaFnrOgInntektsAar
-import no.nav.sokos.skattekort.person.auditlogg.Saksbehandler
 import no.nav.sokos.skattekort.person.domain.SkattekortTilArbeidsgiver
-import no.nav.sokos.skattekort.person.auditlogg.AuditLogg
-import no.nav.sokos.skattekort.person.auditlogg.AuditLogger
-import no.nav.sokos.skattekort.person.config.logger
-import no.nav.sokos.skattekort.person.config.secureLogger
 import no.nav.sokos.skattekort.person.security.getSaksbehandler
 
 class SkattekortPersonService(

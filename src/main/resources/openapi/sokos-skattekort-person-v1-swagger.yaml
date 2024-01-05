@@ -3,7 +3,7 @@ openapi: '3.0.3'
 info:
   version: 1.0.0
   title: sokos-skattekort-person API
-  description: Dette er et REST-API for å hente ut skattekort på person for gjeldende år +/- 1 år som får ytelser i NAV
+  description: API-tjeneste for å hente ut skattekort på person for gjeldende år +/- 1 år som får ytelser i NAV
   contact:
     name: PO Utbetaling
     email: okonomi@nav.no
@@ -32,7 +32,7 @@ paths:
 
       responses:
         200:
-          description: OK - Hvis skattekort ikke finnes, returneres tomt objekt
+          description: OK - Hvis skattekort ikke finnes, returneres tom liste
           content:
             application/json:
               schema:

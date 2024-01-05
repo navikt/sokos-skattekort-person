@@ -3,7 +3,7 @@ import org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
 import org.gradle.api.tasks.testing.logging.TestLogEvent
 
 plugins {
-    kotlin("jvm") version "1.9.21"
+    kotlin("jvm") version "1.9.22"
     id("com.github.johnrengelman.shadow") version "8.1.1"
 }
 
@@ -17,7 +17,7 @@ repositories {
 val ktorVersion = "2.3.7"
 val logbackVersion = "1.4.14"
 val logstashVersion = "7.4"
-val jacksonVersion = "2.16.0"
+val jacksonVersion = "2.16.1"
 val prometheusVersion = "1.12.1"
 val kotlinLoggingVersion = "3.0.5"
 val janionVersion = "3.1.11"
