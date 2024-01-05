@@ -7,6 +7,7 @@ import io.ktor.client.request.header
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import io.ktor.http.ContentType
+import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.contentType
 import io.ktor.serialization.jackson.jackson
@@ -19,6 +20,7 @@ import no.nav.security.mock.oauth2.MockOAuth2Server
 import no.nav.security.mock.oauth2.token.DefaultOAuth2TokenCallback
 import no.nav.security.mock.oauth2.withMockOAuth2Server
 import no.nav.sokos.skattekort.person.API_SKATTEKORT_PATH
+import no.nav.sokos.skattekort.person.APPLICATION_JSON
 import no.nav.sokos.skattekort.person.api.model.SkattekortPersonRequest
 import no.nav.sokos.skattekort.person.api.skattekortApi
 import no.nav.sokos.skattekort.person.config.AUTHENTICATION_NAME
@@ -77,7 +79,7 @@ class SecurityTest : FunSpec({
                 val response = client.post(API_SKATTEKORT_PATH) {
                     println(mockOAuth2Server.tokenFromDefaultProvider())
                     header("Authorization", "Bearer ${mockOAuth2Server.tokenFromDefaultProvider()}")
-                    contentType(ContentType.Application.Json)
+                    header(HttpHeaders.ContentType, APPLICATION_JSON)
                     setBody(SkattekortPersonRequest("12345678901", "${Year.now().minusYears(1)}"))
                 }
 
