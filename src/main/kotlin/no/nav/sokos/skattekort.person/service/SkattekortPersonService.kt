@@ -3,14 +3,14 @@ package no.nav.sokos.skattekort.person.service
 import io.ktor.server.application.ApplicationCall
 import mu.KotlinLogging
 import no.nav.sokos.skattekort.person.api.model.SkattekortPersonRequest
+import no.nav.sokos.skattekort.person.auditlogg.AuditLogg
+import no.nav.sokos.skattekort.person.auditlogg.AuditLogger
+import no.nav.sokos.skattekort.person.auditlogg.Saksbehandler
+import no.nav.sokos.skattekort.person.config.SECURE_LOGGER
 import no.nav.sokos.skattekort.person.database.OracleDataSource
 import no.nav.sokos.skattekort.person.database.RepositoryExtensions.useAndHandleErrors
 import no.nav.sokos.skattekort.person.database.SkattekortPersonRepository.hentSkattekortPaaFnrOgInntektsAar
-import no.nav.sokos.skattekort.person.auditlogg.Saksbehandler
 import no.nav.sokos.skattekort.person.domain.SkattekortTilArbeidsgiver
-import no.nav.sokos.skattekort.person.auditlogg.AuditLogg
-import no.nav.sokos.skattekort.person.auditlogg.AuditLogger
-import no.nav.sokos.skattekort.person.config.SECURE_LOGGER
 import no.nav.sokos.skattekort.person.security.getSaksbehandler
 
 private val logger = KotlinLogging.logger {}

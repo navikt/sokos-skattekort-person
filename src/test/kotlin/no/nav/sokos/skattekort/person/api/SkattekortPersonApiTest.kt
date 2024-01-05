@@ -13,9 +13,9 @@ import io.ktor.server.routing.routing
 import io.mockk.every
 import io.mockk.mockk
 import io.restassured.RestAssured
+import java.time.Year
 import no.nav.security.mock.oauth2.MockOAuth2Server
 import no.nav.security.mock.oauth2.token.DefaultOAuth2TokenCallback
-import java.time.Year
 import no.nav.sokos.skattekort.person.APPLICATION_JSON
 import no.nav.sokos.skattekort.person.api.model.SkattekortPersonRequest
 import no.nav.sokos.skattekort.person.api.model.SkattekortPersonResponse

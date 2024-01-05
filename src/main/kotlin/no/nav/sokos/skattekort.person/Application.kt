@@ -6,12 +6,12 @@ import io.ktor.server.engine.stop
 import io.ktor.server.netty.Netty
 import java.util.concurrent.TimeUnit
 import kotlin.properties.Delegates
+import no.nav.sokos.skattekort.person.auditlogg.AuditLogger
 import no.nav.sokos.skattekort.person.config.PropertiesConfig
 import no.nav.sokos.skattekort.person.config.commonConfig
 import no.nav.sokos.skattekort.person.config.routingConfig
 import no.nav.sokos.skattekort.person.config.securityConfig
 import no.nav.sokos.skattekort.person.database.OracleDataSource
-import no.nav.sokos.skattekort.person.auditlogg.AuditLogger
 import no.nav.sokos.skattekort.person.metrics.appStateReadyFalse
 import no.nav.sokos.skattekort.person.metrics.appStateRunningFalse
 import no.nav.sokos.skattekort.person.service.SkattekortPersonService
