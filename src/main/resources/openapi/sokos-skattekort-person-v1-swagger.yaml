@@ -36,7 +36,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SkattekortPersonResponse'
+                type: array
+                items:
+                  $ref: '#/components/schemas/SkattekortTilArbeidsgiver'
         400:
           description: Ugyldig request, oppfyller ikke swagger-kontrakt
           content:
@@ -72,14 +74,6 @@ components:
           type: string
           example: "2023"
           description: Skattekort for gjeldende år +/- 1 år
-
-    SkattekortPersonResponse:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/SkattekortTilArbeidsgiver'
 
     SkattekortTilArbeidsgiver:
       type: object

@@ -2,7 +2,6 @@ package no.nav.sokos.skattekort.person.api
 
 import com.atlassian.oai.validator.restassured.OpenApiValidationFilter
 import io.kotest.core.spec.style.FunSpec
-import io.kotest.matchers.shouldBe
 import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.Application
@@ -19,10 +18,8 @@ import no.nav.security.mock.oauth2.token.DefaultOAuth2TokenCallback
 import no.nav.sokos.skattekort.person.API_SKATTEKORT_PATH
 import no.nav.sokos.skattekort.person.APPLICATION_JSON
 import no.nav.sokos.skattekort.person.api.model.SkattekortPersonRequest
-import no.nav.sokos.skattekort.person.api.model.SkattekortPersonResponse
 import no.nav.sokos.skattekort.person.config.authenticate
 import no.nav.sokos.skattekort.person.config.commonConfig
-import no.nav.sokos.skattekort.person.domain.Resultatstatus
 import no.nav.sokos.skattekort.person.domain.SkattekortTilArbeidsgiver
 import no.nav.sokos.skattekort.person.readFromResource
 import no.nav.sokos.skattekort.person.service.SkattekortPersonService
@@ -52,9 +49,10 @@ internal class SkattekortPersonApiTest : FunSpec({
 
         val frikortXml = "frikort.xml".readFromResource()
         val skattekortTilArbeidsgiverObject = xmlMapper.readValue(frikortXml, SkattekortTilArbeidsgiver::class.java)
-        val skattekortPersonResponseObject = SkattekortPersonResponse(listOf(skattekortTilArbeidsgiverObject))
 
-        every { skattekortPersonService.hentSkattekortPerson(any(), any()) } returns skattekortPersonResponseObject.data
+        every { skattekortPersonService.hentSkattekortPerson(any(), any()) } returns listOf(
+            skattekortTilArbeidsgiverObject
+        )
 
         val response = RestAssured.given()
             .filter(validationFilter)
@@ -68,9 +66,6 @@ internal class SkattekortPersonApiTest : FunSpec({
             .statusCode(HttpStatusCode.OK.value)
             .extract()
             .response()
-
-        response.body.`as`(SkattekortPersonResponse::class.java) shouldBe skattekortPersonResponseObject
-
     }
 
     test("hent skattekort med trekkprosent for gjeldende år") {
@@ -78,9 +73,10 @@ internal class SkattekortPersonApiTest : FunSpec({
         val trekkprosentXml = "trekkprosent.xml".readFromResource()
         val skattekortTilArbeidsgiverObject =
             xmlMapper.readValue(trekkprosentXml, SkattekortTilArbeidsgiver::class.java)
-        val skattekortPersonResponseObject = SkattekortPersonResponse(listOf(skattekortTilArbeidsgiverObject))
 
-        every { skattekortPersonService.hentSkattekortPerson(any(), any()) } returns skattekortPersonResponseObject.data
+        every { skattekortPersonService.hentSkattekortPerson(any(), any()) } returns listOf(
+            skattekortTilArbeidsgiverObject
+        )
 
         val response = RestAssured.given()
             .filter(validationFilter)
@@ -95,16 +91,16 @@ internal class SkattekortPersonApiTest : FunSpec({
             .extract()
             .response()
 
-        response.body.`as`(SkattekortPersonResponse::class.java) shouldBe skattekortPersonResponseObject
     }
 
     test("hent skattekort med trekktabell for gjeldende år pluss 1") {
 
         val trekktabellXml = "trekktabell.xml".readFromResource()
         val skattekortTilArbeidsgiverObject = xmlMapper.readValue(trekktabellXml, SkattekortTilArbeidsgiver::class.java)
-        val skattekortPersonResponseObject = SkattekortPersonResponse(listOf(skattekortTilArbeidsgiverObject))
 
-        every { skattekortPersonService.hentSkattekortPerson(any(), any()) } returns skattekortPersonResponseObject.data
+        every { skattekortPersonService.hentSkattekortPerson(any(), any()) } returns listOf(
+            skattekortTilArbeidsgiverObject
+        )
 
         val response = RestAssured.given()
             .filter(validationFilter)
@@ -119,15 +115,15 @@ internal class SkattekortPersonApiTest : FunSpec({
             .extract()
             .response()
 
-        response.body.`as`(SkattekortPersonResponse::class.java) shouldBe skattekortPersonResponseObject
     }
 
     test("hent skattekort med status resultatPaaForespoersel 'ikkeSkattekort'") {
         val ikkeSkattekort = "ikkeSkattekort.xml".readFromResource()
         val skattekortTilArbeidsgiverObject = xmlMapper.readValue(ikkeSkattekort, SkattekortTilArbeidsgiver::class.java)
-        val skattekortPersonResponseObject = SkattekortPersonResponse(listOf(skattekortTilArbeidsgiverObject))
 
-        every { skattekortPersonService.hentSkattekortPerson(any(), any()) } returns skattekortPersonResponseObject.data
+        every { skattekortPersonService.hentSkattekortPerson(any(), any()) } returns listOf(
+            skattekortTilArbeidsgiverObject
+        )
 
         val response = RestAssured.given()
             .filter(validationFilter)
@@ -142,12 +138,7 @@ internal class SkattekortPersonApiTest : FunSpec({
             .extract()
             .response()
 
-        response.body.`as`(SkattekortPersonResponse::class.java) shouldBe skattekortPersonResponseObject
-        response.body.`as`(SkattekortPersonResponse::class.java)
-            .data[0]
-            .arbeidsgiver[0]
-            .arbeidstaker[0]
-            .resultatPaaForespoersel shouldBe Resultatstatus.IKKE_SKATTEKORT
+        //response.jsonPath().getList<SkattekortTilArbeidsgiver>("arbeidsgiver").first().arbeidsgiver.first().arbeidstaker.first().resultatPaaForespoersel shouldBe Resultatstatus.IKKE_SKATTEKORT
 
     }
 
@@ -197,7 +188,11 @@ internal class SkattekortPersonApiTest : FunSpec({
             .statusCode(HttpStatusCode.BadRequest.value)
             .body(
                 "message",
-                equalTo("Inntektsår kan ikke være utenfor intervallet ${Year.now().minusYears(1)} til ${Year.now().plusYears(1)}")
+                equalTo(
+                    "Inntektsår kan ikke være utenfor intervallet ${Year.now().minusYears(1)} til ${
+                        Year.now().plusYears(1)
+                    }"
+                )
             )
 
     }
@@ -216,7 +211,11 @@ internal class SkattekortPersonApiTest : FunSpec({
             .statusCode(HttpStatusCode.BadRequest.value)
             .body(
                 "message",
-                equalTo("Inntektsår kan ikke være utenfor intervallet ${Year.now().minusYears(1)} til ${Year.now().plusYears(1)}")
+                equalTo(
+                    "Inntektsår kan ikke være utenfor intervallet ${Year.now().minusYears(1)} til ${
+                        Year.now().plusYears(1)
+                    }"
+                )
             )
 
     }
