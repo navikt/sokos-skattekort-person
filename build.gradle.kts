@@ -1,10 +1,13 @@
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
 import org.gradle.api.tasks.testing.logging.TestLogEvent
+import com.expediagroup.graphql.plugin.gradle.config.GraphQLSerializer
 
 plugins {
     kotlin("jvm") version "1.9.22"
     id("com.github.johnrengelman.shadow") version "8.1.1"
+    id("com.expediagroup.graphql") version "7.0.2"
+
 }
 
 group = "no.nav.sokos"
@@ -29,6 +32,7 @@ val swaggerRequestValidatorVersion = "2.39.0"
 val mockOAuth2ServerVersion = "2.1.0"
 val ojdbc10 = "19.21.0.0"
 val papertrailappVersion = "1.0.0"
+val kotlinxSerializationVersion = "1.6.2"
 
 dependencies {
 
@@ -58,6 +62,8 @@ dependencies {
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion")
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jacksonVersion")
     implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-xml:$jacksonVersion")
+    implementation("io.ktor:ktor-serialization-kotlinx-json-jvm:$ktorVersion")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json-jvm:$kotlinxSerializationVersion")
 
     // Monitorering
     implementation("io.ktor:ktor-server-metrics-micrometer-jvm:$ktorVersion")
@@ -131,5 +137,22 @@ tasks {
 
     withType<Wrapper>() {
         gradleVersion = "8.4"
+    }
+}
+
+val graphqlClientVersion = "7.0.2"
+
+dependencies {
+    implementation("com.expediagroup:graphql-kotlin-ktor-client:$graphqlClientVersion") {
+        exclude("com.expediagroup:graphql-kotlin-client-jackson")
+    }
+}
+
+graphql {
+    client {
+        packageName = "no.nav.sokos.skattekort.person.integration.pdl"
+        schemaFile = file("$projectDir/src/main/resources/pdl/schema.graphql")
+        queryFileDirectory = "$projectDir/src/main/resources/pdl"
+        serializer = GraphQLSerializer.KOTLINX
     }
 }
