@@ -1,5 +1,6 @@
 package no.nav.sokos.skattekort.person.domain
 
 data class SkattekortTilArbeidsgiver(
-    var arbeidsgiver: List<Arbeidsgiver>
+    val person: String? = null,
+    val arbeidsgiver: List<Arbeidsgiver>
 )

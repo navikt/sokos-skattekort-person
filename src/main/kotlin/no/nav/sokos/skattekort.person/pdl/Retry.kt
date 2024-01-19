@@ -1,4 +1,4 @@
-package no.nav.sokos.skattekort.person.integration.pdl
+package no.nav.sokos.skattekort.person.pdl
 
 import kotlinx.coroutines.delay
 

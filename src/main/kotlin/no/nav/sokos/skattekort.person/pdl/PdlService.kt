@@ -1,24 +1,21 @@
-package no.nav.sokos.skattekort.person.integration.pdl
+package no.nav.sokos.skattekort.person.pdl
 
 import com.expediagroup.graphql.client.ktor.GraphQLKtorClient
 import com.expediagroup.graphql.client.types.GraphQLClientError
 import com.expediagroup.graphql.client.types.GraphQLClientResponse
-import io.ktor.client.HttpClient
 import io.ktor.client.request.header
 import io.ktor.http.HttpHeaders
 import java.net.URI
 import kotlinx.coroutines.runBlocking
-import no.nav.sokos.oppdragsinfo.integration.pdl.HentPerson
-import no.nav.sokos.oppdragsinfo.integration.pdl.hentperson.Person
 import no.nav.sokos.skattekort.person.config.PropertiesConfig
+import no.nav.sokos.skattekort.person.pdl.hentperson.Person
 import no.nav.sokos.skattekort.person.util.defaultHttpClient
 
 class PdlService(
-    private val httpClient: HttpClient = defaultHttpClient,
     private val pdlConfig: PropertiesConfig.PdlConfig = PropertiesConfig.PdlConfig(),
     private val graphQLKtorClient: GraphQLKtorClient = GraphQLKtorClient(
         URI(pdlConfig.pdlHost).toURL(),
-        httpClient
+        defaultHttpClient
     ),
     private val accessTokenClient: AccessTokenClient = AccessTokenClient(),
 ) {

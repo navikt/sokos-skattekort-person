@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit
 import kotlinx.coroutines.runBlocking
 import mu.KotlinLogging
 import no.nav.sokos.skattekort.person.config.PropertiesConfig.AzureAdConfig
-import no.nav.sokos.skattekort.person.util.httpClient
+import no.nav.sokos.skattekort.person.util.defaultHttpClient
 
 private val log = KotlinLogging.logger {}
 const val AUTHENTICATION_NAME = "azureAd"
@@ -82,7 +82,7 @@ data class OpenIdMetadata(
 
 private fun wellKnowConfig(wellKnownUrl: String): OpenIdMetadata {
     val openIdMetadata: OpenIdMetadata by lazy {
-        runBlocking { httpClient.get(wellKnownUrl).body() }
+        runBlocking { defaultHttpClient.get(wellKnownUrl).body() }
     }
     return openIdMetadata
 }

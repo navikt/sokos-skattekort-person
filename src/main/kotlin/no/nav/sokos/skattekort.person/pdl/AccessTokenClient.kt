@@ -1,5 +1,8 @@
-package no.nav.sokos.skattekort.person.integration.pdl
+package no.nav.sokos.skattekort.person.pdl
 
+import com.fasterxml.jackson.annotation.JsonAlias
+import com.fasterxml.jackson.databind.JsonNode
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.accept
@@ -15,11 +18,6 @@ import java.time.Instant
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
-import kotlinx.serialization.SerialName
-import kotlinx.serialization.Serializable
-import kotlinx.serialization.json.JsonElement
-import kotlinx.serialization.json.jsonObject
-import kotlinx.serialization.json.jsonPrimitive
 import no.nav.sokos.skattekort.person.config.PropertiesConfig
 import no.nav.sokos.skattekort.person.util.defaultHttpClient
 
@@ -72,13 +70,15 @@ class AccessTokenClient(
         }
 }
 
-suspend fun HttpResponse.errorMessage() = body<JsonElement>().jsonObject["error_description"]?.jsonPrimitive?.content
-
-@Serializable
+suspend fun HttpResponse.errorMessage(): String? {
+    val mapper = jacksonObjectMapper()
+    val jsonNode: JsonNode = mapper.readTree(body<String>())
+    return jsonNode.get("error_description")?.asText()
+}
 private data class AzureAccessToken(
-    @SerialName("access_token")
+    @JsonAlias("access_token")
     val accessToken: String,
-    @SerialName("expires_in")
+    @JsonAlias("expires_in")
     val expiresIn: Long
 )
 
