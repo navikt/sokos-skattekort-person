@@ -76,6 +76,7 @@ object PropertiesConfig {
         val tenantId: String = get("AZURE_APP_TENANT_ID"),
         val clientSecret: String = get("AZURE_APP_CLIENT_SECRET"),
     )
+
     data class PdlConfig(
         val pdlHost: String = get("PDL_HOST"),
         val pdlScope: String = get("PDL_SCOPE")

@@ -21,13 +21,17 @@ import io.micrometer.core.instrument.binder.jvm.JvmThreadMetrics
 import io.micrometer.core.instrument.binder.system.ProcessorMetrics
 import io.micrometer.core.instrument.binder.system.UptimeMetrics
 import java.util.UUID
+import mu.KotlinLogging
 import no.nav.sokos.skattekort.person.metrics.prometheusMeterRegistry
-import no.nav.sokos.skattekort.person.util.exceptionHandler
-import no.nav.sokos.skattekort.person.util.validationHandler
+import no.nav.sokos.skattekort.person.util.requestValidationConfig
 import org.slf4j.event.Level
 
 const val SECURE_LOGGER = "secureLogger"
 const val AUDIT_LOGGER = "auditLogger"
+
+val logger = KotlinLogging.logger {}
+val secureLogger = KotlinLogging.logger(SECURE_LOGGER)
+val auditlogger = KotlinLogging.logger(AUDIT_LOGGER)
 
 fun Application.commonConfig() {
     install(CallId) {
@@ -51,10 +55,10 @@ fun Application.commonConfig() {
         }
     }
     install(RequestValidation) {
-        validationHandler()
+        requestValidationConfig()
     }
     install(StatusPages) {
-        exceptionHandler()
+        statusPageConfig()
     }
     install(MicrometerMetrics) {
         registry = prometheusMeterRegistry

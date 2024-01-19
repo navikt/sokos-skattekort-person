@@ -6,7 +6,7 @@ import java.sql.Connection
 import no.nav.sokos.skattekort.person.config.PropertiesConfig
 
 class OracleDataSource(
-    private val oseskattDatabaseConfig: PropertiesConfig.OseskattDatabaseConfig
+    private val oseskattDatabaseConfig: PropertiesConfig.OseskattDatabaseConfig = PropertiesConfig.OseskattDatabaseConfig()
 ) {
     private val dataSource: HikariDataSource = HikariDataSource(hikariConfig())
     val connection: Connection get() = dataSource.connection

@@ -10,30 +10,30 @@
             <skattekort>
                 <utstedtDato>2021-03-06</utstedtDato>
                 <skattekortidentifikator>157989</skattekortidentifikator>
-                <forskuddstrekk xsi:type="Trekktabell" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <forskuddstrekk xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="Trekktabell">
                     <trekkode>introduksjonsstoenad</trekkode>
                     <tabelltype>trekktabellForPensjon</tabelltype>
                     <tabellnummer>7100</tabellnummer>
                     <prosentsats>22.0</prosentsats>
                     <antallMaanederForTrekk>11.0</antallMaanederForTrekk>
                 </forskuddstrekk>
-                <forskuddstrekk xsi:type="Trekkprosent" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <forskuddstrekk xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="Trekkprosent">
                     <trekkode>loennFraHovedarbeidsgiver</trekkode>
                     <prosentsats>32.0</prosentsats>
                 </forskuddstrekk>
-                <forskuddstrekk xsi:type="Trekkprosent" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <forskuddstrekk xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="Trekkprosent">
                     <trekkode>loennFraBiarbeidsgiver</trekkode>
                     <prosentsats>32.0</prosentsats>
                 </forskuddstrekk>
-                <forskuddstrekk xsi:type="Trekkprosent" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <forskuddstrekk xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="Trekkprosent">
                     <trekkode>loennFraNAV</trekkode>
                     <prosentsats>32.0</prosentsats>
                 </forskuddstrekk>
-                <forskuddstrekk xsi:type="Trekkprosent" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <forskuddstrekk xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="Trekkprosent">
                     <trekkode>ufoeretrygdFraNAV</trekkode>
                     <prosentsats>32.0</prosentsats>
                 </forskuddstrekk>
-                <forskuddstrekk xsi:type="Trekkprosent" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <forskuddstrekk xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="Trekkprosent">
                     <trekkode>ufoereytelserFraAndre</trekkode>
                     <prosentsats>32.0</prosentsats>
                 </forskuddstrekk>

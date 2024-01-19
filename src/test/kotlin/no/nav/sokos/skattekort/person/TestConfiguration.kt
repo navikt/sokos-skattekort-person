@@ -8,7 +8,8 @@ import no.nav.sokos.skattekort.person.api.naisApi
 import no.nav.sokos.skattekort.person.api.swaggerApi
 import no.nav.sokos.skattekort.person.config.commonConfig
 
-const val APPLICATION_JSON = "application/json"
+internal const val API_SKATTEKORT_PATH = "/api/v1/hent-skattekort"
+internal const val APPLICATION_JSON = "application/json"
 
 fun String.readFromResource() = {}::class.java.classLoader.getResource(this)!!.readText()
 

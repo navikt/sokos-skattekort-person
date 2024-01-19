@@ -1,7 +1,6 @@
 package no.nav.sokos.skattekort.person.pdl
 
-import com.fasterxml.jackson.annotation.JsonAlias
-import com.fasterxml.jackson.databind.JsonNode
+import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
@@ -70,15 +69,13 @@ class AccessTokenClient(
         }
 }
 
-suspend fun HttpResponse.errorMessage(): String? {
-    val mapper = jacksonObjectMapper()
-    val jsonNode: JsonNode = mapper.readTree(body<String>())
-    return jsonNode.get("error_description")?.asText()
-}
+suspend fun HttpResponse.errorMessage(): String? =
+    jacksonObjectMapper().readTree(body<String>()).get("error_description")?.asText()
+
 private data class AzureAccessToken(
-    @JsonAlias("access_token")
+    @JsonProperty("access_token")
     val accessToken: String,
-    @JsonAlias("expires_in")
+    @JsonProperty("expires_in")
     val expiresIn: Long
 )
 
