@@ -74,3 +74,7 @@ spec:
       value: OSESKATT_U4
     - name: USE_AUTHENTICATION
       value: "true"
+    - name: PDL_HOST
+      value: "https://pdl-api.dev.intern.nav.no/graphql"
+    - name: PDL_SCOPE
+      value: "api://dev-fss.pdl.pdl-api/.default"
