@@ -27,7 +27,7 @@ class SkattekortPersonService(
         val saksbehandler = hentSaksbehandler(applicationCall)
         logger.info("Henter skattekort")
         secureLogger.info("Henter skattekort for person: ${skattekortPersonRequest.toJson()}")
-        auditLogger.auditLog(AuditLogg(saksbehandler = saksbehandler.ident, fnr = skattekortPersonRequest.fnr))
+        //auditLogger.auditLog(AuditLogg(saksbehandler = saksbehandler.ident, fnr = skattekortPersonRequest.fnr))
 
         val navn = hentNavnFraPdl(skattekortPersonRequest.fnr)
         val skattekort = oracleDataSource.connection.useAndHandleErrors { connection ->
@@ -37,12 +37,6 @@ class SkattekortPersonService(
         if (navn.isBlank() && skattekort.isEmpty()) {
             logger.info("Fant ikke skattekort for person: ${skattekortPersonRequest.toJson()}")
             secureLogger.info("Fant ikke skattekort for person: ${skattekortPersonRequest.toJson()}")
-            auditLogger.auditLog(
-                AuditLogg(
-                    saksbehandler = saksbehandler.ident,
-                    fnr = skattekortPersonRequest.fnr
-                )
-            )
             return emptyList()
         }
 

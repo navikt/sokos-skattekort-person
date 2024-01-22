@@ -26,31 +26,31 @@
         <encoder class="net.logstash.logback.encoder.LogstashEncoder"/>
     </appender>
 
-    <appender name="auditLogger" class="com.papertrailapp.logback.Syslog4jAppender">
+<!--    <appender name="auditLogger" class="com.papertrailapp.logback.Syslog4jAppender">
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
             <pattern>%m%n%xEx</pattern>
         </encoder>
 
         <syslogConfig class="org.productivity.java.syslog4j.impl.net.tcp.TCPNetSyslogConfig">
-            <!-- remote system to log to -->
+            &lt;!&ndash; remote system to log to &ndash;&gt;
             <host>audit.nais</host>
-            <!-- remote port to log to -->
+            &lt;!&ndash; remote port to log to &ndash;&gt;
             <port>6514</port>
-            <!-- IMPORTANT: Set to your application name. -->
+            &lt;!&ndash; IMPORTANT: Set to your application name. &ndash;&gt;
             <ident>sokos-skattekort-person</ident>
-            <!-- max log message length in bytes -->
+            &lt;!&ndash; max log message length in bytes &ndash;&gt;
             <maxMessageLength>128000</maxMessageLength>
         </syslogConfig>
-    </appender>
+    </appender>-->
 
     <if condition='isDefined("NAIS_CLUSTER_NAME")'>
         <then>
             <logger name="secureLogger" level="DEBUG" additivity="false">
                 <appender-ref ref="${LOG_APPENDER:-secureLog}"/>
             </logger>
-            <logger level="INFO" name="auditLogger" additivity="false">
+<!--            <logger level="INFO" name="auditLogger" additivity="false">
                 <appender-ref ref="${LOG_APPENDER:-auditLogger}"/>
-            </logger>
+            </logger>-->
         </then>
     </if>
 
