@@ -29,12 +29,12 @@ class SkattekortPersonService(
         secureLogger.info("Henter skattekort for person: ${skattekortPersonRequest.toJson()}")
         auditLogger.auditLog(AuditLogg(saksbehandler = saksbehandler.ident, fnr = skattekortPersonRequest.fnr))
 
-        val person = hentNavnFraPdl(skattekortPersonRequest.fnr)
+        val navn = hentNavnFraPdl(skattekortPersonRequest.fnr)
         val skattekort = oracleDataSource.connection.useAndHandleErrors { connection ->
             connection.hentSkattekortPaaFnrOgInntektsAar(skattekortPersonRequest)
         }
 
-        if (person.isBlank() && skattekort.isEmpty()) {
+        if (navn.isBlank() && skattekort.isEmpty()) {
             logger.info("Fant ikke skattekort for person: ${skattekortPersonRequest.toJson()}")
             secureLogger.info("Fant ikke skattekort for person: ${skattekortPersonRequest.toJson()}")
             auditLogger.auditLog(
@@ -48,7 +48,7 @@ class SkattekortPersonService(
 
         return listOf(
             SkattekortTilArbeidsgiver(
-                person = person,
+                navn = navn,
                 arbeidsgiver = skattekort.firstOrNull()?.arbeidsgiver ?: emptyList()
             )
         )
