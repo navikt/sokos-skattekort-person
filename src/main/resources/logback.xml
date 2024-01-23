@@ -5,7 +5,7 @@
     </appender>
 
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
-        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+        <encoder>
             <pattern>
                 %green(%d{HH:mm:ss}) [%X{X-Correlation-ID}] %cyan([%-5.5t]) %boldCyan(%0.-5p) %yellow(%logger{36})
                 %cyan(:) %m%n
@@ -27,7 +27,7 @@
     </appender>
 
     <appender name="auditLogger" class="com.papertrailapp.logback.Syslog4jAppender">
-        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+        <encoder class="ch.qos.logback.classic.PatternLayout">
             <pattern>%m%n%xEx</pattern>
         </encoder>
 
@@ -48,7 +48,7 @@
             <logger name="secureLogger" level="DEBUG" additivity="false">
                 <appender-ref ref="${LOG_APPENDER:-secureLog}"/>
             </logger>
-            <logger level="INFO" name="auditLogger" additivity="false">
+            <logger name="auditLogger" level="INFO" additivity="false">
                 <appender-ref ref="${LOG_APPENDER:-auditLogger}"/>
             </logger>
         </then>
