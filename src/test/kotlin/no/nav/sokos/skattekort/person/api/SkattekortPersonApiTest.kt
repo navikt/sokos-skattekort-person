@@ -48,10 +48,11 @@ internal class SkattekortPersonApiTest : FunSpec({
     test("hent skattekort med frikort for gjeldende år minus 1") {
 
         val frikortXml = "frikort.xml".readFromResource()
-        val skattekortTilArbeidsgiverObject = xmlMapper.readValue(frikortXml, SkattekortTilArbeidsgiver::class.java)
+        val skattekortTilArbeidsgiver = xmlMapper.readValue(frikortXml, SkattekortTilArbeidsgiver::class.java)
+        skattekortTilArbeidsgiver.navn = "Test Testesen"
 
         every { skattekortPersonService.hentSkattekortPerson(any(), any()) } returns listOf(
-            skattekortTilArbeidsgiverObject
+            skattekortTilArbeidsgiver
         )
 
         val response = RestAssured.given()
@@ -71,11 +72,13 @@ internal class SkattekortPersonApiTest : FunSpec({
     test("hent skattekort med trekkprosent for gjeldende år") {
 
         val trekkprosentXml = "trekkprosent.xml".readFromResource()
-        val skattekortTilArbeidsgiverObject =
+        val skattekortTilArbeidsgiver =
             xmlMapper.readValue(trekkprosentXml, SkattekortTilArbeidsgiver::class.java)
+        skattekortTilArbeidsgiver.navn = "Test Testesen"
+
 
         every { skattekortPersonService.hentSkattekortPerson(any(), any()) } returns listOf(
-            skattekortTilArbeidsgiverObject
+            skattekortTilArbeidsgiver
         )
 
         val response = RestAssured.given()
@@ -96,10 +99,12 @@ internal class SkattekortPersonApiTest : FunSpec({
     test("hent skattekort med trekktabell for gjeldende år pluss 1") {
 
         val trekktabellXml = "trekktabell.xml".readFromResource()
-        val skattekortTilArbeidsgiverObject = xmlMapper.readValue(trekktabellXml, SkattekortTilArbeidsgiver::class.java)
+        val skattekortTilArbeidsgiver = xmlMapper.readValue(trekktabellXml, SkattekortTilArbeidsgiver::class.java)
+        skattekortTilArbeidsgiver.navn = "Test Testesen"
 
+        
         every { skattekortPersonService.hentSkattekortPerson(any(), any()) } returns listOf(
-            skattekortTilArbeidsgiverObject
+            skattekortTilArbeidsgiver
         )
 
         val response = RestAssured.given()
@@ -119,10 +124,11 @@ internal class SkattekortPersonApiTest : FunSpec({
 
     test("hent skattekort med status resultatPaaForespoersel 'ikkeSkattekort'") {
         val ikkeSkattekort = "ikkeSkattekort.xml".readFromResource()
-        val skattekortTilArbeidsgiverObject = xmlMapper.readValue(ikkeSkattekort, SkattekortTilArbeidsgiver::class.java)
-
+        val skattekortTilArbeidsgiver = xmlMapper.readValue(ikkeSkattekort, SkattekortTilArbeidsgiver::class.java)
+        skattekortTilArbeidsgiver.navn = "Test Testesen"
+        
         every { skattekortPersonService.hentSkattekortPerson(any(), any()) } returns listOf(
-            skattekortTilArbeidsgiverObject
+            skattekortTilArbeidsgiver
         )
 
         val response = RestAssured.given()
