@@ -4,11 +4,11 @@ import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import io.ktor.client.HttpClient
-import io.ktor.client.engine.ProxyBuilder
 import io.ktor.client.engine.apache.Apache
-import io.ktor.client.engine.http
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.serialization.jackson.jackson
+import java.net.ProxySelector
+import org.apache.http.impl.conn.SystemDefaultRoutePlanner
 
 fun ObjectMapper.customConfig() {
     registerModule(JavaTimeModule())
@@ -24,8 +24,8 @@ val defaultHttpClient = HttpClient(Apache) {
     }
 
     engine {
-        System.getenv("HTTP_PROXY")?.let {
-            this.proxy = ProxyBuilder.http(it)
+        customizeClient {
+            setRoutePlanner(SystemDefaultRoutePlanner(ProxySelector.getDefault()))
         }
     }
 }
