@@ -27,9 +27,9 @@
     </appender>
 
     <appender name="auditLogger" class="com.papertrailapp.logback.Syslog4jAppender">
-        <encoder class="ch.qos.logback.classic.PatternLayout">
+        <layout class="ch.qos.logback.classic.PatternLayout">
             <pattern>%m%n%xEx</pattern>
-        </encoder>
+        </layout>
 
         <syslogConfig class="org.productivity.java.syslog4j.impl.net.tcp.TCPNetSyslogConfig">
             <!-- remote system to log to -->
