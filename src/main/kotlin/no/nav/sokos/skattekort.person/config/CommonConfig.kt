@@ -37,7 +37,6 @@ fun Application.commonConfig() {
     install(CallId) {
         header(HttpHeaders.XCorrelationId)
         generate { UUID.randomUUID().toString() }
-        verify { callId: String -> callId.isNotEmpty() }
     }
     install(CallLogging) {
         level = Level.INFO
