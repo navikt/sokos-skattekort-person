@@ -19,11 +19,11 @@ paths:
       tags:
         - skattekort
       summary: Hente skattekort for person
-      description: Kun tilgjengelige inntektsår er gjeldende år +/- 1 år
+      description: Returnerer skattekort for person
       operationId: hentSkattekortPerson
 
       requestBody:
-        description: SkattekortPersonRequest
+        description: fnr og inntektsaar er påkrevd. Inntektåret må være gjeldende år +/- 1 år
         content:
           application/json:
             schema:
