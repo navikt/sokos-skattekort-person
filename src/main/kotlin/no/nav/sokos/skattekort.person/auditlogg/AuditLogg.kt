@@ -5,7 +5,6 @@ package no.nav.sokos.skattekort.person.auditlogg
  * https://sikkerhet.nav.no/docs/sikker-utvikling/auditlogging#beskrivelse-av-cef
  */
 
-
 data class AuditLogg(
     val saksbehandler: String,
     val fnr: String,

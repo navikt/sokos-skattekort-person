@@ -10,15 +10,15 @@
             <skattekort>
                 <utstedtDato>2020-10-14</utstedtDato>
                 <skattekortidentifikator>217561</skattekortidentifikator>
-                <forskuddstrekk xsi:type="Frikort" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <forskuddstrekk xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="Frikort">
                     <trekkode>loennFraHovedarbeidsgiver</trekkode>
                     <frikortbeloep>0</frikortbeloep>
                 </forskuddstrekk>
-                <forskuddstrekk xsi:type="Frikort" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <forskuddstrekk xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="Frikort">
                     <trekkode>loennFraBiarbeidsgiver</trekkode>
                     <frikortbeloep>0</frikortbeloep>
                 </forskuddstrekk>
-                <forskuddstrekk xsi:type="Frikort" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <forskuddstrekk xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="Frikort">
                     <trekkode>loennFraNAV</trekkode>
                     <frikortbeloep>0</frikortbeloep>
                 </forskuddstrekk>

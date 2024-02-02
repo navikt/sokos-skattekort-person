@@ -10,7 +10,7 @@
             <skattekort>
                 <utstedtDato>2021-03-06</utstedtDato>
                 <skattekortidentifikator>158036</skattekortidentifikator>
-                <forskuddstrekk xsi:type="Trekkprosent" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <forskuddstrekk xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="Trekkprosent">
                     <trekkode>ufoeretrygdFraNAV</trekkode>
                     <prosentsats>15.0</prosentsats>
                     <antallMaanederForTrekk>12.0</antallMaanederForTrekk>

@@ -1,10 +1,13 @@
+import com.expediagroup.graphql.plugin.gradle.tasks.GraphQLGenerateClientTask
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
 import org.gradle.api.tasks.testing.logging.TestLogEvent
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     kotlin("jvm") version "1.9.22"
     id("com.github.johnrengelman.shadow") version "8.1.1"
+    id("com.expediagroup.graphql") version "7.0.2"
 }
 
 group = "no.nav.sokos"
@@ -29,11 +32,12 @@ val swaggerRequestValidatorVersion = "2.40.0"
 val mockOAuth2ServerVersion = "2.1.1"
 val ojdbc10 = "19.21.0.0"
 val papertrailappVersion = "1.0.0"
+val graphqlClientVersion = "7.0.2"
+
 
 dependencies {
 
     // Ktor server
-    implementation("io.ktor:ktor-server-core-jvm:$ktorVersion")
     implementation("io.ktor:ktor-server-call-logging-jvm:$ktorVersion")
     implementation("io.ktor:ktor-server-call-id-jvm:$ktorVersion")
     implementation("io.ktor:ktor-server-netty-jvm:$ktorVersion")
@@ -44,7 +48,6 @@ dependencies {
 
     // Ktor client
     implementation("io.ktor:ktor-client-content-negotiation:$ktorVersion")
-    implementation("io.ktor:ktor-client-core-jvm:$ktorVersion")
     implementation("io.ktor:ktor-client-apache-jvm:$ktorVersion")
 
 
@@ -86,6 +89,12 @@ dependencies {
     testImplementation("com.atlassian.oai:swagger-request-validator-restassured:$swaggerRequestValidatorVersion")
     testImplementation("no.nav.security:mock-oauth2-server:$mockOAuth2ServerVersion")
 
+    // GraphQL
+    implementation("com.expediagroup:graphql-kotlin-ktor-client:$graphqlClientVersion") {
+        exclude("com.expediagroup", "graphql-kotlin-client-serialization")
+    }
+    runtimeOnly("com.expediagroup:graphql-kotlin-client-jackson:$graphqlClientVersion")
+
 }
 
 sourceSets {
@@ -103,6 +112,10 @@ kotlin {
 }
 
 tasks {
+
+    withType<KotlinCompile>().configureEach {
+        dependsOn("graphqlGenerateClient")
+    }
 
     withType<ShadowJar>().configureEach {
         enabled = true
@@ -131,5 +144,11 @@ tasks {
 
     withType<Wrapper>() {
         gradleVersion = "8.4"
+    }
+
+    withType<GraphQLGenerateClientTask>().configureEach {
+        packageName = "no.nav.sokos.skattekort.person.pdl"
+        schemaFile = file("$projectDir/src/main/resources/pdl/schema.graphql")
+        queryFileDirectory.set(file("$projectDir/src/main/resources/pdl"))
     }
 }

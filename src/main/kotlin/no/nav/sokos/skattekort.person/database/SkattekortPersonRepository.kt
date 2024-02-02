@@ -23,8 +23,7 @@ object SkattekortPersonRepository {
             param(skattekortPersonRequest.inntektsaar)
         ).run {
             executeQuery().toList {
-                val xmlSkattekort = getString(1)
-                xmlMapper.readValue(xmlSkattekort, SkattekortTilArbeidsgiver::class.java)
+                xmlMapper.readValue(getString(1), SkattekortTilArbeidsgiver::class.java)
             }
         }
 }

@@ -70,6 +70,18 @@ object PropertiesConfig {
         val jdbcUrl: String = "jdbc:oracle:thin:@$host:$port/$name"
     }
 
+    data class AzureAdClientConfig(
+        val clientId: String = get("AZURE_APP_CLIENT_ID"),
+        val wellKnownUrl: String = get("AZURE_APP_WELL_KNOWN_URL"),
+        val tenantId: String = get("AZURE_APP_TENANT_ID"),
+        val clientSecret: String = get("AZURE_APP_CLIENT_SECRET"),
+    )
+
+    data class PdlConfig(
+        val pdlHost: String = get("PDL_HOST"),
+        val pdlScope: String = get("PDL_SCOPE")
+    )
+
     enum class Profile {
         LOCAL, DEV, PROD
     }

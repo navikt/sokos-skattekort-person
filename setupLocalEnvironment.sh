@@ -16,11 +16,11 @@ DATABASE_USERNAME=$(vault kv get -field=username oracle/dev/creds/oseskatt_read_
 DATABASE_PASSWORD=$(vault kv get -field=password oracle/dev/creds/oseskatt_read_u4-user)
 
 # Get AZURE and DATABASE system variables
-envValue=$(kubectl exec -it $(kubectl get pods | grep sokos-skattekort-person | cut -f1 -d' ') -c sokos-skattekort-person -- env | egrep "^AZURE|^DATABASE")
+envValue=$(kubectl exec -it $(kubectl get pods | grep sokos-skattekort-person | cut -f1 -d' ') -c sokos-skattekort-person -- env | egrep "^AZURE|^DATABASE|^PDL")
 
 # Set AZURE as local environment variables
 rm -f defaults.properties
 echo "$envValue" > defaults.properties
 echo "DATABASE_USERNAME=$DATABASE_USERNAME" >> defaults.properties
 echo "DATABASE_PASSWORD=$DATABASE_PASSWORD" >> defaults.properties
-echo "AZURE and DATABASE env variables stores as defaults.properties"
+echo "env variables stores as defaults.properties"

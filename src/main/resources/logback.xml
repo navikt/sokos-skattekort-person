@@ -27,9 +27,9 @@
     </appender>
 
     <appender name="auditLogger" class="com.papertrailapp.logback.Syslog4jAppender">
-        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+        <layout class="ch.qos.logback.classic.PatternLayout">
             <pattern>%m%n%xEx</pattern>
-        </encoder>
+        </layout>
 
         <syslogConfig class="org.productivity.java.syslog4j.impl.net.tcp.TCPNetSyslogConfig">
             <!-- remote system to log to -->
@@ -48,7 +48,7 @@
             <logger name="secureLogger" level="DEBUG" additivity="false">
                 <appender-ref ref="${LOG_APPENDER:-secureLog}"/>
             </logger>
-            <logger level="INFO" name="auditLogger" additivity="false">
+            <logger name="auditLogger" level="INFO" additivity="false">
                 <appender-ref ref="${LOG_APPENDER:-auditLogger}"/>
             </logger>
         </then>
