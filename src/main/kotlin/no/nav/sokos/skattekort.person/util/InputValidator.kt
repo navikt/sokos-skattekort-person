@@ -2,15 +2,16 @@ package no.nav.sokos.skattekort.person.util
 
 import java.time.Year
 
-fun validInput(numberInput: String): Boolean {
-    return numberInput.isEmpty() || numberInput.all { it.isDigit() }
+fun validFnr(fnrInput: String): Boolean {
+    return validInput(fnrInput, 11)
 }
 
-fun validYear(year: String): Boolean {
+fun validYear(yearInput: String): Boolean {
     val currentYear = Year.now().value
-    return year.toInt() < currentYear.minus(1) || year.toInt() > currentYear.plus(1)
+    return validInput(yearInput, 4, (currentYear - 1)..(currentYear + 1))
 }
 
-fun validFnr(fnr: String): Boolean {
-    return fnr.length == 11
+private fun validInput(input: String, length: Int, range: IntRange? = null): Boolean {
+    val regex = Regex("\\D")
+    return !regex.containsMatchIn(input) && input.length == length && (range == null || input.toInt() in range)
 }

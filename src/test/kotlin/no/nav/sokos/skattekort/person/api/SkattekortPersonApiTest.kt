@@ -160,7 +160,7 @@ internal class SkattekortPersonApiTest : FunSpec({
             .then()
             .assertThat()
             .statusCode(HttpStatusCode.BadRequest.value)
-            .body("message", equalTo("Fødelsnummer er ugyldig"))
+            .body("message", equalTo("Fødelsnummer er ugyldig. Fødelsnummer må være 11 siffer"))
 
     }
 
@@ -176,7 +176,7 @@ internal class SkattekortPersonApiTest : FunSpec({
             .then()
             .assertThat()
             .statusCode(HttpStatusCode.BadRequest.value)
-            .body("message", equalTo("Inntektsår er ugyldig"))
+            .body("message", equalTo("Inntektsåret er ugyldig. Inntektsår må være mellom 2023 til 2025"))
 
     }
 
@@ -195,7 +195,7 @@ internal class SkattekortPersonApiTest : FunSpec({
             .body(
                 "message",
                 equalTo(
-                    "Inntektsår kan ikke være utenfor intervallet ${Year.now().minusYears(1)} til ${
+                    "Inntektsåret er ugyldig. Inntektsår må være mellom ${Year.now().minusYears(1)} til ${
                         Year.now().plusYears(1)
                     }"
                 )
@@ -218,7 +218,7 @@ internal class SkattekortPersonApiTest : FunSpec({
             .body(
                 "message",
                 equalTo(
-                    "Inntektsår kan ikke være utenfor intervallet ${Year.now().minusYears(1)} til ${
+                    "Inntektsåret er ugyldig. Inntektsår må være mellom ${Year.now().minusYears(1)} til ${
                         Year.now().plusYears(1)
                     }"
                 )
@@ -238,7 +238,7 @@ internal class SkattekortPersonApiTest : FunSpec({
             .then()
             .assertThat()
             .statusCode(HttpStatusCode.BadRequest.value)
-            .body("message", equalTo("Fødelsnummer må være 11 siffer"))
+            .body("message", equalTo("Fødelsnummer er ugyldig. Fødelsnummer må være 11 siffer"))
 
     }
 
@@ -254,7 +254,7 @@ internal class SkattekortPersonApiTest : FunSpec({
             .then()
             .assertThat()
             .statusCode(HttpStatusCode.BadRequest.value)
-            .body("message", equalTo("Fødelsnummer må være 11 siffer"))
+            .body("message", equalTo("Fødelsnummer er ugyldig. Fødelsnummer må være 11 siffer"))
     }
 
 })
