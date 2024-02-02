@@ -28,6 +28,8 @@ object PropertiesConfig {
             "DATABASE_PASSWORD" to "databasePassword",
             "AZURE_APP_CLIENT_ID" to "azure-app-client-id",
             "AZURE_APP_WELL_KNOWN_URL" to "azure-app-well-known-url",
+            "PDL_HOST" to "pdlHost",
+            "PDL_SCOPE" to "pdlScope"
         )
     )
     private val devProperties = ConfigurationMap(mapOf("APPLICATION_PROFILE" to Profile.DEV.toString()))

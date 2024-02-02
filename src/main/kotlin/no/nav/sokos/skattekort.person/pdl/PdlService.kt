@@ -17,7 +17,7 @@ class PdlService(
         URI(pdlConfig.pdlHost).toURL(),
         defaultHttpClient
     ),
-    private val accessTokenClient: AccessTokenClient = AccessTokenClient(),
+    private val accessTokenClient: AccessTokenClient? = AccessTokenClient(),
 ) {
 
     fun getPersonNavn(ident: String): Person? {
@@ -25,7 +25,7 @@ class PdlService(
         val request = HentPerson(HentPerson.Variables(ident = ident))
 
         val result = runBlocking {
-            val accessToken = accessTokenClient.getSystemToken()
+            val accessToken = accessTokenClient?.getSystemToken()
 
             graphQLKtorClient.execute(request) {
                 header(HttpHeaders.Authorization, "Bearer $accessToken")
