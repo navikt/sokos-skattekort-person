@@ -4,7 +4,7 @@ import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
 import java.time.Year
 
-internal class ValidationHandlerTest : FunSpec({
+internal class InputValidatorTest : FunSpec({
 
     test("fnr er gyldig") {
         val result = validFnr("12345678901")
