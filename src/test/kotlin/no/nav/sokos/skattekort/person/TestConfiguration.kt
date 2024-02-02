@@ -1,5 +1,11 @@
 package no.nav.sokos.skattekort.person
 
+import io.ktor.client.HttpClient
+import io.ktor.client.engine.mock.MockEngine
+import io.ktor.client.engine.mock.respond
+import io.ktor.http.HttpHeaders
+import io.ktor.http.HttpStatusCode
+import io.ktor.http.headersOf
 import io.ktor.server.config.MapApplicationConfig
 import io.ktor.server.routing.routing
 import io.ktor.server.testing.ApplicationTestBuilder
@@ -28,5 +34,22 @@ fun ApplicationTestBuilder.configureTestApplication() {
             metricsApi()
             swaggerApi()
         }
+    }
+}
+
+fun setupMockEngine(
+    responsFilNavn: String,
+    statusCode: HttpStatusCode = HttpStatusCode.OK,
+): HttpClient {
+    return HttpClient(MockEngine {
+        val content = responsFilNavn.readFromResource()
+        respond(
+            content = content,
+            headers = headersOf(HttpHeaders.ContentType, APPLICATION_JSON),
+            status = statusCode
+        )
+
+    }) {
+        expectSuccess = false
     }
 }

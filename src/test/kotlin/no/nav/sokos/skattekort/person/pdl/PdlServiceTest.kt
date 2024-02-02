@@ -6,16 +6,10 @@ import io.kotest.matchers.nulls.beNull
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNot
 import io.kotest.matchers.shouldNotBe
-import io.ktor.client.HttpClient
-import io.ktor.client.engine.mock.MockEngine
-import io.ktor.client.engine.mock.respond
-import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpStatusCode
-import io.ktor.http.headersOf
 import java.net.URI
-import no.nav.sokos.skattekort.person.APPLICATION_JSON
 import no.nav.sokos.skattekort.person.config.PropertiesConfig
-import no.nav.sokos.skattekort.person.readFromResource
+import no.nav.sokos.skattekort.person.setupMockEngine
 import org.junit.jupiter.api.assertThrows
 
 private const val pdlUrl = "http://0.0.0.0"
@@ -77,20 +71,3 @@ internal class PdlServiceTest : FunSpec({
     }
 
 })
-
-fun setupMockEngine(
-    responsFilNavn: String,
-    statusCode: HttpStatusCode = HttpStatusCode.OK,
-): HttpClient {
-    return HttpClient(MockEngine {
-        val content = responsFilNavn.readFromResource()
-        respond(
-            content = content,
-            headers = headersOf(HttpHeaders.ContentType, APPLICATION_JSON),
-            status = statusCode
-        )
-
-    }) {
-        expectSuccess = false
-    }
-}
