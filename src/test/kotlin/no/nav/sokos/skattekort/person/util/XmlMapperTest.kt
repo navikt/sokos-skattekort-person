@@ -13,7 +13,7 @@ import no.nav.sokos.skattekort.person.readFromResource
 class XmlMapperTest : FunSpec({
 
     test("test konverting av frikort xml til SkattekortTilArbeidsgiver klasse") {
-        val frikort = "frikort.xml".readFromResource()
+        val frikort = "xml/frikort.xml".readFromResource()
 
         val skattekortTilArbeidsgiver = xmlMapper.readValue(frikort, SkattekortTilArbeidsgiver::class.java)
 
@@ -27,7 +27,7 @@ class XmlMapperTest : FunSpec({
     }
 
     test("test konvertering av trekkprosent xml til SkattekortTilArbeidsgiver klasse") {
-        val trekkprosent = "trekkprosent.xml".readFromResource()
+        val trekkprosent = "xml/trekkprosent.xml".readFromResource()
 
         val skattekortTilArbeidsgiver = xmlMapper.readValue(trekkprosent, SkattekortTilArbeidsgiver::class.java)
 
@@ -43,7 +43,7 @@ class XmlMapperTest : FunSpec({
     }
 
     test("test konvertering av trekktabell xml til SkattekortTilArbeidsgiver klasse") {
-        val trekktabell = "trekktabell.xml".readFromResource()
+        val trekktabell = "xml/trekktabell.xml".readFromResource()
 
         val skattekortTilArbeidsgiver = xmlMapper.readValue(trekktabell, SkattekortTilArbeidsgiver::class.java)
 
@@ -56,7 +56,7 @@ class XmlMapperTest : FunSpec({
     }
 
     test("test konvertering av ikkeSkattekort xml til SkattekortTilArbeidsgiver klasse") {
-        val ikkeSkattekort = "ikkeSkattekort.xml".readFromResource()
+        val ikkeSkattekort = "xml/ikkeSkattekort.xml".readFromResource()
 
         val skattekortTilArbeidsgiver = xmlMapper.readValue(ikkeSkattekort, SkattekortTilArbeidsgiver::class.java)
 
