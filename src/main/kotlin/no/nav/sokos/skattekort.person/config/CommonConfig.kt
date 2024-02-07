@@ -22,7 +22,7 @@ import io.micrometer.core.instrument.binder.system.ProcessorMetrics
 import io.micrometer.core.instrument.binder.system.UptimeMetrics
 import java.util.UUID
 import mu.KotlinLogging
-import no.nav.sokos.skattekort.person.metrics.prometheusMeterRegistry
+import no.nav.sokos.skattekort.person.metrics.Metrics
 import org.slf4j.event.Level
 
 const val SECURE_LOGGER = "secureLogger"
@@ -59,7 +59,7 @@ fun Application.commonConfig() {
         statusPageConfig()
     }
     install(MicrometerMetrics) {
-        registry = prometheusMeterRegistry
+        registry = Metrics.prometheusMeterRegistry
         meterBinders = listOf(
             UptimeMetrics(),
             JvmMemoryMetrics(),

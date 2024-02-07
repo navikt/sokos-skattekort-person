@@ -11,8 +11,7 @@ import no.nav.sokos.skattekort.person.config.commonConfig
 import no.nav.sokos.skattekort.person.config.routingConfig
 import no.nav.sokos.skattekort.person.config.securityConfig
 import no.nav.sokos.skattekort.person.database.OracleDataSource
-import no.nav.sokos.skattekort.person.metrics.appStateReadyFalse
-import no.nav.sokos.skattekort.person.metrics.appStateRunningFalse
+import no.nav.sokos.skattekort.person.metrics.Metrics
 
 fun main() {
     val applicationState = ApplicationState()
@@ -56,10 +55,10 @@ class ApplicationState(
     ready: Boolean = false
 ) {
     var initialized: Boolean by Delegates.observable(alive) { _, _, newValue ->
-        if (!newValue) appStateReadyFalse.inc()
+        if (!newValue) Metrics.appStateReadyFalse.inc()
     }
     var running: Boolean by Delegates.observable(ready) { _, _, newValue ->
-        if (!newValue) appStateRunningFalse.inc()
+        if (!newValue) Metrics.appStateRunningFalse.inc()
     }
 }
 

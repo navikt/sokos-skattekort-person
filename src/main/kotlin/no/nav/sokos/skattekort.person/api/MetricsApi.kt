@@ -7,12 +7,12 @@ import io.ktor.server.routing.Routing
 import io.ktor.server.routing.get
 import io.ktor.server.routing.route
 import io.prometheus.client.exporter.common.TextFormat
-import no.nav.sokos.skattekort.person.metrics.prometheusMeterRegistry
+import no.nav.sokos.skattekort.person.metrics.Metrics
 
 fun Routing.metricsApi() {
     route("metrics") {
         get {
-            call.respondText(ContentType.parse(TextFormat.CONTENT_TYPE_004)) { prometheusMeterRegistry.scrape() }
+            call.respondText(ContentType.parse(TextFormat.CONTENT_TYPE_004)) { Metrics.prometheusMeterRegistry.scrape() }
         }
     }
 }

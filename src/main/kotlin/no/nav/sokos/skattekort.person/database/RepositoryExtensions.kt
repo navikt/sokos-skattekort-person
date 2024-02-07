@@ -5,7 +5,7 @@ import java.sql.PreparedStatement
 import java.sql.ResultSet
 import java.sql.SQLException
 import no.nav.sokos.skattekort.person.database.RepositoryExtensions.Parameter
-import no.nav.sokos.skattekort.person.metrics.databaseFailureCounter
+import no.nav.sokos.skattekort.person.metrics.Metrics
 
 object RepositoryExtensions {
 
@@ -15,7 +15,7 @@ object RepositoryExtensions {
                 return block(this)
             }
         } catch (ex: SQLException) {
-            databaseFailureCounter.labels("${ex.errorCode}", ex.sqlState).inc()
+            Metrics.databaseFailureCounter.labels("${ex.errorCode}", ex.sqlState).inc()
             throw ex
         }
     }
