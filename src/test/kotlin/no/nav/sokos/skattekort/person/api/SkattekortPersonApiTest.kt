@@ -2,6 +2,8 @@ package no.nav.sokos.skattekort.person.api
 
 import com.atlassian.oai.validator.restassured.OpenApiValidationFilter
 import io.kotest.core.spec.style.FunSpec
+import io.kotest.matchers.nulls.shouldBeNull
+import io.kotest.matchers.shouldBe
 import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.Application
@@ -67,6 +69,10 @@ internal class SkattekortPersonApiTest : FunSpec({
             .statusCode(HttpStatusCode.OK.value)
             .extract()
             .response()
+
+        response.jsonPath().getList<String>("navn").first().shouldBe("Test Testesen")
+        response.jsonPath().getList<String>("arbeidsgiver[0].arbeidstaker[0].skattekort.forskuddstrekk[0].type").first()
+            .shouldBe("Frikort")
     }
 
     test("hent skattekort med trekkprosent for gjeldende år") {
@@ -74,8 +80,7 @@ internal class SkattekortPersonApiTest : FunSpec({
         val trekkprosentXml = "xml/trekkprosent.xml".readFromResource()
         val skattekortTilArbeidsgiver =
             xmlMapper.readValue(trekkprosentXml, SkattekortTilArbeidsgiver::class.java)
-        skattekortTilArbeidsgiver.navn = "Test Testesen"
-
+        skattekortTilArbeidsgiver.navn = "Ola Nordmann"
 
         every { skattekortPersonService.hentSkattekortPerson(any(), any()) } returns listOf(
             skattekortTilArbeidsgiver
@@ -94,15 +99,17 @@ internal class SkattekortPersonApiTest : FunSpec({
             .extract()
             .response()
 
+        response.jsonPath().getList<String>("navn").first().shouldBe("Ola Nordmann")
+        response.jsonPath().getList<String>("arbeidsgiver[0].arbeidstaker[0].skattekort.forskuddstrekk[0].type").first()
+            .shouldBe("Trekkprosent")
+
     }
 
     test("hent skattekort med trekktabell for gjeldende år pluss 1") {
 
         val trekktabellXml = "xml/trekktabell.xml".readFromResource()
         val skattekortTilArbeidsgiver = xmlMapper.readValue(trekktabellXml, SkattekortTilArbeidsgiver::class.java)
-        skattekortTilArbeidsgiver.navn = "Test Testesen"
 
-        
         every { skattekortPersonService.hentSkattekortPerson(any(), any()) } returns listOf(
             skattekortTilArbeidsgiver
         )
@@ -120,13 +127,17 @@ internal class SkattekortPersonApiTest : FunSpec({
             .extract()
             .response()
 
+        response.jsonPath().getList<String>("navn").first().shouldBeNull()
+        response.jsonPath().getList<String>("arbeidsgiver[0].arbeidstaker[0].skattekort.forskuddstrekk[0].type").first()
+            .shouldBe("Trekktabell")
+
+
     }
 
     test("hent skattekort med status resultatPaaForespoersel 'ikkeSkattekort'") {
         val ikkeSkattekort = "xml/ikkeSkattekort.xml".readFromResource()
         val skattekortTilArbeidsgiver = xmlMapper.readValue(ikkeSkattekort, SkattekortTilArbeidsgiver::class.java)
-        skattekortTilArbeidsgiver.navn = "Test Testesen"
-        
+
         every { skattekortPersonService.hentSkattekortPerson(any(), any()) } returns listOf(
             skattekortTilArbeidsgiver
         )
@@ -144,8 +155,10 @@ internal class SkattekortPersonApiTest : FunSpec({
             .extract()
             .response()
 
-        //response.jsonPath().getList<SkattekortTilArbeidsgiver>("arbeidsgiver").first().arbeidsgiver.first().arbeidstaker.first().resultatPaaForespoersel shouldBe Resultatstatus.IKKE_SKATTEKORT
+        println(response.prettyPrint())
 
+        response.jsonPath().getList<String>("arbeidsgiver[0].arbeidstaker[0].resultatPaaForespoersel").first()
+            .shouldBe("ikkeSkattekort")
     }
 
     test("hent skattekort med ugyldig fnr") {
