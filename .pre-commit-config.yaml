@@ -12,3 +12,14 @@ repos:
     hooks:
       - id: end-of-file-fixer
       - id: trailing-whitespace
+  - repo: local
+    hooks:
+      - id: gradle-build
+        name: gradle-build
+        entry: ./gradlew build shadowJar --no-build-cache
+        language: script
+        pass_filenames: false
+  - repo: https://github.com/jlleitschuh/ktlint-gradle
+    rev: v12.1.0
+    hooks:
+      - id: ktlint
