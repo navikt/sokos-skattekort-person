@@ -1,5 +1,0 @@
-- id: gradle-build
-  name: gradle-build
-  entry: ./gradlew build shadowJar --no-build-cache
-  language: script
-  pass_filenames: false
