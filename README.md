@@ -127,7 +127,7 @@ Disse dukker opp i `#team-mob-alerts-dev` og `#team-mob-alers-prod` kanalene på
 
 - [Prod-fss](https://sokos-skattekort-person.intern.nav.no/api/v1/docs) (Du må be om tilgang til onprem-k8s-prod i
   naisdevice)
-- [Dev-fss](https://sokos-skattekort-person.dev.intern.nav.no/api/v1/docs)
+- [Dev-fss](https://sokos-skattekort-person.intern.dev.nav.no/api/v1/docs)
 - [Lokalt](http://0.0.0.0:8080/api/v1/docs)
 
 # 8. Henvendelser og tilgang
