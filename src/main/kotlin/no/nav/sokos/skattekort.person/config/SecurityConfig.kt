@@ -17,6 +17,7 @@ import kotlinx.coroutines.runBlocking
 import no.nav.sokos.skattekort.person.config.PropertiesConfig.AzureAdConfig
 import no.nav.sokos.skattekort.person.util.defaultHttpClient
 
+private val logger = mu.KotlinLogging.logger {}
 const val AUTHENTICATION_NAME = "azureAd"
 
 fun Application.securityConfig(

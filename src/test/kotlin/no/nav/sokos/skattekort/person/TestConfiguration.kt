@@ -9,7 +9,6 @@ import io.ktor.http.headersOf
 import io.ktor.server.config.MapApplicationConfig
 import io.ktor.server.routing.routing
 import io.ktor.server.testing.ApplicationTestBuilder
-import no.nav.sokos.skattekort.person.api.metricsApi
 import no.nav.sokos.skattekort.person.api.naisApi
 import no.nav.sokos.skattekort.person.api.swaggerApi
 import no.nav.sokos.skattekort.person.config.commonConfig
@@ -31,7 +30,6 @@ fun ApplicationTestBuilder.configureTestApplication() {
 
         routing {
             naisApi({ applicationState.initialized }, { applicationState.running })
-            metricsApi()
             swaggerApi()
         }
     }

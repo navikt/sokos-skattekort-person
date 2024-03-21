@@ -8,10 +8,11 @@ import io.ktor.http.HttpHeaders
 import java.net.URI
 import kotlinx.coroutines.runBlocking
 import no.nav.sokos.skattekort.person.config.PropertiesConfig
-import no.nav.sokos.skattekort.person.config.logger
-import no.nav.sokos.skattekort.person.config.secureLogger
 import no.nav.sokos.skattekort.person.pdl.hentperson.Person
 import no.nav.sokos.skattekort.person.util.defaultHttpClient
+
+private val logger = mu.KotlinLogging.logger {}
+private val secureLogger = mu.KotlinLogging.logger("secureLogger")
 
 class PdlService(
     private val pdlConfig: PropertiesConfig.PdlConfig = PropertiesConfig.PdlConfig(),

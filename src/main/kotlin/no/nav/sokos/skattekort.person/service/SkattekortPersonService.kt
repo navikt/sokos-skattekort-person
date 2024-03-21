@@ -5,14 +5,15 @@ import no.nav.sokos.skattekort.person.api.model.SkattekortPersonRequest
 import no.nav.sokos.skattekort.person.auditlogg.AuditLogg
 import no.nav.sokos.skattekort.person.auditlogg.AuditLogger
 import no.nav.sokos.skattekort.person.auditlogg.Saksbehandler
-import no.nav.sokos.skattekort.person.config.logger
-import no.nav.sokos.skattekort.person.config.secureLogger
 import no.nav.sokos.skattekort.person.database.OracleDataSource
 import no.nav.sokos.skattekort.person.database.RepositoryExtensions.useAndHandleErrors
 import no.nav.sokos.skattekort.person.database.SkattekortPersonRepository.hentSkattekortPaaFnrOgInntektsAar
 import no.nav.sokos.skattekort.person.domain.SkattekortTilArbeidsgiver
 import no.nav.sokos.skattekort.person.pdl.PdlService
 import no.nav.sokos.skattekort.person.security.getSaksbehandler
+
+private val logger = mu.KotlinLogging.logger {}
+private val secureLogger = mu.KotlinLogging.logger("secureLogger")
 
 class SkattekortPersonService(
     private val oracleDataSource: OracleDataSource = OracleDataSource(),

@@ -9,7 +9,7 @@ import no.nav.sokos.skattekort.person.configureTestApplication
 
 internal class ServerApiTest : FunSpec({
 
-    test("test nais og prometheus responderer med 200 OK") {
+    test("test nais responderer med 200 OK") {
 
         testApplication {
             configureTestApplication()
@@ -20,8 +20,6 @@ internal class ServerApiTest : FunSpec({
             val isReadyResponse = client.get("/internal/isReady")
             isReadyResponse.status shouldBe HttpStatusCode.OK
 
-            val metricsResponse = client.get("/metrics")
-            metricsResponse.status shouldBe HttpStatusCode.OK
         }
     }
 

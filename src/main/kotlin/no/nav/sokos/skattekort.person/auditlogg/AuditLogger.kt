@@ -1,6 +1,8 @@
 package no.nav.sokos.skattekort.person.auditlogg
 
-import no.nav.sokos.skattekort.person.config.auditlogger
+import mu.KotlinLogging
+
+private val auditlogger = KotlinLogging.logger("auditLogger")
 
 class AuditLogger {
     fun auditLog(auditLoggData: AuditLogg) {
