@@ -10,7 +10,7 @@ data class AuditLogg(
     val fnr: String,
 ) {
     val version = "0"
-    val deviceVendor = "Okonomiportalen"
+    val deviceVendor = "Utbetalingsportalen"
     val deviceProduct = "sokos-skattekort-person"
     val deviceVersion = "1.0"
     val deviceEventClassId = "audit:access"
