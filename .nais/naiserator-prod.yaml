@@ -61,13 +61,13 @@ spec:
         mountPath: /var/run/secrets/nais.io/database-user
   env:
     - name: DATABASE_HOST
-      value: a01dbfl037.adeo.no
+      value: dmv20-scan.adeo.no
     - name: DATABASE_PORT
       value: "1521"
     - name: DATABASE_NAME
       value: oseskatt_p
     - name: DATABASE_SCHEMA
-      value: OSESKATT_P
+      value: OSESKATT_P_HA
     - name: USE_AUTHENTICATION
       value: "true"
     - name: PDL_HOST
