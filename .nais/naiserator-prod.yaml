@@ -65,9 +65,9 @@ spec:
     - name: DATABASE_PORT
       value: "1521"
     - name: DATABASE_NAME
-      value: oseskatt_p
+      value: oseskatt_p_ha
     - name: DATABASE_SCHEMA
-      value: OSESKATT_P_HA
+      value: OSESKATT_P
     - name: USE_AUTHENTICATION
       value: "true"
     - name: PDL_HOST
