@@ -53,6 +53,9 @@ spec:
         - application: sokos-utbetalingsportalen
           namespace: okonomi
           cluster: prod-gcp
+        - application: saas-proxy
+          namespace: teamcrm
+          cluster: prod-gcp
   webproxy: true
   vault:
     enabled: true
