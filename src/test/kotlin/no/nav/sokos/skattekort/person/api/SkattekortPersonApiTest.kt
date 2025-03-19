@@ -178,7 +178,6 @@ internal class SkattekortPersonApiTest : FunSpec({
     }
 
     test("hent skattekort med ugyldig inntektsaar") {
-
         RestAssured.given()
             .filter(validationFilter)
             .header(HttpHeaders.ContentType, APPLICATION_JSON)
@@ -189,7 +188,7 @@ internal class SkattekortPersonApiTest : FunSpec({
             .then()
             .assertThat()
             .statusCode(HttpStatusCode.BadRequest.value)
-            .body("message", equalTo("Inntektsåret er ugyldig. Inntektsår må være mellom 2023 til 2025"))
+            .body("message", equalTo("Inntektsåret er ugyldig. Inntektsår må være mellom ${Year.now().minusYears(1)} til ${Year.now().plusYears(1)}"))
 
     }
 
