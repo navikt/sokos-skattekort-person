@@ -5,9 +5,10 @@ import org.gradle.api.tasks.testing.logging.TestLogEvent
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    kotlin("jvm") version "1.9.23"
+    kotlin("jvm") version "2.1.10"
     id("com.github.johnrengelman.shadow") version "8.1.1"
     id("com.expediagroup.graphql") version "7.0.2"
+    id("org.jetbrains.kotlinx.kover") version "0.9.1"
 }
 
 group = "no.nav.sokos"
@@ -18,21 +19,31 @@ repositories {
 }
 
 val ktorVersion = "2.3.9"
-val logbackVersion = "1.5.3"
-val logstashVersion = "7.4"
-val jacksonVersion = "2.17.0"
-val prometheusVersion = "1.12.4"
-val kotlinLoggingVersion = "3.0.5"
-val janionVersion = "3.1.12"
-val natpryceVersion = "1.6.10.0"
-val kotestVersion = "5.8.1"
-val mockkVersion = "1.13.10"
-val restAssuredVersion = "5.4.0"
-val swaggerRequestValidatorVersion = "2.40.0"
-val mockOAuth2ServerVersion = "2.1.2"
-val ojdbc10 = "19.22.0.0"
-val papertrailappVersion = "1.0.0"
 val graphqlClientVersion = "7.0.2"
+
+val jacksonVersion = "2.17.0"
+
+val prometheusVersion = "1.12.4"
+val konfigVersion = "1.6.10.0"
+
+//DB
+val oracleJDBC10 = "19.22.0.0"
+val hikaricpVersion = "6.2.1"
+
+
+//Test
+val kotestVersion = "5.9.1"
+val mockkVersion = "1.13.17"
+val restAssuredVersion = "5.5.1"
+val swaggerRequestValidatorVersion = "2.41.0"
+val mockOAuth2ServerVersion = "2.1.8"
+
+//Logging
+val janinoVersion = "3.1.12"
+val kotlinLoggingVersion = "3.0.5"
+val logbackVersion = "1.5.17"
+val logstashVersion = "8.0"
+val papertrailappVersion = "1.0.0"
 
 
 dependencies {
@@ -68,17 +79,18 @@ dependencies {
 
     // Logging
     implementation("io.github.microutils:kotlin-logging-jvm:$kotlinLoggingVersion")
-    runtimeOnly("org.codehaus.janino:janino:$janionVersion")
+    runtimeOnly("org.codehaus.janino:janino:$janinoVersion")
     runtimeOnly("ch.qos.logback:logback-classic:$logbackVersion")
     runtimeOnly("net.logstash.logback:logstash-logback-encoder:$logstashVersion")
     runtimeOnly("com.papertrailapp:logback-syslog4j:$papertrailappVersion")
 
     // Config
-    implementation("com.natpryce:konfig:$natpryceVersion")
+    implementation("com.natpryce:konfig:$konfigVersion")
 
     // Database
-    implementation("com.zaxxer:HikariCP:5.1.0")
-    implementation("com.oracle.database.jdbc:ojdbc10:$ojdbc10")
+
+    implementation("com.zaxxer:HikariCP:$hikaricpVersion")
+    implementation("com.oracle.database.jdbc:ojdbc10:$oracleJDBC10")
 
     // Test
     testImplementation("io.kotest:kotest-assertions-core-jvm:$kotestVersion")
