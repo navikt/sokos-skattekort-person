@@ -18,7 +18,7 @@ repositories {
     maven { url = uri("https://maven.pkg.jetbrains.space/public/p/ktor/eap") }
 }
 
-val ktorVersion = "2.3.9"
+val ktorVersion = "3.1.1"
 val graphqlClientVersion = "7.0.2"
 
 val jacksonVersion = "2.17.0"
@@ -33,6 +33,7 @@ val hikaricpVersion = "6.2.1"
 
 //Test
 val kotestVersion = "5.9.1"
+val ktorTestVersion = "3.0.0"
 val mockkVersion = "1.13.17"
 val restAssuredVersion = "5.5.1"
 val swaggerRequestValidatorVersion = "2.41.0"
@@ -96,7 +97,7 @@ dependencies {
     testImplementation("io.kotest:kotest-assertions-core-jvm:$kotestVersion")
     testImplementation("io.kotest:kotest-runner-junit5:$kotestVersion")
     testImplementation("io.ktor:ktor-server-test-host-jvm:$ktorVersion")
-    testImplementation("io.ktor:ktor-client-tests:$ktorVersion")
+    testImplementation("io.ktor:ktor-client-tests:$ktorTestVersion")
     testImplementation("io.mockk:mockk:$mockkVersion")
     testImplementation("io.rest-assured:rest-assured:$restAssuredVersion")
     testImplementation("com.atlassian.oai:swagger-request-validator-restassured:$swaggerRequestValidatorVersion")

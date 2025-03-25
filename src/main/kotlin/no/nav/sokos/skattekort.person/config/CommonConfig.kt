@@ -5,28 +5,30 @@ import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.SerializationFeature
 import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
+import io.ktor.http.HttpStatusCode
 import io.ktor.serialization.jackson.jackson
 import io.ktor.server.application.Application
-import io.ktor.server.application.call
+import io.ktor.server.application.ApplicationCall
 import io.ktor.server.application.install
 import io.ktor.server.metrics.micrometer.MicrometerMetrics
 import io.ktor.server.plugins.callid.CallId
 import io.ktor.server.plugins.callid.callIdMdc
-import io.ktor.server.plugins.callloging.CallLogging
+import io.ktor.server.plugins.calllogging.CallLogging
 import io.ktor.server.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.server.plugins.requestvalidation.RequestValidation
 import io.ktor.server.plugins.statuspages.StatusPages
 import io.ktor.server.request.path
 import io.ktor.server.response.respondText
+import io.ktor.server.routing.Routing
 import io.ktor.server.routing.get
 import io.ktor.server.routing.route
-import io.ktor.server.routing.routing
 import io.micrometer.core.instrument.binder.jvm.JvmGcMetrics
 import io.micrometer.core.instrument.binder.jvm.JvmMemoryMetrics
 import io.micrometer.core.instrument.binder.jvm.JvmThreadMetrics
 import io.micrometer.core.instrument.binder.system.ProcessorMetrics
 import io.micrometer.core.instrument.binder.system.UptimeMetrics
 import io.prometheus.client.exporter.common.TextFormat
+import no.nav.sokos.skattekort.person.ApplicationState
 import java.util.UUID
 import no.nav.sokos.skattekort.person.metrics.Metrics
 import org.slf4j.event.Level
@@ -67,11 +69,31 @@ fun Application.commonConfig() {
             ProcessorMetrics()
         )
     }
-    routing {
-        route("internal") {
-            get("metrics") {
-                call.respondText(ContentType.parse(TextFormat.CONTENT_TYPE_004)) { Metrics.prometheusMeterRegistry.scrape() }
-            }
+
+}
+
+fun Routing.internalRoutes(
+    applicationState: ApplicationState,
+    readinessCheck: () -> Boolean = { applicationState.ready },
+    alivenessCheck: () -> Boolean = { applicationState.alive },
+){
+    route("internal") {
+        get("isAlive") {
+            healthCheckResponse(alivenessCheck(), call, "I'm alive :)", "I'm dead x_x")
+        }
+        get("isReady") {
+            healthCheckResponse(readinessCheck(), call, "I'm ready! :)", "Wait! I'm not ready yet! :O")
+        }
+        get("metrics") {
+            call.respondText(ContentType.parse(TextFormat.CONTENT_TYPE_004)) { Metrics.prometheusMeterRegistry.scrape() }
         }
     }
 }
+
+private val healthCheckResponse: suspend (Boolean, ApplicationCall, String, String) -> Unit =
+    { isHealthy, call, successMessage, failureMessage ->
+        when (isHealthy) {
+            true -> call.respondText { successMessage }
+            else -> call.respondText(failureMessage, status = HttpStatusCode.InternalServerError)
+        }
+    }

@@ -7,6 +7,7 @@ import io.kotest.matchers.shouldBe
 import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.Application
+import io.ktor.server.engine.EmbeddedServer
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
 import io.ktor.server.netty.NettyApplicationEngine
@@ -30,7 +31,7 @@ import org.hamcrest.Matchers.equalTo
 
 internal const val PORT = 9090
 
-lateinit var server: NettyApplicationEngine
+lateinit var  server: EmbeddedServer<NettyApplicationEngine, NettyApplicationEngine.Configuration>
 
 val validationFilter = OpenApiValidationFilter("openapi/sokos-skattekort-person-v1-swagger.yaml")
 val skattekortPersonService: SkattekortPersonService = mockk()

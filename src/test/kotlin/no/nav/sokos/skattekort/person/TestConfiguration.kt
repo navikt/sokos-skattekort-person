@@ -9,9 +9,9 @@ import io.ktor.http.headersOf
 import io.ktor.server.config.MapApplicationConfig
 import io.ktor.server.routing.routing
 import io.ktor.server.testing.ApplicationTestBuilder
-import no.nav.sokos.skattekort.person.api.naisApi
 import no.nav.sokos.skattekort.person.api.swaggerApi
 import no.nav.sokos.skattekort.person.config.commonConfig
+import no.nav.sokos.skattekort.person.config.internalRoutes
 
 internal const val API_SKATTEKORT_PATH = "/api/v1/hent-skattekort"
 internal const val APPLICATION_JSON = "application/json"
@@ -29,7 +29,7 @@ fun ApplicationTestBuilder.configureTestApplication() {
         val applicationState = ApplicationState(ready = true)
 
         routing {
-            naisApi({ applicationState.initialized }, { applicationState.running })
+            internalRoutes(applicationState)
             swaggerApi()
         }
     }
