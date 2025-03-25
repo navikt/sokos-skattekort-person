@@ -1,5 +1,7 @@
 package no.nav.sokos.skattekort.person.config
 
+import java.util.UUID
+
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.SerializationFeature
@@ -28,10 +30,10 @@ import io.micrometer.core.instrument.binder.jvm.JvmThreadMetrics
 import io.micrometer.core.instrument.binder.system.ProcessorMetrics
 import io.micrometer.core.instrument.binder.system.UptimeMetrics
 import io.prometheus.client.exporter.common.TextFormat
-import no.nav.sokos.skattekort.person.ApplicationState
-import java.util.UUID
-import no.nav.sokos.skattekort.person.metrics.Metrics
 import org.slf4j.event.Level
+
+import no.nav.sokos.skattekort.person.ApplicationState
+import no.nav.sokos.skattekort.person.metrics.Metrics
 
 fun Application.commonConfig() {
     install(CallId) {
@@ -61,22 +63,22 @@ fun Application.commonConfig() {
     }
     install(MicrometerMetrics) {
         registry = Metrics.prometheusMeterRegistry
-        meterBinders = listOf(
-            UptimeMetrics(),
-            JvmMemoryMetrics(),
-            JvmGcMetrics(),
-            JvmThreadMetrics(),
-            ProcessorMetrics()
-        )
+        meterBinders =
+            listOf(
+                UptimeMetrics(),
+                JvmMemoryMetrics(),
+                JvmGcMetrics(),
+                JvmThreadMetrics(),
+                ProcessorMetrics(),
+            )
     }
-
 }
 
 fun Routing.internalRoutes(
     applicationState: ApplicationState,
     readinessCheck: () -> Boolean = { applicationState.ready },
     alivenessCheck: () -> Boolean = { applicationState.alive },
-){
+) {
     route("internal") {
         get("isAlive") {
             healthCheckResponse(alivenessCheck(), call, "I'm alive :)", "I'm dead x_x")

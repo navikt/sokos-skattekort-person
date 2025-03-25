@@ -5,5 +5,5 @@ import java.time.LocalDate
 data class Skattekort(
     val utstedtDato: LocalDate,
     val skattekortidentifikator: Long,
-    val forskuddstrekk: List<Forskuddstrekk>? = null
+    val forskuddstrekk: List<Forskuddstrekk>? = null,
 )

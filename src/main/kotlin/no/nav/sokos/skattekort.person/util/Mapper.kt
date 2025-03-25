@@ -11,9 +11,11 @@ import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 
 val jsonMapper: ObjectMapper = jacksonObjectMapper().apply { customConfig() }
 
-val xmlMapper: ObjectMapper = XmlMapper(
-    JacksonXmlModule()
-        .apply { setDefaultUseWrapper(false) })
-    .registerKotlinModule()
-    .apply { JsonMapper.builder().enable(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES) }
-    .registerModule(JavaTimeModule())
+val xmlMapper: ObjectMapper =
+    XmlMapper(
+        JacksonXmlModule()
+            .apply { setDefaultUseWrapper(false) },
+    )
+        .registerKotlinModule()
+        .apply { JsonMapper.builder().enable(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES) }
+        .registerModule(JavaTimeModule())

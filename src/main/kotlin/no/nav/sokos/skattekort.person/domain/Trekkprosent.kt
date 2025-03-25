@@ -5,5 +5,5 @@ import java.math.BigDecimal
 data class Trekkprosent(
     override val trekkode: Trekkode,
     val prosentsats: BigDecimal? = null,
-    var antallMaanederForTrekk: BigDecimal? = null
+    var antallMaanederForTrekk: BigDecimal? = null,
 ) : Forskuddstrekk

@@ -1,6 +1,7 @@
 package no.nav.sokos.skattekort.person.service
 
 import io.ktor.server.application.ApplicationCall
+
 import no.nav.sokos.skattekort.person.api.model.SkattekortPersonRequest
 import no.nav.sokos.skattekort.person.auditlogg.AuditLogg
 import no.nav.sokos.skattekort.person.auditlogg.AuditLogger
@@ -20,7 +21,6 @@ class SkattekortPersonService(
     private val auditLogger: AuditLogger = AuditLogger(),
     private val pdlService: PdlService = PdlService(),
 ) {
-
     fun hentSkattekortPerson(
         skattekortPersonRequest: SkattekortPersonRequest,
         applicationCall: ApplicationCall,
@@ -31,9 +31,10 @@ class SkattekortPersonService(
         auditLogger.auditLog(AuditLogg(saksbehandler = saksbehandler.ident, fnr = skattekortPersonRequest.fnr))
 
         val navn = hentNavnFraPdl(skattekortPersonRequest.fnr)
-        val skattekort = oracleDataSource.connection.useAndHandleErrors { connection ->
-            connection.hentSkattekortPaaFnrOgInntektsAar(skattekortPersonRequest)
-        }
+        val skattekort =
+            oracleDataSource.connection.useAndHandleErrors { connection ->
+                connection.hentSkattekortPaaFnrOgInntektsAar(skattekortPersonRequest)
+            }
 
         if (navn.isBlank() && skattekort.isEmpty()) {
             logger.info("Fant ikke skattekort for person")
@@ -44,8 +45,8 @@ class SkattekortPersonService(
         return listOf(
             SkattekortTilArbeidsgiver(
                 navn = navn,
-                arbeidsgiver = skattekort.firstOrNull()?.arbeidsgiver ?: emptyList()
-            )
+                arbeidsgiver = skattekort.firstOrNull()?.arbeidsgiver ?: emptyList(),
+            ),
         )
     }
 

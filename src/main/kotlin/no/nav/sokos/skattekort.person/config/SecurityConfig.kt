@@ -1,5 +1,10 @@
 package no.nav.sokos.skattekort.person.config
 
+import java.net.URI
+import java.util.concurrent.TimeUnit
+
+import kotlinx.coroutines.runBlocking
+
 import com.auth0.jwk.JwkProvider
 import com.auth0.jwk.JwkProviderBuilder
 import com.fasterxml.jackson.annotation.JsonProperty
@@ -11,9 +16,7 @@ import io.ktor.server.application.Application
 import io.ktor.server.auth.authentication
 import io.ktor.server.auth.jwt.JWTPrincipal
 import io.ktor.server.auth.jwt.jwt
-import java.net.URI
-import java.util.concurrent.TimeUnit
-import kotlinx.coroutines.runBlocking
+
 import no.nav.sokos.skattekort.person.config.PropertiesConfig.AzureAdConfig
 import no.nav.sokos.skattekort.person.util.defaultHttpClient
 
@@ -22,7 +25,7 @@ const val AUTHENTICATION_NAME = "azureAd"
 
 fun Application.securityConfig(
     azureAdConfig: AzureAdConfig,
-    useAuthentication: Boolean = true
+    useAuthentication: Boolean = true,
 ) {
     logger.info("Use authentication: $useAuthentication")
     if (useAuthentication) {
@@ -34,7 +37,7 @@ fun Application.securityConfig(
                 realm = PropertiesConfig.Configuration().naisAppName
                 verifier(
                     jwkProvider = jwkProvider,
-                    issuer = openIdMetadata.issuer
+                    issuer = openIdMetadata.issuer,
                 )
                 validate { credential ->
                     try {
@@ -68,7 +71,7 @@ private fun cachedJwkProvider(jwksUri: String): JwkProvider {
         .rateLimited(
             10,
             1,
-            TimeUnit.MINUTES
+            TimeUnit.MINUTES,
         ) // if not cached, only allow max 10 different keys per minute to be fetched from external provider
         .build()
 }

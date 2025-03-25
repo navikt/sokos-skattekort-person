@@ -5,6 +5,7 @@ import io.kotest.matchers.shouldBe
 import io.ktor.client.request.get
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.testing.testApplication
+
 import no.nav.sokos.skattekort.person.configureTestApplication
 
 internal class SwaggerApiTest : FunSpec({

@@ -7,5 +7,5 @@ data class Trekktabell(
     val tabelltype: Tabelltype? = null,
     val tabellnummer: String? = null,
     val prosentsats: BigDecimal? = null,
-    val antallMaanederForTrekk: BigDecimal? = null
+    val antallMaanederForTrekk: BigDecimal? = null,
 ) : Forskuddstrekk
