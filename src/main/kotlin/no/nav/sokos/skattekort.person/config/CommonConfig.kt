@@ -36,6 +36,7 @@ import no.nav.sokos.skattekort.person.metrics.Metrics
 import org.slf4j.event.Level
 import java.util.UUID
 
+const val SECURE_LOGGER = "secureLogger"
 const val X_KALLENDE_SYSTEM = "x-kallende-system"
 private val appLogger = KotlinLogging.logger {}
 
