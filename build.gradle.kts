@@ -204,18 +204,19 @@ tasks {
     register<Copy>("copyPreCommitHook") {
         from(".scripts/pre-commit")
         into(".git/hooks")
+        filePermissions {
+            user {
+                execute = true
+            }
+        }
         doFirst {
             println("Installing git hooks...")
+        }
+        doLast {
+            println("Git hooks installed successfully.")
         }
         description = "Copy pre-commit hook to .git/hooks"
         group = "git hooks"
         outputs.upToDateWhen { false }
-    }
-    register<Exec>("setPreCommitHookExecutable") {
-        dependsOn("copyPreCommitHook")
-        commandLine("chmod", "+x", ".git/hooks/pre-commit")
-        doLast {
-            println("Git hooks installed successfully.")
-        }
     }
 }
