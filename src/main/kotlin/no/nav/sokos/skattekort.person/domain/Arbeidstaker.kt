@@ -5,5 +5,5 @@ data class Arbeidstaker(
     val arbeidstakeridentifikator: String,
     val resultatPaaForespoersel: Resultatstatus,
     val skattekort: Skattekort? = null,
-    val tilleggsopplysning: List<Tilleggsopplysning>? = null
+    val tilleggsopplysning: List<Tilleggsopplysning>? = null,
 )

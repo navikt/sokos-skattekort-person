@@ -1,8 +1,9 @@
 package no.nav.sokos.skattekort.person.util
 
+import java.time.Year
+
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
-import java.time.Year
 
 internal class InputValidatorTest : FunSpec({
 
@@ -50,5 +51,4 @@ internal class InputValidatorTest : FunSpec({
         val result = validYear(Year.now().plusYears(2).toString())
         result shouldBe false
     }
-
 })

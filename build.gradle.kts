@@ -1,3 +1,6 @@
+import kotlinx.kover.gradle.plugin.dsl.tasks.KoverReport
+
+import com.expediagroup.graphql.plugin.gradle.config.GraphQLSerializer
 import com.expediagroup.graphql.plugin.gradle.tasks.GraphQLGenerateClientTask
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
@@ -5,9 +8,11 @@ import org.gradle.api.tasks.testing.logging.TestLogEvent
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    kotlin("jvm") version "1.9.23"
+    kotlin("jvm") version "2.1.10"
     id("com.github.johnrengelman.shadow") version "8.1.1"
     id("com.expediagroup.graphql") version "7.0.2"
+    id("org.jlleitschuh.gradle.ktlint") version "12.2.0"
+    id("org.jetbrains.kotlinx.kover") version "0.9.1"
 }
 
 group = "no.nav.sokos"
@@ -17,23 +22,32 @@ repositories {
     maven { url = uri("https://maven.pkg.jetbrains.space/public/p/ktor/eap") }
 }
 
-val ktorVersion = "2.3.9"
-val logbackVersion = "1.5.3"
-val logstashVersion = "7.4"
-val jacksonVersion = "2.17.0"
-val prometheusVersion = "1.12.4"
-val kotlinLoggingVersion = "3.0.5"
-val janionVersion = "3.1.12"
-val natpryceVersion = "1.6.10.0"
-val kotestVersion = "5.8.1"
-val mockkVersion = "1.13.10"
-val restAssuredVersion = "5.4.0"
-val swaggerRequestValidatorVersion = "2.40.0"
-val mockOAuth2ServerVersion = "2.1.2"
-val ojdbc10 = "19.22.0.0"
-val papertrailappVersion = "1.0.0"
+val ktorVersion = "3.1.1"
 val graphqlClientVersion = "7.0.2"
 
+val jacksonVersion = "2.17.0"
+
+val prometheusVersion = "1.12.4"
+val konfigVersion = "1.6.10.0"
+
+// DB
+val oracleJDBC10 = "19.22.0.0"
+val hikaricpVersion = "6.2.1"
+
+// Test
+val kotestVersion = "5.9.1"
+val ktorTestVersion = "3.0.0"
+val mockkVersion = "1.13.17"
+val restAssuredVersion = "5.5.1"
+val swaggerRequestValidatorVersion = "2.41.0"
+val mockOAuth2ServerVersion = "2.1.8"
+
+// Logging
+val janinoVersion = "3.1.12"
+val kotlinLoggingVersion = "3.0.5"
+val logbackVersion = "1.5.17"
+val logstashVersion = "8.0"
+val papertrailappVersion = "1.0.0"
 
 dependencies {
 
@@ -49,7 +63,6 @@ dependencies {
     // Ktor client
     implementation("io.ktor:ktor-client-content-negotiation:$ktorVersion")
     implementation("io.ktor:ktor-client-apache-jvm:$ktorVersion")
-
 
     // Security
     implementation("io.ktor:ktor-server-auth-jvm:$ktorVersion")
@@ -68,23 +81,24 @@ dependencies {
 
     // Logging
     implementation("io.github.microutils:kotlin-logging-jvm:$kotlinLoggingVersion")
-    runtimeOnly("org.codehaus.janino:janino:$janionVersion")
+    runtimeOnly("org.codehaus.janino:janino:$janinoVersion")
     runtimeOnly("ch.qos.logback:logback-classic:$logbackVersion")
     runtimeOnly("net.logstash.logback:logstash-logback-encoder:$logstashVersion")
     runtimeOnly("com.papertrailapp:logback-syslog4j:$papertrailappVersion")
 
     // Config
-    implementation("com.natpryce:konfig:$natpryceVersion")
+    implementation("com.natpryce:konfig:$konfigVersion")
 
     // Database
-    implementation("com.zaxxer:HikariCP:5.1.0")
-    implementation("com.oracle.database.jdbc:ojdbc10:$ojdbc10")
+
+    implementation("com.zaxxer:HikariCP:$hikaricpVersion")
+    implementation("com.oracle.database.jdbc:ojdbc10:$oracleJDBC10")
 
     // Test
     testImplementation("io.kotest:kotest-assertions-core-jvm:$kotestVersion")
     testImplementation("io.kotest:kotest-runner-junit5:$kotestVersion")
     testImplementation("io.ktor:ktor-server-test-host-jvm:$ktorVersion")
-    testImplementation("io.ktor:ktor-client-tests:$ktorVersion")
+    testImplementation("io.ktor:ktor-client-tests:$ktorTestVersion")
     testImplementation("io.mockk:mockk:$mockkVersion")
     testImplementation("io.rest-assured:rest-assured:$restAssuredVersion")
     testImplementation("com.atlassian.oai:swagger-request-validator-restassured:$swaggerRequestValidatorVersion")
@@ -95,7 +109,11 @@ dependencies {
         exclude("com.expediagroup", "graphql-kotlin-client-serialization")
     }
     runtimeOnly("com.expediagroup:graphql-kotlin-client-jackson:$graphqlClientVersion")
+}
 
+// Vulnerability fix because of id("org.jlleitschuh.gradle.ktlint") version "12.1.2"
+configurations.ktlint {
+    resolutionStrategy.force("ch.qos.logback:logback-classic:$logbackVersion")
 }
 
 sourceSets {
@@ -114,7 +132,15 @@ kotlin {
 
 tasks {
 
+    named("runKtlintCheckOverMainSourceSet").configure {
+        dependsOn("graphqlGenerateClient")
+    }
+
+    named("runKtlintFormatOverMainSourceSet") {
+        dependsOn("graphqlGenerateClient")
+    }
     withType<KotlinCompile>().configureEach {
+        dependsOn("ktlintFormat")
         dependsOn("graphqlGenerateClient")
     }
 
@@ -123,6 +149,20 @@ tasks {
         archiveFileName.set("app.jar")
         manifest {
             attributes["Main-Class"] = "no.nav.sokos.skattekort.person.ApplicationKt"
+        }
+        finalizedBy(koverHtmlReport)
+    }
+
+    withType<KoverReport>().configureEach {
+        kover {
+            reports {
+                filters {
+                    excludes {
+                        // exclusion rules - classes to exclude from report
+                        classes("no.nav.pdl.*")
+                    }
+                }
+            }
         }
     }
 
@@ -143,7 +183,7 @@ tasks {
         reports.forEach { report -> report.required.value(false) }
     }
 
-    withType<Wrapper>() {
+    withType<Wrapper> {
         gradleVersion = "8.4"
     }
 
@@ -151,5 +191,28 @@ tasks {
         packageName = "no.nav.sokos.skattekort.person.pdl"
         schemaFile = file("$projectDir/src/main/resources/pdl/schema.graphql")
         queryFileDirectory.set(file("$projectDir/src/main/resources/pdl"))
+        serializer = GraphQLSerializer.KOTLINX
+    }
+
+    ("build") {
+        dependsOn("copyPreCommitHook")
+    }
+
+    register<Copy>("copyPreCommitHook") {
+        from(".scripts/pre-commit")
+        into(".git/hooks")
+        doFirst {
+            println("Installing git hooks...")
+        }
+        description = "Copy pre-commit hook to .git/hooks"
+        group = "git hooks"
+        outputs.upToDateWhen { false }
+    }
+    register<Exec>("setPreCommitHookExecutable") {
+        dependsOn("copyPreCommitHook")
+        commandLine("chmod", "+x", ".git/hooks/pre-commit")
+        doLast {
+            println("Git hooks installed successfully.")
+        }
     }
 }

@@ -4,6 +4,7 @@ import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldContain
 import io.kotest.matchers.types.shouldBeInstanceOf
+
 import no.nav.sokos.skattekort.person.domain.Frikort
 import no.nav.sokos.skattekort.person.domain.SkattekortTilArbeidsgiver
 import no.nav.sokos.skattekort.person.domain.Trekkprosent
@@ -22,8 +23,6 @@ class XmlMapperTest : FunSpec({
 
         forskuddstrekk!!.first().shouldBeInstanceOf<Frikort>()
         forskuddstrekk.size.shouldBe(3)
-
-
     }
 
     test("test konvertering av trekkprosent xml til SkattekortTilArbeidsgiver klasse") {
@@ -39,7 +38,6 @@ class XmlMapperTest : FunSpec({
 
         skattekortTilArbeidsgiver.arbeidsgiver.first().arbeidstaker.first().tilleggsopplysning!!.first().value
             .shouldContain("kildeskattPaaLoenn")
-
     }
 
     test("test konvertering av trekktabell xml til SkattekortTilArbeidsgiver klasse") {
@@ -52,7 +50,6 @@ class XmlMapperTest : FunSpec({
 
         forskuddstrekk!!.first().shouldBeInstanceOf<Trekktabell>()
         forskuddstrekk.size.shouldBe(6)
-
     }
 
     test("test konvertering av ikkeSkattekort xml til SkattekortTilArbeidsgiver klasse") {
@@ -65,5 +62,4 @@ class XmlMapperTest : FunSpec({
 
         ingenSkattekort shouldBe null
     }
-
 })
