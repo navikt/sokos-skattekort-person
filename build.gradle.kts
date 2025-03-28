@@ -184,7 +184,7 @@ tasks {
     }
 
     withType<Wrapper> {
-        gradleVersion = "8.4"
+        gradleVersion = "8.13"
     }
 
     withType<GraphQLGenerateClientTask>().configureEach {
