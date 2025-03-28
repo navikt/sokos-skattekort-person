@@ -67,7 +67,7 @@ spec:
     - secret: sokos-skattekort-person-oseskatt-q1-credentials
   env:
     - name: USE_AUTHENTICATION
-    - value: "true"
+      value: "true"
 
     # Oracle OS-eskatt
     - name: DATABASE_HOST
