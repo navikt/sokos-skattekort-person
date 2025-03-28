@@ -9,14 +9,14 @@ data class AuditLogg(
     val saksbehandler: String,
     val fnr: String,
 ) {
-    val version = "0"
-    val deviceVendor = "Utbetalingsportalen"
-    val deviceProduct = "sokos-skattekort-person"
-    val deviceVersion = "1.0"
-    val deviceEventClassId = "audit:access"
-    val name = "sokos-skattekort-person"
-    val severity = "INFO"
-    val brukerhandling = "NAV-ansatt har søkt etter skattekort for bruker"
+    private val version = "0"
+    private val deviceVendor = "Utbetalingsportalen"
+    private val deviceProduct = "sokos-skattekort-person"
+    private val deviceVersion = "1.0"
+    private val deviceEventClassId = "audit:access"
+    private val name = "sokos-skattekort-person"
+    private val severity = "INFO"
+    private val brukerhandling = "NAV-ansatt har søkt etter skattekort for bruker"
 
     fun logMessage(): String {
         val extension = "suid=$saksbehandler duid=$fnr end=${System.currentTimeMillis()} msg=$brukerhandling"
