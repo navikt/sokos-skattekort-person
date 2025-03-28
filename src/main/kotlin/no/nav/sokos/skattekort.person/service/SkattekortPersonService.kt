@@ -1,8 +1,8 @@
 package no.nav.sokos.skattekort.person.service
 
 import io.ktor.server.application.ApplicationCall
-
 import mu.KotlinLogging
+
 import no.nav.sokos.skattekort.person.api.model.SkattekortPersonRequest
 import no.nav.sokos.skattekort.person.auditlogg.AuditLogg
 import no.nav.sokos.skattekort.person.auditlogg.AuditLogger
