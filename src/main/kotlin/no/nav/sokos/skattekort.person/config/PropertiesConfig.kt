@@ -20,18 +20,12 @@ object PropertiesConfig {
     private val localDevProperties =
         ConfigurationMap(
             mapOf(
-                "USE_AUTHENTICATION" to "true",
                 "APPLICATION_PROFILE" to Profile.LOCAL.toString(),
-                "DATABASE_HOST" to "databaseHost",
-                "DATABASE_PORT" to "databasePort",
-                "DATABASE_NAME" to "databaseName",
-                "DATABASE_SCHEMA" to "databaseSchema",
-                "DATABASE_USERNAME" to "databaseUsername",
-                "DATABASE_PASSWORD" to "databasePassword",
-                "AZURE_APP_CLIENT_ID" to "azure-app-client-id",
-                "AZURE_APP_WELL_KNOWN_URL" to "azure-app-well-known-url",
-                "PDL_HOST" to "pdlHost",
-                "PDL_SCOPE" to "pdlScope",
+                "USE_AUTHENTICATION" to "false",
+                "DATABASE_HOST" to "10.51.9.59",
+                "DATABASE_PORT" to "1521",
+                "DATABASE_NAME" to "oseskatt_u4",
+                "DATABASE_SCHEMA" to "oseskatt_u4",
             ),
         )
     private val devProperties = ConfigurationMap(mapOf("APPLICATION_PROFILE" to Profile.DEV.toString()))
@@ -54,42 +48,36 @@ object PropertiesConfig {
 
     private operator fun get(key: String): String = config[Key(key, stringType)]
 
+    fun getOrEmpty(key: String): String = config.getOrElse(Key(key, stringType), "")
+
     data class Configuration(
         val naisAppName: String = get("NAIS_APP_NAME"),
         val profile: Profile = Profile.valueOf(this["APPLICATION_PROFILE"]),
         val useAuthentication: Boolean = get("USE_AUTHENTICATION").toBoolean(),
-        val azureAdConfig: AzureAdConfig = AzureAdConfig(),
-        val databaseConfig: OseskattDatabaseConfig = OseskattDatabaseConfig(),
+        val azureAdProperties: AzureAdProperties = AzureAdProperties(),
     )
 
-    data class AzureAdConfig(
-        val clientId: String = this["AZURE_APP_CLIENT_ID"],
-        val wellKnownUrl: String = this["AZURE_APP_WELL_KNOWN_URL"],
+    data class AzureAdProperties(
+        val clientId: String = getOrEmpty("AZURE_APP_CLIENT_ID"),
+        val wellKnownUrl: String = getOrEmpty("AZURE_APP_WELL_KNOWN_URL"),
+        val tenantId: String = getOrEmpty("AZURE_APP_TENANT_ID"),
+        val clientSecret: String = getOrEmpty("AZURE_APP_CLIENT_SECRET"),
     )
 
-    data class OseskattDatabaseConfig(
-        val host: String = get("DATABASE_HOST"),
-        val port: String = get("DATABASE_PORT"),
-        val name: String = get("DATABASE_NAME"),
-        val schema: String = get("DATABASE_SCHEMA"),
-        val username: String = get("DATABASE_USERNAME"),
-        val password: String = get("DATABASE_PASSWORD"),
-        val jdbcDriver: String = "oracle.jdbc.OracleDriver",
-        val poolName: String = "HikariPool-OSESKATT",
+    data class OseskattDatabaseProperties(
+        val host: String = getOrEmpty("DATABASE_HOST"),
+        val port: String = getOrEmpty("DATABASE_PORT"),
+        val name: String = getOrEmpty("DATABASE_NAME"),
+        val schema: String = getOrEmpty("DATABASE_SCHEMA"),
+        val username: String = getOrEmpty("DATABASE_USERNAME"),
+        val password: String = getOrEmpty("DATABASE_PASSWORD"),
     ) {
         val jdbcUrl: String = "jdbc:oracle:thin:@$host:$port/$name"
     }
 
-    data class AzureAdClientConfig(
-        val clientId: String = get("AZURE_APP_CLIENT_ID"),
-        val wellKnownUrl: String = get("AZURE_APP_WELL_KNOWN_URL"),
-        val tenantId: String = get("AZURE_APP_TENANT_ID"),
-        val clientSecret: String = get("AZURE_APP_CLIENT_SECRET"),
-    )
-
-    data class PdlConfig(
-        val pdlHost: String = get("PDL_HOST"),
-        val pdlScope: String = get("PDL_SCOPE"),
+    data class PdlProperties(
+        val pdlUrl: String = getOrEmpty("PDL_URL"),
+        val pdlScope: String = getOrEmpty("PDL_SCOPE"),
     )
 
     enum class Profile {

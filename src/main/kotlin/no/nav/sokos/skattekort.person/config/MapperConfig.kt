@@ -1,4 +1,4 @@
-package no.nav.sokos.skattekort.person.util
+package no.nav.sokos.skattekort.person.config
 
 import com.fasterxml.jackson.databind.MapperFeature
 import com.fasterxml.jackson.databind.ObjectMapper

@@ -33,6 +33,7 @@ val konfigVersion = "1.6.10.0"
 // DB
 val oracleJDBC10 = "19.22.0.0"
 val hikaricpVersion = "6.2.1"
+val kotliqueryVersion = "1.9.1"
 
 // Test
 val kotestVersion = "5.9.1"
@@ -41,6 +42,7 @@ val mockkVersion = "1.13.17"
 val restAssuredVersion = "5.5.1"
 val swaggerRequestValidatorVersion = "2.41.0"
 val mockOAuth2ServerVersion = "2.1.8"
+val wiremockVersion = "3.12.1"
 
 // Logging
 val janinoVersion = "3.1.12"
@@ -90,9 +92,9 @@ dependencies {
     implementation("com.natpryce:konfig:$konfigVersion")
 
     // Database
-
     implementation("com.zaxxer:HikariCP:$hikaricpVersion")
     implementation("com.oracle.database.jdbc:ojdbc10:$oracleJDBC10")
+    implementation("com.github.seratch:kotliquery:$kotliqueryVersion")
 
     // Test
     testImplementation("io.kotest:kotest-assertions-core-jvm:$kotestVersion")
@@ -103,6 +105,7 @@ dependencies {
     testImplementation("io.rest-assured:rest-assured:$restAssuredVersion")
     testImplementation("com.atlassian.oai:swagger-request-validator-restassured:$swaggerRequestValidatorVersion")
     testImplementation("no.nav.security:mock-oauth2-server:$mockOAuth2ServerVersion")
+    testImplementation("org.wiremock:wiremock:$wiremockVersion")
 
     // GraphQL
     implementation("com.expediagroup:graphql-kotlin-ktor-client:$graphqlClientVersion") {

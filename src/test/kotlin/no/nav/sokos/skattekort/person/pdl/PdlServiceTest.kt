@@ -1,77 +1,94 @@
 package no.nav.sokos.skattekort.person.pdl
 
-import java.net.URI
-
-import com.expediagroup.graphql.client.ktor.GraphQLKtorClient
+import com.github.tomakehurst.wiremock.client.WireMock
+import com.github.tomakehurst.wiremock.client.WireMock.aResponse
+import com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.nulls.beNull
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNot
 import io.kotest.matchers.shouldNotBe
+import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpStatusCode
 import org.junit.jupiter.api.assertThrows
 
-import no.nav.sokos.skattekort.person.config.PropertiesConfig
-import no.nav.sokos.skattekort.person.setupMockEngine
+import no.nav.sokos.skattekort.person.APPLICATION_JSON
+import no.nav.sokos.skattekort.person.listener.WiremockListener
+import no.nav.sokos.skattekort.person.listener.WiremockListener.wiremock
+import no.nav.sokos.skattekort.person.readFromResource
 
-private const val PDL_URL = "http://0.0.0.0"
+internal class PdlServiceTest : FunSpec({
 
-internal class PdlServiceTest :
-    FunSpec({
+    extensions(listOf(WiremockListener))
 
-        test("Fant person i PDL") {
-            val result =
-                PdlService(
-                    pdlConfig = PropertiesConfig.PdlConfig(),
-                    GraphQLKtorClient(
-                        URI(PDL_URL).toURL(),
-                        setupMockEngine(
-                            "pdl/hentPerson_fant_person_response.json",
-                            HttpStatusCode.OK,
-                        ),
-                    ),
-                    accessTokenClient = null,
-                ).getPersonNavn("22334455667")
+    val pdlService: PdlService by lazy {
+        PdlService(
+            pdlUrl = wiremock.baseUrl() + "/graphql",
+            accessTokenClient = WiremockListener.accessTokenClient,
+        )
+    }
 
-            result shouldNot beNull()
-            result?.navn?.first()?.fornavn shouldBe "TRIVIELL"
-            result?.navn?.first()?.mellomnavn shouldBe beNull()
-            result?.navn?.first()?.etternavn shouldBe "SKILPADDE"
-        }
+    test("Fant person i PDL") {
 
-        test("Fant ikke person i PDL") {
-            val result =
-                PdlService(
-                    pdlConfig = PropertiesConfig.PdlConfig(),
-                    GraphQLKtorClient(
-                        URI(PDL_URL).toURL(),
-                        setupMockEngine(
-                            "pdl/hentPerson_fant_ikke_person_response.json",
-                            HttpStatusCode.OK,
-                        ),
-                    ),
-                    accessTokenClient = null,
-                ).getPersonNavn("22334455667")
+        val hentPersonResponse = "pdl/hentPerson_fant_person_response.json".readFromResource()
 
-            result shouldBe beNull()
-        }
+        wiremock.stubFor(
+            WireMock.post(urlEqualTo("/graphql"))
+                .willReturn(
+                    aResponse()
+                        .withHeader(HttpHeaders.ContentType, APPLICATION_JSON)
+                        .withStatus(HttpStatusCode.OK.value)
+                        .withBody(hentPersonResponse),
+                ),
+        )
 
-        test("Ikke authentisert mot PDL") {
-            val exception =
-                assertThrows<Exception> {
-                    PdlService(
-                        pdlConfig = PropertiesConfig.PdlConfig(),
-                        GraphQLKtorClient(
-                            URI(PDL_URL).toURL(),
-                            setupMockEngine(
-                                "pdl/hentPerson_ikke_authentisert_response.json",
-                            ),
-                        ),
-                        accessTokenClient = null,
-                    ).getPersonNavn("22334455667")
-                }
+        val result = pdlService.getPersonNavn("22334455667")
 
-            exception shouldNotBe beNull()
-            exception.message shouldBe "Feil med henting av person fra PDL: (Path: [hentPerson], Code: [unauthenticated], Message: [null])"
-        }
-    })
+        result shouldNot beNull()
+        result?.navn?.first()?.fornavn shouldBe "TRIVIELL"
+        result?.navn?.first()?.mellomnavn shouldBe beNull()
+        result?.navn?.first()?.etternavn shouldBe "SKILPADDE"
+    }
+
+    test("Fant ikke person i PDL") {
+
+        val hentPersonResponse = "pdl/hentPerson_fant_ikke_person_response.json".readFromResource()
+
+        wiremock.stubFor(
+            WireMock.post(urlEqualTo("/graphql"))
+                .willReturn(
+                    aResponse()
+                        .withHeader(HttpHeaders.ContentType, APPLICATION_JSON)
+                        .withStatus(HttpStatusCode.OK.value)
+                        .withBody(hentPersonResponse),
+                ),
+        )
+
+        val result = pdlService.getPersonNavn("22334455667")
+
+        result shouldBe beNull()
+    }
+
+    test("Ikke authentisert mot PDL") {
+
+        val hentPersonResponse = "pdl/hentPerson_ikke_authentisert_response.json".readFromResource()
+
+        wiremock.stubFor(
+            WireMock.post(urlEqualTo("/graphql"))
+                .willReturn(
+                    aResponse()
+                        .withHeader(HttpHeaders.ContentType, APPLICATION_JSON)
+                        .withStatus(HttpStatusCode.OK.value)
+                        .withBody(hentPersonResponse),
+                ),
+        )
+
+        val exception =
+            assertThrows<Exception> {
+                pdlService.getPersonNavn("22334455667")
+            }
+
+        exception shouldNotBe beNull()
+        exception.message shouldBe "Feil med henting av person fra PDL: (Path: [hentPerson], Code: [unauthenticated], Message: [null])"
+    }
+})

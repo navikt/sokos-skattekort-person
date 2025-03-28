@@ -1,6 +1,6 @@
 package no.nav.sokos.skattekort.person.api.model
 
-import no.nav.sokos.skattekort.person.util.jsonMapper
+import no.nav.sokos.skattekort.person.config.jsonMapper
 
 data class SkattekortPersonRequest(
     val fnr: String,
