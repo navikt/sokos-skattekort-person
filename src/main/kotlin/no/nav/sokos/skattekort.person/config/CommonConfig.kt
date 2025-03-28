@@ -1,5 +1,6 @@
 package no.nav.sokos.skattekort.person.config
 
+import com.auth0.jwt.JWT
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.SerializationFeature
@@ -17,6 +18,7 @@ import io.ktor.server.plugins.calllogging.CallLogging
 import io.ktor.server.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.server.plugins.requestvalidation.RequestValidation
 import io.ktor.server.plugins.statuspages.StatusPages
+import io.ktor.server.request.header
 import io.ktor.server.request.path
 import io.ktor.server.response.respondText
 import io.ktor.server.routing.Routing
@@ -28,10 +30,14 @@ import io.micrometer.core.instrument.binder.jvm.JvmThreadMetrics
 import io.micrometer.core.instrument.binder.system.ProcessorMetrics
 import io.micrometer.core.instrument.binder.system.UptimeMetrics
 import io.prometheus.client.exporter.common.TextFormat
+import mu.KotlinLogging
 import no.nav.sokos.skattekort.person.ApplicationState
-import java.util.UUID
 import no.nav.sokos.skattekort.person.metrics.Metrics
 import org.slf4j.event.Level
+import java.util.UUID
+
+const val X_KALLENDE_SYSTEM = "x-kallende-system"
+private val appLogger = KotlinLogging.logger {}
 
 fun Application.commonConfig() {
     install(CallId) {
@@ -39,7 +45,9 @@ fun Application.commonConfig() {
         generate { UUID.randomUUID().toString() }
     }
     install(CallLogging) {
+        logger = appLogger
         level = Level.INFO
+        mdc(X_KALLENDE_SYSTEM) { it.extractCallingSystemFromJwtToken() }
         callIdMdc(HttpHeaders.XCorrelationId)
         filter { call -> call.request.path().startsWith("/api") }
         disableDefaultColors()
@@ -61,22 +69,34 @@ fun Application.commonConfig() {
     }
     install(MicrometerMetrics) {
         registry = Metrics.prometheusMeterRegistry
-        meterBinders = listOf(
-            UptimeMetrics(),
-            JvmMemoryMetrics(),
-            JvmGcMetrics(),
-            JvmThreadMetrics(),
-            ProcessorMetrics()
-        )
+        meterBinders =
+            listOf(
+                UptimeMetrics(),
+                JvmMemoryMetrics(),
+                JvmGcMetrics(),
+                JvmThreadMetrics(),
+                ProcessorMetrics(),
+            )
     }
-
 }
+
+private fun ApplicationCall.extractCallingSystemFromJwtToken(): String =
+    request.header(HttpHeaders.Authorization)?.removePrefix("Bearer ")?.let {
+        runCatching {
+            JWT.decode(it)
+        }.onFailure {
+            appLogger.warn("Failed to decode token: ", it)
+        }.getOrNull()
+            ?.let { it.claims["azp_name"]?.asString() ?: it.claims["client_id"]?.asString() }
+            ?.split(":")
+            ?.last()
+    } ?: "Ukjent"
 
 fun Routing.internalRoutes(
     applicationState: ApplicationState,
     readinessCheck: () -> Boolean = { applicationState.ready },
     alivenessCheck: () -> Boolean = { applicationState.alive },
-){
+) {
     route("internal") {
         get("isAlive") {
             healthCheckResponse(alivenessCheck(), call, "I'm alive :)", "I'm dead x_x")
