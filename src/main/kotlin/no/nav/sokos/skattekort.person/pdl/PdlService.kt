@@ -1,17 +1,19 @@
 package no.nav.sokos.skattekort.person.pdl
 
+import java.net.URI
+
+import kotlinx.coroutines.runBlocking
+
 import com.expediagroup.graphql.client.ktor.GraphQLKtorClient
 import com.expediagroup.graphql.client.types.GraphQLClientError
 import com.expediagroup.graphql.client.types.GraphQLClientResponse
 import io.ktor.client.request.header
 import io.ktor.http.HttpHeaders
-import kotlinx.coroutines.runBlocking
 import mu.KotlinLogging
 import no.nav.sokos.skattekort.person.config.PropertiesConfig
 import no.nav.sokos.skattekort.person.config.SECURE_LOGGER
 import no.nav.sokos.skattekort.person.pdl.hentperson.Person
 import no.nav.sokos.skattekort.person.util.defaultHttpClient
-import java.net.URI
 
 private val logger = KotlinLogging.logger {}
 private val secureLogger = KotlinLogging.logger(SECURE_LOGGER)
@@ -48,7 +50,9 @@ class PdlService(
     }
 }
 
-private fun hentPerson(result: GraphQLClientResponse<HentPerson.Result>): Person? = result.data?.hentPerson
+private fun hentPerson(result: GraphQLClientResponse<HentPerson.Result>): Person? {
+    return result.data?.hentPerson
+}
 
 private fun handleErrors(
     errors: List<GraphQLClientError>,
@@ -64,11 +68,10 @@ private fun handleErrors(
 
         val exceptionMessage =
             "Feil med henting av person fra PDL: (Path: $path, Code: $errorCode, Message: $errorMessage)"
-        throw Exception(exceptionMessage)
-            .also {
-                logger.error("Feil i GraphQL-responsen: (Path: $path, Code: $errorCode, Message: $errorMessage)")
-            }.also {
-                secureLogger.error("Feil i GraphQL-responsen: (Ident: $ident, Path: $path, Code: $errorCode, Message: $errorMessage)")
-            }
+        throw Exception(exceptionMessage).also {
+            logger.error("Feil i GraphQL-responsen: (Path: $path, Code: $errorCode, Message: $errorMessage)")
+        }.also {
+            secureLogger.error("Feil i GraphQL-responsen: (Ident: $ident, Path: $path, Code: $errorCode, Message: $errorMessage)")
+        }
     }
 }

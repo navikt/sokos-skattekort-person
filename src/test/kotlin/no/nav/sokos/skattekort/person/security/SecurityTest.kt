@@ -1,5 +1,7 @@
 package no.nav.sokos.skattekort.person.security
 
+import java.time.Year
+
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
@@ -13,7 +15,7 @@ import io.ktor.server.routing.routing
 import io.ktor.server.testing.testApplication
 import io.mockk.every
 import io.mockk.mockk
-import java.time.Year
+
 import no.nav.security.mock.oauth2.MockOAuth2Server
 import no.nav.security.mock.oauth2.token.DefaultOAuth2TokenCallback
 import no.nav.security.mock.oauth2.withMockOAuth2Server
@@ -55,13 +57,14 @@ class SecurityTest : FunSpec({
         withMockOAuth2Server {
             val mockOAuth2Server = this
             testApplication {
-                val client = createClient {
-                    install(ContentNegotiation) {
-                        jackson {
-                            customConfig()
+                val client =
+                    createClient {
+                        install(ContentNegotiation) {
+                            jackson {
+                                customConfig()
+                            }
                         }
                     }
-                }
                 configureTestApplication()
                 this.application {
                     securityConfig(authConfig())
@@ -74,35 +77,35 @@ class SecurityTest : FunSpec({
 
                 every { skattekortPersonService.hentSkattekortPerson(any(), any()) } returns emptyList()
 
-                val response = client.post(API_SKATTEKORT_PATH) {
-                    println(mockOAuth2Server.tokenFromDefaultProvider())
-                    header("Authorization", "Bearer ${mockOAuth2Server.tokenFromDefaultProvider()}")
-                    header(HttpHeaders.ContentType, APPLICATION_JSON)
-                    setBody(SkattekortPersonRequest("12345678901", "${Year.now().minusYears(1)}"))
-                }
+                val response =
+                    client.post(API_SKATTEKORT_PATH) {
+                        println(mockOAuth2Server.tokenFromDefaultProvider())
+                        header("Authorization", "Bearer ${mockOAuth2Server.tokenFromDefaultProvider()}")
+                        header(HttpHeaders.ContentType, APPLICATION_JSON)
+                        setBody(SkattekortPersonRequest("12345678901", "${Year.now().minusYears(1)}"))
+                    }
 
                 response.status shouldBe HttpStatusCode.OK
-
             }
         }
     }
-
-
 })
 
 private fun MockOAuth2Server.authConfig() =
     PropertiesConfig.AzureAdConfig(
         wellKnownUrl = wellKnownUrl("default").toString(),
-        clientId = "default"
+        clientId = "default",
     )
 
 private fun MockOAuth2Server.tokenFromDefaultProvider() =
     issueToken(
         issuerId = "default",
         clientId = "default",
-        tokenCallback = DefaultOAuth2TokenCallback(
-            claims = mapOf(
-                "NAVident" to "Z123456"
-            )
-        )
+        tokenCallback =
+            DefaultOAuth2TokenCallback(
+                claims =
+                    mapOf(
+                        "NAVident" to "Z123456",
+                    ),
+            ),
     ).serialize()

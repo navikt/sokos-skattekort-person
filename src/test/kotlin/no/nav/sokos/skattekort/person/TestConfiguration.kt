@@ -9,6 +9,7 @@ import io.ktor.http.headersOf
 import io.ktor.server.config.MapApplicationConfig
 import io.ktor.server.routing.routing
 import io.ktor.server.testing.ApplicationTestBuilder
+
 import no.nav.sokos.skattekort.person.api.swaggerApi
 import no.nav.sokos.skattekort.person.config.commonConfig
 import no.nav.sokos.skattekort.person.config.internalRoutes
@@ -39,15 +40,16 @@ fun setupMockEngine(
     responsFilNavn: String,
     statusCode: HttpStatusCode = HttpStatusCode.OK,
 ): HttpClient {
-    return HttpClient(MockEngine {
-        val content = responsFilNavn.readFromResource()
-        respond(
-            content = content,
-            headers = headersOf(HttpHeaders.ContentType, APPLICATION_JSON),
-            status = statusCode
-        )
-
-    }) {
+    return HttpClient(
+        MockEngine {
+            val content = responsFilNavn.readFromResource()
+            respond(
+                content = content,
+                headers = headersOf(HttpHeaders.ContentType, APPLICATION_JSON),
+                status = statusCode,
+            )
+        },
+    ) {
         expectSuccess = false
     }
 }

@@ -5,6 +5,7 @@ import io.ktor.server.application.ApplicationStarted
 import io.ktor.server.application.ApplicationStopped
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
+
 import no.nav.sokos.skattekort.person.config.PropertiesConfig
 import no.nav.sokos.skattekort.person.config.commonConfig
 import no.nav.sokos.skattekort.person.config.routingConfig
@@ -14,7 +15,7 @@ fun main() {
     embeddedServer(Netty, port = 8080, module = Application::module).start(true)
 }
 
-private fun Application.module(){
+private fun Application.module() {
     val applicationConfiguration = PropertiesConfig.Configuration()
     val applicationState = ApplicationState()
     applicationLifecycleConfig(applicationState)
@@ -22,7 +23,6 @@ private fun Application.module(){
     securityConfig(applicationConfiguration.azureAdConfig, applicationConfiguration.useAuthentication)
     routingConfig(applicationState, applicationConfiguration.useAuthentication)
 }
-
 
 fun Application.applicationLifecycleConfig(applicationState: ApplicationState) {
     monitor.subscribe(ApplicationStarted) {

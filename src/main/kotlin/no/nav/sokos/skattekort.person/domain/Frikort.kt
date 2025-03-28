@@ -4,5 +4,5 @@ import java.math.BigDecimal
 
 data class Frikort(
     override val trekkode: Trekkode,
-    val frikortbeloep: BigDecimal? = null
+    val frikortbeloep: BigDecimal? = null,
 ) : Forskuddstrekk

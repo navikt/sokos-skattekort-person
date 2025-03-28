@@ -4,13 +4,14 @@ import io.ktor.server.application.Application
 import io.ktor.server.auth.authenticate
 import io.ktor.server.routing.Route
 import io.ktor.server.routing.routing
+
 import no.nav.sokos.skattekort.person.ApplicationState
 import no.nav.sokos.skattekort.person.api.skattekortApi
 import no.nav.sokos.skattekort.person.api.swaggerApi
 
 fun Application.routingConfig(
     applicationState: ApplicationState,
-    useAuthentication: Boolean
+    useAuthentication: Boolean,
 ) {
     routing {
         internalRoutes(applicationState)
@@ -21,6 +22,10 @@ fun Application.routingConfig(
     }
 }
 
-fun Route.authenticate(useAuthentication: Boolean, authenticationProviderId: String? = null, block: Route.() -> Unit) {
+fun Route.authenticate(
+    useAuthentication: Boolean,
+    authenticationProviderId: String? = null,
+    block: Route.() -> Unit,
+) {
     if (useAuthentication) authenticate(authenticationProviderId) { block() } else block()
 }

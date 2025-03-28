@@ -1,5 +1,7 @@
 package no.nav.sokos.skattekort.person.config
 
+import java.util.UUID
+
 import com.auth0.jwt.JWT
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.databind.DeserializationFeature
@@ -31,10 +33,10 @@ import io.micrometer.core.instrument.binder.system.ProcessorMetrics
 import io.micrometer.core.instrument.binder.system.UptimeMetrics
 import io.prometheus.client.exporter.common.TextFormat
 import mu.KotlinLogging
+import org.slf4j.event.Level
+
 import no.nav.sokos.skattekort.person.ApplicationState
 import no.nav.sokos.skattekort.person.metrics.Metrics
-import org.slf4j.event.Level
-import java.util.UUID
 
 const val SECURE_LOGGER = "secureLogger"
 const val X_KALLENDE_SYSTEM = "x-kallende-system"
