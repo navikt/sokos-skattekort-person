@@ -26,10 +26,10 @@ import no.nav.sokos.skattekort.person.APPLICATION_JSON
 import no.nav.sokos.skattekort.person.api.model.SkattekortPersonRequest
 import no.nav.sokos.skattekort.person.config.authenticate
 import no.nav.sokos.skattekort.person.config.commonConfig
+import no.nav.sokos.skattekort.person.config.xmlMapper
 import no.nav.sokos.skattekort.person.domain.SkattekortTilArbeidsgiver
 import no.nav.sokos.skattekort.person.readFromResource
 import no.nav.sokos.skattekort.person.service.SkattekortPersonService
-import no.nav.sokos.skattekort.person.util.xmlMapper
 
 internal const val PORT = 9090
 
@@ -42,12 +42,12 @@ val mockOAuth2Server = MockOAuth2Server()
 internal class SkattekortPersonApiTest :
     FunSpec({
 
-        beforeEach {
+        beforeTest {
             server = embeddedServer(Netty, PORT, module = Application::myApplicationModule).start()
         }
 
-        afterEach {
-            server.stop(1000, 10000)
+        afterTest {
+            server.stop(5, 5)
         }
 
         test("hent skattekort med frikort for gjeldende år minus 1") {

@@ -26,10 +26,10 @@ import no.nav.sokos.skattekort.person.api.skattekortApi
 import no.nav.sokos.skattekort.person.config.AUTHENTICATION_NAME
 import no.nav.sokos.skattekort.person.config.PropertiesConfig
 import no.nav.sokos.skattekort.person.config.authenticate
+import no.nav.sokos.skattekort.person.config.commonConfig
+import no.nav.sokos.skattekort.person.config.customConfig
 import no.nav.sokos.skattekort.person.config.securityConfig
-import no.nav.sokos.skattekort.person.configureTestApplication
 import no.nav.sokos.skattekort.person.service.SkattekortPersonService
-import no.nav.sokos.skattekort.person.util.customConfig
 
 val skattekortPersonService: SkattekortPersonService = mockk()
 
@@ -38,9 +38,8 @@ class SecurityTest : FunSpec({
     test("test http POST endepunkt uten token bør returnere 401") {
         withMockOAuth2Server {
             testApplication {
-                configureTestApplication()
-                this.application {
-                    securityConfig(authConfig())
+                application {
+                    securityConfig(true, mockAuthConfig())
                     routing {
                         authenticate(true, AUTHENTICATION_NAME) {
                             skattekortApi(skattekortPersonService)
@@ -57,17 +56,9 @@ class SecurityTest : FunSpec({
         withMockOAuth2Server {
             val mockOAuth2Server = this
             testApplication {
-                val client =
-                    createClient {
-                        install(ContentNegotiation) {
-                            jackson {
-                                customConfig()
-                            }
-                        }
-                    }
-                configureTestApplication()
-                this.application {
-                    securityConfig(authConfig())
+                application {
+                    commonConfig()
+                    securityConfig(true, mockAuthConfig())
                     routing {
                         authenticate(true, AUTHENTICATION_NAME) {
                             skattekortApi(skattekortPersonService)
@@ -77,10 +68,19 @@ class SecurityTest : FunSpec({
 
                 every { skattekortPersonService.hentSkattekortPerson(any(), any()) } returns emptyList()
 
+                val client =
+                    createClient {
+                        install(ContentNegotiation) {
+                            jackson {
+                                customConfig()
+                            }
+                        }
+                    }
+
                 val response =
                     client.post(API_SKATTEKORT_PATH) {
-                        println(mockOAuth2Server.tokenFromDefaultProvider())
-                        header("Authorization", "Bearer ${mockOAuth2Server.tokenFromDefaultProvider()}")
+                        println(mockOAuth2Server.token())
+                        header("Authorization", "Bearer ${mockOAuth2Server.token()}")
                         header(HttpHeaders.ContentType, APPLICATION_JSON)
                         setBody(SkattekortPersonRequest("12345678901", "${Year.now().minusYears(1)}"))
                     }
@@ -91,13 +91,7 @@ class SecurityTest : FunSpec({
     }
 })
 
-private fun MockOAuth2Server.authConfig() =
-    PropertiesConfig.AzureAdConfig(
-        wellKnownUrl = wellKnownUrl("default").toString(),
-        clientId = "default",
-    )
-
-private fun MockOAuth2Server.tokenFromDefaultProvider() =
+private fun MockOAuth2Server.token() =
     issueToken(
         issuerId = "default",
         clientId = "default",
@@ -109,3 +103,9 @@ private fun MockOAuth2Server.tokenFromDefaultProvider() =
                     ),
             ),
     ).serialize()
+
+private fun MockOAuth2Server.mockAuthConfig() =
+    PropertiesConfig.AzureAdProperties(
+        wellKnownUrl = wellKnownUrl("default").toString(),
+        clientId = "default",
+    )

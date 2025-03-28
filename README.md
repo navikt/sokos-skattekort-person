@@ -62,7 +62,9 @@ For å kjøre applikasjonen må du gjøre følgende:
 Distribusjon av tjenesten er gjort med bruk av Github Actions.
 [sokos-skattekort-person CI / CD](https://github.com/navikt/sokos-skattekort-person/actions)
 
-Push/merge til main branch vil teste, bygge og deploye til produksjonsmiljø og testmiljø.
+Push/merge til main branch direkte er ikke mulig. Det må opprettes PR og godkjennes før merge til main branch.
+Når PR er merged til main branch vil Github Actions bygge og deploye til dev-fss og prod-fss.
+Har også mulighet for å deploye manuelt til testmiljø ved å deploye PR.
 
 # 5. Autentisering
 
@@ -72,22 +74,10 @@ Applikasjonen bruker [AzureAD](https://docs.nais.io/security/auth/azure-ad/) aut
 
 ### Logging
 
-Vi logger til https://logs.adeo.no/.
+https://logs.adeo.no.
 
-Feilmeldinger og infomeldinger som ikke innheholder sensitive data logges til indeksen `logstash-apps`, mens meldinger
-som inneholder sensitive data logges til indeksen `tjenestekall`.
-
-- Filter for Produksjon
-    * application:sokos-skattekort-person AND envclass:p
-
-- Filter for Dev
-    * application:sokos-skattekort-person AND envclass:q
-
-[sikker-utvikling/logging](https://sikkerhet.nav.no/docs/sikker-utvikling/logging) - Anbefales å lese
-
-- Filter for sikkerhet logs på https://logs.adeo.no
-    * Bytte Change index pattern fra: `logstash-*` til: `tjenestekall-*`
-    * Bruk samme filter for dev og prod som er vist over
+Feilmeldinger og infomeldinger som ikke innheholder sensitive data logges til data view `Applikasjonslogger`.  
+Sensetive meldinger logges til data view `Securelogs` [sikker-utvikling/logging](https://sikkerhet.nav.no/docs/sikker-utvikling/logging)).
 
 ### Kubectl
 
@@ -109,13 +99,9 @@ kubectl logs -f sokos-skattekort-person-<POD-ID> --namespace okonomi -c sokos-sk
 
 ### Alarmer
 
-Vi bruker [nais-alerts](https://doc.nais.io/observability/alerts) for å sette opp alarmer. Disse finner man konfigurert
-i
-
-- [Prod-miljø](.nais/alerts-prod.yaml)
-- [Dev-miljø](.nais/alerts-dev.yaml)
-
-Disse dukker opp i `#team-mob-alerts-dev` og `#team-mob-alers-prod` kanalene på Slack
+Vi bruker [nais-alerts](https://doc.nais.io/observability/alerts) for å sette opp alarmer.
+Disse finner man konfigurert i [.nais/alerts-dev.yaml](.nais/alerts-dev.yaml) filen og [.nais/alerts-prod.yaml](.nais/alerts-prod.yaml)
+Alarmene blir publisert i Slack kanalen [#team-mob-alerts-dev](https://nav-it.slack.com/archives/C042SF2FEQM) og [#team-mob-alerts-prod](https://nav-it.slack.com/archives/C042ESY71GX).
 
 ### Grafana
 
@@ -131,8 +117,7 @@ Disse dukker opp i `#team-mob-alerts-dev` og `#team-mob-alers-prod` kanalene på
 - [Lokalt](http://0.0.0.0:8080/api/v1/docs)
 
 # 8. Henvendelser og tilgang
-
-Spørsmål knyttet til koden eller prosjektet kan stilles som issues her på Github.\
-Interne henvendelser kan sendes via Slack i kanalen `#po-utbetaling`\
+Spørsmål knyttet til koden eller prosjektet kan stilles som issues her på Github.
+Interne henvendelser kan sendes via Slack i kanalen [#po-utbetaling](https://nav-it.slack.com/archives/CKZADNFBP)
 Tilgang til denne tjenesten kan bestilles
 gjennom [Porten](https://jira.adeo.no/plugins/servlet/desk/portal/541?requestGroup=824)

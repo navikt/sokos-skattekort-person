@@ -1,4 +1,4 @@
-package no.nav.sokos.skattekort.person.util
+package no.nav.sokos.skattekort.person.config
 
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe

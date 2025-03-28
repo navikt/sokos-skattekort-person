@@ -6,8 +6,8 @@ import io.ktor.server.plugins.requestvalidation.RequestValidationConfig
 import io.ktor.server.plugins.requestvalidation.ValidationResult
 
 import no.nav.sokos.skattekort.person.api.model.SkattekortPersonRequest
-import no.nav.sokos.skattekort.person.util.validFnr
-import no.nav.sokos.skattekort.person.util.validYear
+import no.nav.sokos.skattekort.person.validator.validFnr
+import no.nav.sokos.skattekort.person.validator.validYear
 
 fun RequestValidationConfig.requestValidationConfig() {
     validate<SkattekortPersonRequest> { skattekortPersonRequest ->

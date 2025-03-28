@@ -1,4 +1,4 @@
-package no.nav.sokos.skattekort.person.util
+package no.nav.sokos.skattekort.person.config
 
 import java.net.ProxySelector
 
@@ -16,7 +16,7 @@ fun ObjectMapper.customConfig() {
     configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
 }
 
-val defaultHttpClient =
+val httpClient =
     HttpClient(Apache) {
         expectSuccess = false
         install(ContentNegotiation) {
