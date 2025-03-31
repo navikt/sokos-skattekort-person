@@ -8,7 +8,6 @@ import com.expediagroup.graphql.client.ktor.GraphQLKtorClient
 import com.expediagroup.graphql.client.types.GraphQLClientError
 import com.expediagroup.graphql.client.types.GraphQLClientResponse
 import io.ktor.client.request.header
-import io.ktor.client.request.url
 import mu.KotlinLogging
 
 import no.nav.sokos.skattekort.person.config.PropertiesConfig
@@ -35,7 +34,6 @@ class PdlService(
                 val accessToken = accessTokenClient.hentAccessToken()
 
                 graphQlClient.execute(HentPerson(HentPerson.Variables(ident = ident))) {
-                    url(pdlUrl)
                     header("Authorization", "Bearer $accessToken")
                 }
             }
