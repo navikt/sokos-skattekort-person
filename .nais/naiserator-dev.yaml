@@ -49,11 +49,8 @@ spec:
     inbound:
       rules:
         - application: azure-token-generator
-          namespace: aura
+          namespace: nais
           cluster: dev-gcp
-        - application: salesforce
-          namespace: teamcrm
-          cluster: dev-external
         - application: sokos-utbetalingsportalen
           namespace: okonomi
           cluster: dev-gcp
@@ -63,10 +60,13 @@ spec:
   webproxy: true
   vault:
     enabled: true
-    paths:
-      - kvPath: /oracle/data/dev/creds/oseskatt_read_q1-user
-        mountPath: /var/run/secrets/nais.io/database-user
+  envFrom:
+    - secret: sokos-skattekort-person-oseskatt-q1-credentials
   env:
+    - name: USE_AUTHENTICATION
+      value: "true"
+
+    # Oracle OS-eskatt
     - name: DATABASE_HOST
       value: dmv07-scan.adeo.no
     - name: DATABASE_PORT
@@ -75,9 +75,9 @@ spec:
       value: oseskatt_q1_ha
     - name: DATABASE_SCHEMA
       value: OSESKATT_Q1
-    - name: USE_AUTHENTICATION
-      value: "true"
-    - name: PDL_HOST
-      value: "https://pdl-api.dev.intern.nav.no/graphql"
+
+    # PDL
+    - name: PDL_URL
+      value: https://pdl-api.dev.intern.nav.no/graphql
     - name: PDL_SCOPE
-      value: "api://dev-fss.pdl.pdl-api/.default"
+      value: api://dev-fss.pdl.pdl-api/.default

@@ -6,7 +6,6 @@ import com.auth0.jwt.JWT
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.SerializationFeature
-import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpStatusCode
 import io.ktor.serialization.jackson.jackson
@@ -31,11 +30,9 @@ import io.micrometer.core.instrument.binder.jvm.JvmMemoryMetrics
 import io.micrometer.core.instrument.binder.jvm.JvmThreadMetrics
 import io.micrometer.core.instrument.binder.system.ProcessorMetrics
 import io.micrometer.core.instrument.binder.system.UptimeMetrics
-import io.prometheus.client.exporter.common.TextFormat
 import mu.KotlinLogging
 import org.slf4j.event.Level
 
-import no.nav.sokos.skattekort.person.ApplicationState
 import no.nav.sokos.skattekort.person.metrics.Metrics
 
 const val SECURE_LOGGER = "secureLogger"
@@ -95,28 +92,36 @@ private fun ApplicationCall.extractCallingSystemFromJwtToken(): String =
             ?.last()
     } ?: "Ukjent"
 
-fun Routing.internalRoutes(
+fun Routing.internalNaisRoutes(
     applicationState: ApplicationState,
-    readinessCheck: () -> Boolean = { applicationState.ready },
+    readynessCheck: () -> Boolean = { applicationState.ready },
     alivenessCheck: () -> Boolean = { applicationState.alive },
 ) {
     route("internal") {
         get("isAlive") {
-            healthCheckResponse(alivenessCheck(), call, "I'm alive :)", "I'm dead x_x")
+            when (alivenessCheck()) {
+                true -> call.respondText { "I'm alive :)" }
+                else ->
+                    call.respondText(
+                        text = "I'm dead x_x",
+                        status = HttpStatusCode.InternalServerError,
+                    )
+            }
         }
         get("isReady") {
-            healthCheckResponse(readinessCheck(), call, "I'm ready! :)", "Wait! I'm not ready yet! :O")
+            when (readynessCheck()) {
+                true -> call.respondText { "I'm ready! :)" }
+                else ->
+                    call.respondText(
+                        text = "Wait! I'm not ready yet! :O",
+                        status = HttpStatusCode.InternalServerError,
+                    )
+            }
         }
         get("metrics") {
-            call.respondText(ContentType.parse(TextFormat.CONTENT_TYPE_004)) { Metrics.prometheusMeterRegistry.scrape() }
+            call.respondText(
+                Metrics.prometheusMeterRegistry.scrape(),
+            )
         }
     }
 }
-
-private val healthCheckResponse: suspend (Boolean, ApplicationCall, String, String) -> Unit =
-    { isHealthy, call, successMessage, failureMessage ->
-        when (isHealthy) {
-            true -> call.respondText { successMessage }
-            else -> call.respondText(failureMessage, status = HttpStatusCode.InternalServerError)
-        }
-    }

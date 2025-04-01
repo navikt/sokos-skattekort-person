@@ -8,36 +8,37 @@ import com.expediagroup.graphql.client.ktor.GraphQLKtorClient
 import com.expediagroup.graphql.client.types.GraphQLClientError
 import com.expediagroup.graphql.client.types.GraphQLClientResponse
 import io.ktor.client.request.header
-import io.ktor.http.HttpHeaders
 import mu.KotlinLogging
+import org.slf4j.MDC
 
 import no.nav.sokos.skattekort.person.config.PropertiesConfig
 import no.nav.sokos.skattekort.person.config.SECURE_LOGGER
+import no.nav.sokos.skattekort.person.config.httpClient
 import no.nav.sokos.skattekort.person.pdl.hentperson.Person
-import no.nav.sokos.skattekort.person.util.defaultHttpClient
+import no.nav.sokos.skattekort.person.security.AccessTokenClient
 
 private val logger = KotlinLogging.logger {}
 private val secureLogger = KotlinLogging.logger(SECURE_LOGGER)
 
-class PdlService(
-    private val pdlConfig: PropertiesConfig.PdlConfig = PropertiesConfig.PdlConfig(),
-    private val graphQLKtorClient: GraphQLKtorClient =
+class PdlClientService(
+    private val pdlUrl: String = PropertiesConfig.PdlProperties().pdlUrl,
+    private val pdlScope: String = PropertiesConfig.PdlProperties().pdlScope,
+    private val graphQlClient: GraphQLKtorClient =
         GraphQLKtorClient(
-            URI(pdlConfig.pdlHost).toURL(),
-            defaultHttpClient,
+            URI(pdlUrl).toURL(),
+            httpClient,
         ),
-    private val accessTokenClient: AccessTokenClient? = AccessTokenClient(),
+    private val accessTokenClient: AccessTokenClient = AccessTokenClient(azureAdScope = pdlScope),
 ) {
     fun getPersonNavn(ident: String): Person? {
-        val request = HentPerson(HentPerson.Variables(ident = ident))
-
         val result =
             runBlocking {
-                val accessToken = accessTokenClient?.getSystemToken()
+                val accessToken = accessTokenClient.hentAccessToken()
 
-                graphQLKtorClient.execute(request) {
-                    header(HttpHeaders.Authorization, "Bearer $accessToken")
+                graphQlClient.execute(HentPerson(HentPerson.Variables(ident = ident))) {
+                    header("Authorization", "Bearer $accessToken")
                     header("behandlingsnummer", "B154")
+                    header("Nav-Call-Id", MDC.get("x-correlation-id"))
                 }
             }
 
@@ -71,7 +72,7 @@ private fun handleErrors(
             "Feil med henting av person fra PDL: (Path: $path, Code: $errorCode, Message: $errorMessage)"
         throw Exception(exceptionMessage).also {
             logger.error("Feil i GraphQL-responsen: (Path: $path, Code: $errorCode, Message: $errorMessage)")
-        }.also {
+
             secureLogger.error("Feil i GraphQL-responsen: (Ident: $ident, Path: $path, Code: $errorCode, Message: $errorMessage)")
         }
     }

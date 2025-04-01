@@ -10,7 +10,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     kotlin("jvm") version "2.1.10"
     id("com.github.johnrengelman.shadow") version "8.1.1"
-    id("com.expediagroup.graphql") version "7.0.2"
+    id("com.expediagroup.graphql") version "8.4.0"
     id("org.jlleitschuh.gradle.ktlint") version "12.2.0"
     id("org.jetbrains.kotlinx.kover") version "0.9.1"
 }
@@ -23,26 +23,21 @@ repositories {
 }
 
 val ktorVersion = "3.1.1"
-val graphqlClientVersion = "7.0.2"
-
+val graphqlClientVersion = "8.4.0"
+val kotlinxSerializationVersion = "1.8.0"
 val jacksonVersion = "2.17.0"
-
 val prometheusVersion = "1.12.4"
 val konfigVersion = "1.6.10.0"
-
-// DB
-val oracleJDBC10 = "19.22.0.0"
+val oracleJDBC11 = "23.7.0.25.01"
 val hikaricpVersion = "6.2.1"
-
-// Test
+val kotliqueryVersion = "1.9.1"
 val kotestVersion = "5.9.1"
 val ktorTestVersion = "3.0.0"
 val mockkVersion = "1.13.17"
 val restAssuredVersion = "5.5.1"
 val swaggerRequestValidatorVersion = "2.41.0"
 val mockOAuth2ServerVersion = "2.1.8"
-
-// Logging
+val wiremockVersion = "3.12.1"
 val janinoVersion = "3.1.12"
 val kotlinLoggingVersion = "3.0.5"
 val logbackVersion = "1.5.17"
@@ -68,9 +63,9 @@ dependencies {
     implementation("io.ktor:ktor-server-auth-jvm:$ktorVersion")
     implementation("io.ktor:ktor-server-auth-jwt-jvm:$ktorVersion")
 
-    // Serialization / Jackson
+    // Serialization
     implementation("io.ktor:ktor-serialization-jackson-jvm:$ktorVersion")
-    implementation("com.fasterxml.jackson.core:jackson-databind:$jacksonVersion")
+    implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-xml:$jacksonVersion")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion")
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jacksonVersion")
     implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-xml:$jacksonVersion")
@@ -90,9 +85,9 @@ dependencies {
     implementation("com.natpryce:konfig:$konfigVersion")
 
     // Database
-
     implementation("com.zaxxer:HikariCP:$hikaricpVersion")
-    implementation("com.oracle.database.jdbc:ojdbc10:$oracleJDBC10")
+    implementation("com.oracle.database.jdbc:ojdbc11:$oracleJDBC11")
+    implementation("com.github.seratch:kotliquery:$kotliqueryVersion")
 
     // Test
     testImplementation("io.kotest:kotest-assertions-core-jvm:$kotestVersion")
@@ -103,12 +98,13 @@ dependencies {
     testImplementation("io.rest-assured:rest-assured:$restAssuredVersion")
     testImplementation("com.atlassian.oai:swagger-request-validator-restassured:$swaggerRequestValidatorVersion")
     testImplementation("no.nav.security:mock-oauth2-server:$mockOAuth2ServerVersion")
+    testImplementation("org.wiremock:wiremock:$wiremockVersion")
 
     // GraphQL
     implementation("com.expediagroup:graphql-kotlin-ktor-client:$graphqlClientVersion") {
-        exclude("com.expediagroup", "graphql-kotlin-client-serialization")
+        exclude("com.expediagroup:graphql-kotlin-client-serialization")
     }
-    runtimeOnly("com.expediagroup:graphql-kotlin-client-jackson:$graphqlClientVersion")
+    implementation("com.expediagroup:graphql-kotlin-client-jackson:$graphqlClientVersion")
 }
 
 // Vulnerability fix because of id("org.jlleitschuh.gradle.ktlint") version "12.1.2"
@@ -191,7 +187,7 @@ tasks {
         packageName = "no.nav.sokos.skattekort.person.pdl"
         schemaFile = file("$projectDir/src/main/resources/pdl/schema.graphql")
         queryFileDirectory.set(file("$projectDir/src/main/resources/pdl"))
-        serializer = GraphQLSerializer.KOTLINX
+        serializer = GraphQLSerializer.JACKSON
     }
 
     ("build") {
@@ -201,18 +197,19 @@ tasks {
     register<Copy>("copyPreCommitHook") {
         from(".scripts/pre-commit")
         into(".git/hooks")
+        filePermissions {
+            user {
+                execute = true
+            }
+        }
         doFirst {
             println("Installing git hooks...")
+        }
+        doLast {
+            println("Git hooks installed successfully.")
         }
         description = "Copy pre-commit hook to .git/hooks"
         group = "git hooks"
         outputs.upToDateWhen { false }
-    }
-    register<Exec>("setPreCommitHookExecutable") {
-        dependsOn("copyPreCommitHook")
-        commandLine("chmod", "+x", ".git/hooks/pre-commit")
-        doLast {
-            println("Git hooks installed successfully.")
-        }
     }
 }

@@ -26,10 +26,10 @@ import no.nav.sokos.skattekort.person.APPLICATION_JSON
 import no.nav.sokos.skattekort.person.api.model.SkattekortPersonRequest
 import no.nav.sokos.skattekort.person.config.authenticate
 import no.nav.sokos.skattekort.person.config.commonConfig
+import no.nav.sokos.skattekort.person.config.xmlMapper
 import no.nav.sokos.skattekort.person.domain.SkattekortTilArbeidsgiver
 import no.nav.sokos.skattekort.person.readFromResource
 import no.nav.sokos.skattekort.person.service.SkattekortPersonService
-import no.nav.sokos.skattekort.person.util.xmlMapper
 
 internal const val PORT = 9090
 
@@ -42,12 +42,12 @@ val mockOAuth2Server = MockOAuth2Server()
 internal class SkattekortPersonApiTest :
     FunSpec({
 
-        beforeEach {
+        beforeTest {
             server = embeddedServer(Netty, PORT, module = Application::myApplicationModule).start()
         }
 
-        afterEach {
-            server.stop(1000, 10000)
+        afterTest {
+            server.stop(5, 5)
         }
 
         test("hent skattekort med frikort for gjeldende år minus 1") {
@@ -67,7 +67,7 @@ internal class SkattekortPersonApiTest :
                     .filter(validationFilter)
                     .header(HttpHeaders.ContentType, APPLICATION_JSON)
                     .header(HttpHeaders.Authorization, "Bearer ${mockOAuth2Server.tokenFromDefaultProvider()}")
-                    .body(SkattekortPersonRequest(fnr = "12345678901", inntektsaar = "${Year.now().minusYears(1)}").toJson())
+                    .body(SkattekortPersonRequest(fnr = "12345678901", inntektsaar = "${Year.now().minusYears(1)}"))
                     .port(PORT)
                     .post(API_SKATTEKORT_PATH)
                     .then()
@@ -106,7 +106,7 @@ internal class SkattekortPersonApiTest :
                     .filter(validationFilter)
                     .header(HttpHeaders.ContentType, APPLICATION_JSON)
                     .header(HttpHeaders.Authorization, "Bearer ${mockOAuth2Server.tokenFromDefaultProvider()}")
-                    .body(SkattekortPersonRequest(fnr = "12345678901", inntektsaar = "${Year.now()}").toJson())
+                    .body(SkattekortPersonRequest(fnr = "12345678901", inntektsaar = "${Year.now()}"))
                     .port(PORT)
                     .post(API_SKATTEKORT_PATH)
                     .then()
@@ -143,7 +143,7 @@ internal class SkattekortPersonApiTest :
                     .filter(validationFilter)
                     .header(HttpHeaders.ContentType, APPLICATION_JSON)
                     .header(HttpHeaders.Authorization, "Bearer ${mockOAuth2Server.tokenFromDefaultProvider()}")
-                    .body(SkattekortPersonRequest(fnr = "12345678901", inntektsaar = "${Year.now().plusYears(1)}").toJson())
+                    .body(SkattekortPersonRequest(fnr = "12345678901", inntektsaar = "${Year.now().plusYears(1)}"))
                     .port(PORT)
                     .post(API_SKATTEKORT_PATH)
                     .then()
@@ -179,7 +179,7 @@ internal class SkattekortPersonApiTest :
                     .filter(validationFilter)
                     .header(HttpHeaders.ContentType, APPLICATION_JSON)
                     .header(HttpHeaders.Authorization, "Bearer ${mockOAuth2Server.tokenFromDefaultProvider()}")
-                    .body(SkattekortPersonRequest(fnr = "11111111111", inntektsaar = "${Year.now()}").toJson())
+                    .body(SkattekortPersonRequest(fnr = "11111111111", inntektsaar = "${Year.now()}"))
                     .port(PORT)
                     .post(API_SKATTEKORT_PATH)
                     .then()
@@ -204,7 +204,7 @@ internal class SkattekortPersonApiTest :
                 .filter(validationFilter)
                 .header(HttpHeaders.ContentType, APPLICATION_JSON)
                 .header(HttpHeaders.Authorization, "Bearer dummytoken")
-                .body(SkattekortPersonRequest(fnr = "dummyFnr", inntektsaar = "${Year.now()}").toJson())
+                .body(SkattekortPersonRequest(fnr = "dummyFnr", inntektsaar = "${Year.now()}"))
                 .port(PORT)
                 .post(API_SKATTEKORT_PATH)
                 .then()
@@ -219,7 +219,7 @@ internal class SkattekortPersonApiTest :
                 .filter(validationFilter)
                 .header(HttpHeaders.ContentType, APPLICATION_JSON)
                 .header(HttpHeaders.Authorization, "Bearer dummytoken")
-                .body(SkattekortPersonRequest(fnr = "12345678901", inntektsaar = "dummyInntektsaar").toJson())
+                .body(SkattekortPersonRequest(fnr = "12345678901", inntektsaar = "dummyInntektsaar"))
                 .port(PORT)
                 .post(API_SKATTEKORT_PATH)
                 .then()
@@ -240,7 +240,7 @@ internal class SkattekortPersonApiTest :
                 .filter(validationFilter)
                 .header(HttpHeaders.ContentType, APPLICATION_JSON)
                 .header(HttpHeaders.Authorization, "Bearer dummytoken")
-                .body(SkattekortPersonRequest(fnr = "12345678901", inntektsaar = "${Year.now().minusYears(2)}").toJson())
+                .body(SkattekortPersonRequest(fnr = "12345678901", inntektsaar = "${Year.now().minusYears(2)}"))
                 .port(PORT)
                 .post(API_SKATTEKORT_PATH)
                 .then()
@@ -263,7 +263,7 @@ internal class SkattekortPersonApiTest :
                 .filter(validationFilter)
                 .header(HttpHeaders.ContentType, APPLICATION_JSON)
                 .header(HttpHeaders.Authorization, "Bearer dummytoken")
-                .body(SkattekortPersonRequest(fnr = "12345678901", inntektsaar = "${Year.now().plusYears(2)}").toJson())
+                .body(SkattekortPersonRequest(fnr = "12345678901", inntektsaar = "${Year.now().plusYears(2)}"))
                 .port(PORT)
                 .post(API_SKATTEKORT_PATH)
                 .then()
@@ -286,7 +286,7 @@ internal class SkattekortPersonApiTest :
                 .filter(validationFilter)
                 .header(HttpHeaders.ContentType, APPLICATION_JSON)
                 .header(HttpHeaders.Authorization, "Bearer dummytoken")
-                .body(SkattekortPersonRequest(fnr = "1234567890", inntektsaar = "${Year.now()}").toJson())
+                .body(SkattekortPersonRequest(fnr = "1234567890", inntektsaar = "${Year.now()}"))
                 .port(PORT)
                 .post(API_SKATTEKORT_PATH)
                 .then()
@@ -302,7 +302,7 @@ internal class SkattekortPersonApiTest :
                 .filter(validationFilter)
                 .header(HttpHeaders.ContentType, APPLICATION_JSON)
                 .header(HttpHeaders.Authorization, "Bearer dummytoken")
-                .body(SkattekortPersonRequest(fnr = "123456789012", inntektsaar = "${Year.now()}").toJson())
+                .body(SkattekortPersonRequest(fnr = "123456789012", inntektsaar = "${Year.now()}"))
                 .port(PORT)
                 .post(API_SKATTEKORT_PATH)
                 .then()

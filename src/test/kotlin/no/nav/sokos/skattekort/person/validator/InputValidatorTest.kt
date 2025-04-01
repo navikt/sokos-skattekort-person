@@ -1,4 +1,4 @@
-package no.nav.sokos.skattekort.person.util
+package no.nav.sokos.skattekort.person.validator
 
 import java.time.Year
 

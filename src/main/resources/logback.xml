@@ -48,7 +48,7 @@
             <logger name="secureLogger" level="DEBUG" additivity="false">
                 <appender-ref ref="${LOG_APPENDER:-secureLog}"/>
             </logger>
-            <logger name="auditLogger" level="INFO" additivity="false">
+            <logger level="INFO" name="auditLogger" additivity="false">
                 <appender-ref ref="${LOG_APPENDER:-auditLogger}"/>
             </logger>
         </then>

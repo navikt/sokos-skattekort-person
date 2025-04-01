@@ -47,9 +47,6 @@ spec:
   accessPolicy:
     inbound:
       rules:
-        - application: salesforce
-          namespace: teamcrm
-          cluster: prod-external
         - application: sokos-utbetalingsportalen
           namespace: okonomi
           cluster: prod-gcp
@@ -63,6 +60,10 @@ spec:
       - kvPath: /oracle/data/prod/creds/oseskatt_p-sokos_les
         mountPath: /var/run/secrets/nais.io/database-user
   env:
+    - name: USE_AUTHENTICATION
+      value: "true"
+
+    # Oracle OS-eskatt
     - name: DATABASE_HOST
       value: dmv28-scan.adeo.no
     - name: DATABASE_PORT
@@ -71,9 +72,9 @@ spec:
       value: oseskatt_p_ha
     - name: DATABASE_SCHEMA
       value: OSESKATT_P
-    - name: USE_AUTHENTICATION
-      value: "true"
-    - name: PDL_HOST
+
+    # PDL
+    - name: PDL_URL
       value: "https://pdl-api.intern.nav.no/graphql"
     - name: PDL_SCOPE
       value: "api://prod-fss.pdl.pdl-api/.default"
