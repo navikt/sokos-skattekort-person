@@ -1,7 +1,11 @@
 package no.nav.sokos.skattekort.person.repository
 
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.dataformat.xml.JacksonXmlModule
+import com.fasterxml.jackson.dataformat.xml.XmlMapper
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
+import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import com.zaxxer.hikari.HikariDataSource
-import jakarta.xml.bind.JAXB
 import kotliquery.queryOf
 import kotliquery.sessionOf
 import kotliquery.using
@@ -18,18 +22,18 @@ class SkattekortPersonRepository(
             session.list(
                 queryOf(
                     """
-                    SELECT NVL2(DATA_MOTTATT, (DATA_MOTTATT).getClobVal(), null)
-                    FROM T1_SKATTEKORT_BESTILLING
-                    WHERE FNR = :fnr AND INNTEKTSAAR = :inntektsaar
+                    SELECT NVL2(DATA_MOTTATT, (DATA_MOTTATT).getClobVal(), null) 
+                    FROM T1_SKATTEKORT_BESTILLING 
+                    WHERE FNR = ? AND INNTEKTSAAR = ?
                     """.trimIndent(),
-                    mapOf(
-                        "fnr" to skattekortPersonRequest.fnr,
-                        "inntektaar" to skattekortPersonRequest.inntektsaar,
-                    ),
+                    skattekortPersonRequest.fnr,
+                    skattekortPersonRequest.inntektsaar,
                 ),
-            ) { row ->
-                println(row.string(0))
-                JAXB.unmarshal(row.string(0), SkattekortTilArbeidsgiver::class.java)
-            }
+            ) { row -> xmlMapper.readValue(row.string(1), SkattekortTilArbeidsgiver::class.java) }
         }
 }
+
+private val xmlMapper: ObjectMapper =
+    XmlMapper(JacksonXmlModule().apply { setDefaultUseWrapper(false) })
+        .registerKotlinModule()
+        .registerModule(JavaTimeModule())

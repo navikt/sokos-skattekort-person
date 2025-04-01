@@ -51,9 +51,6 @@ spec:
         - application: azure-token-generator
           namespace: nais
           cluster: dev-gcp
-        - application: salesforce
-          namespace: teamcrm
-          cluster: dev-external
         - application: sokos-utbetalingsportalen
           namespace: okonomi
           cluster: dev-gcp

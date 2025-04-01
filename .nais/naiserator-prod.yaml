@@ -47,9 +47,6 @@ spec:
   accessPolicy:
     inbound:
       rules:
-        - application: salesforce
-          namespace: teamcrm
-          cluster: prod-external
         - application: sokos-utbetalingsportalen
           namespace: okonomi
           cluster: prod-gcp

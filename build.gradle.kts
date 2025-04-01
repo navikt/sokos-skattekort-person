@@ -26,7 +26,7 @@ repositories {
 val ktorVersion = "3.1.1"
 val graphqlClientVersion = "8.4.0"
 val kotlinxSerializationVersion = "1.8.0"
-
+val jacksonVersion = "2.17.0"
 val prometheusVersion = "1.12.4"
 val konfigVersion = "1.6.10.0"
 
@@ -75,8 +75,11 @@ dependencies {
     // Serialization
     implementation("io.ktor:ktor-serialization-kotlinx-json-jvm:$ktorVersion")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json-jvm:$kotlinxSerializationVersion")
-    implementation("org.glassfish.jaxb:jaxb-runtime:$jaxbVersion")
     implementation("org.jetbrains.kotlinx:kotlinx-datetime:$kotlinxDatetimeVersion")
+    implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-xml:$jacksonVersion")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion")
+    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jacksonVersion")
+    implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-xml:$jacksonVersion")
 
     // Monitorering
     implementation("io.ktor:ktor-server-metrics-micrometer-jvm:$ktorVersion")
