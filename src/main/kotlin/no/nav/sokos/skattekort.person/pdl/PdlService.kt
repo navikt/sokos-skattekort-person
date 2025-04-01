@@ -9,6 +9,7 @@ import com.expediagroup.graphql.client.types.GraphQLClientError
 import com.expediagroup.graphql.client.types.GraphQLClientResponse
 import io.ktor.client.request.header
 import mu.KotlinLogging
+import org.slf4j.MDC
 
 import no.nav.sokos.skattekort.person.config.PropertiesConfig
 import no.nav.sokos.skattekort.person.config.SECURE_LOGGER
@@ -36,6 +37,7 @@ class PdlService(
                 graphQlClient.execute(HentPerson(HentPerson.Variables(ident = ident))) {
                     header("Authorization", "Bearer $accessToken")
                     header("behandlingsnummer", "B154")
+                    header("Nav-Call-Id", MDC.get("x-correlation-id"))
                 }
             }
 
@@ -69,7 +71,7 @@ private fun handleErrors(
             "Feil med henting av person fra PDL: (Path: $path, Code: $errorCode, Message: $errorMessage)"
         throw Exception(exceptionMessage).also {
             logger.error("Feil i GraphQL-responsen: (Path: $path, Code: $errorCode, Message: $errorMessage)")
-        }.also {
+
             secureLogger.error("Feil i GraphQL-responsen: (Ident: $ident, Path: $path, Code: $errorCode, Message: $errorMessage)")
         }
     }
