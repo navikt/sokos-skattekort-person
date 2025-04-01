@@ -80,7 +80,7 @@ spec:
       value: OSESKATT_Q1
 
     # PDL
-    - name: PDL_HOST
+    - name: PDL_URL
       value: https://pdl-api.dev.intern.nav.no/graphql
     - name: PDL_SCOPE
       value: api://dev-fss.pdl.pdl-api/.default

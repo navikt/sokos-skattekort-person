@@ -77,7 +77,7 @@ spec:
       value: OSESKATT_P
 
     # PDL
-    - name: PDL_HOST
+    - name: PDL_URL
       value: "https://pdl-api.intern.nav.no/graphql"
     - name: PDL_SCOPE
       value: "api://prod-fss.pdl.pdl-api/.default"
