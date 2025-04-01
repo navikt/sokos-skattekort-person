@@ -2,12 +2,13 @@ package no.nav.sokos.skattekort.person.config
 
 import java.util.UUID
 
-import kotlinx.serialization.json.Json
-
 import com.auth0.jwt.JWT
+import com.fasterxml.jackson.annotation.JsonInclude
+import com.fasterxml.jackson.databind.DeserializationFeature
+import com.fasterxml.jackson.databind.SerializationFeature
 import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpStatusCode
-import io.ktor.serialization.kotlinx.json.json
+import io.ktor.serialization.jackson.jackson
 import io.ktor.server.application.Application
 import io.ktor.server.application.ApplicationCall
 import io.ktor.server.application.install
@@ -52,14 +53,13 @@ fun Application.commonConfig() {
         disableDefaultColors()
     }
     install(ContentNegotiation) {
-        json(
-            Json {
-                prettyPrint = true
-                ignoreUnknownKeys = true
-                encodeDefaults = true
-                explicitNulls = false
-            },
-        )
+        jackson {
+            findAndRegisterModules()
+            disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
+            disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+            enable(SerializationFeature.INDENT_OUTPUT)
+            setSerializationInclusion(JsonInclude.Include.NON_NULL)
+        }
     }
     install(RequestValidation) {
         requestValidationConfig()

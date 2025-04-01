@@ -9,7 +9,6 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     kotlin("jvm") version "2.1.10"
-    kotlin("plugin.serialization") version "2.1.20"
     id("com.github.johnrengelman.shadow") version "8.1.1"
     id("com.expediagroup.graphql") version "8.4.0"
     id("org.jlleitschuh.gradle.ktlint") version "12.2.0"
@@ -29,13 +28,9 @@ val kotlinxSerializationVersion = "1.8.0"
 val jacksonVersion = "2.17.0"
 val prometheusVersion = "1.12.4"
 val konfigVersion = "1.6.10.0"
-
-// DB
 val oracleJDBC11 = "23.7.0.25.01"
 val hikaricpVersion = "6.2.1"
 val kotliqueryVersion = "1.9.1"
-
-// Test
 val kotestVersion = "5.9.1"
 val ktorTestVersion = "3.0.0"
 val mockkVersion = "1.13.17"
@@ -43,15 +38,11 @@ val restAssuredVersion = "5.5.1"
 val swaggerRequestValidatorVersion = "2.41.0"
 val mockOAuth2ServerVersion = "2.1.8"
 val wiremockVersion = "3.12.1"
-
-// Logging
 val janinoVersion = "3.1.12"
 val kotlinLoggingVersion = "3.0.5"
 val logbackVersion = "1.5.17"
 val logstashVersion = "8.0"
 val papertrailappVersion = "1.0.0"
-val jaxbVersion = "4.0.5"
-val kotlinxDatetimeVersion = "0.6.2"
 
 dependencies {
 
@@ -73,9 +64,7 @@ dependencies {
     implementation("io.ktor:ktor-server-auth-jwt-jvm:$ktorVersion")
 
     // Serialization
-    implementation("io.ktor:ktor-serialization-kotlinx-json-jvm:$ktorVersion")
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json-jvm:$kotlinxSerializationVersion")
-    implementation("org.jetbrains.kotlinx:kotlinx-datetime:$kotlinxDatetimeVersion")
+    implementation("io.ktor:ktor-serialization-jackson-jvm:$ktorVersion")
     implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-xml:$jacksonVersion")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion")
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jacksonVersion")
@@ -198,7 +187,7 @@ tasks {
         packageName = "no.nav.sokos.skattekort.person.pdl"
         schemaFile = file("$projectDir/src/main/resources/pdl/schema.graphql")
         queryFileDirectory.set(file("$projectDir/src/main/resources/pdl"))
-        serializer = GraphQLSerializer.KOTLINX
+        serializer = GraphQLSerializer.JACKSON
     }
 
     ("build") {

@@ -2,26 +2,27 @@ package no.nav.sokos.skattekort.person.config
 
 import java.net.ProxySelector
 
-import kotlinx.serialization.json.Json
-
+import com.fasterxml.jackson.databind.DeserializationFeature
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.apache.Apache
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
-import io.ktor.serialization.kotlinx.json.json
+import io.ktor.serialization.jackson.jackson
 import org.apache.http.impl.conn.SystemDefaultRoutePlanner
+
+fun ObjectMapper.customConfig() {
+    registerModule(JavaTimeModule())
+    configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+}
 
 val httpClient =
     HttpClient(Apache) {
         expectSuccess = false
         install(ContentNegotiation) {
-            json(
-                Json {
-                    prettyPrint = true
-                    ignoreUnknownKeys = true
-                    encodeDefaults = true
-                    explicitNulls = false
-                },
-            )
+            jackson {
+                customConfig()
+            }
         }
 
         engine {
