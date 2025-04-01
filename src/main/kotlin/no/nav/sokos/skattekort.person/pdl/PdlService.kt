@@ -35,6 +35,7 @@ class PdlService(
 
                 graphQlClient.execute(HentPerson(HentPerson.Variables(ident = ident))) {
                     header("Authorization", "Bearer $accessToken")
+                    header("behandlingsnummer", "B154")
                 }
             }
 
