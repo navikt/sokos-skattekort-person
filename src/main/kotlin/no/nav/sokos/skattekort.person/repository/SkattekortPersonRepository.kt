@@ -1,13 +1,13 @@
 package no.nav.sokos.skattekort.person.repository
 
 import com.zaxxer.hikari.HikariDataSource
+import jakarta.xml.bind.JAXB
 import kotliquery.queryOf
 import kotliquery.sessionOf
 import kotliquery.using
 
 import no.nav.sokos.skattekort.person.api.model.SkattekortPersonRequest
 import no.nav.sokos.skattekort.person.config.DatabaseConfig
-import no.nav.sokos.skattekort.person.config.xmlMapper
 import no.nav.sokos.skattekort.person.domain.SkattekortTilArbeidsgiver
 
 class SkattekortPersonRepository(
@@ -27,6 +27,9 @@ class SkattekortPersonRepository(
                         "inntektaar" to skattekortPersonRequest.inntektsaar,
                     ),
                 ),
-            ) { row -> xmlMapper.readValue(row.string(0), SkattekortTilArbeidsgiver::class.java) }
+            ) { row ->
+                println(row.string(0))
+                JAXB.unmarshal(row.string(0), SkattekortTilArbeidsgiver::class.java)
+            }
         }
 }

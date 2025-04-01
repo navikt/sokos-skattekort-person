@@ -27,7 +27,7 @@ class SkattekortPersonService(
     ): List<SkattekortTilArbeidsgiver> {
         val saksbehandler = hentSaksbehandler(applicationCall)
         logger.info("Henter skattekort")
-        secureLogger.info("Henter skattekort for person: ${skattekortPersonRequest.toJson()}")
+        secureLogger.info("Henter skattekort for person: $skattekortPersonRequest")
         auditLogger.auditLog(AuditLogg(saksbehandler = saksbehandler.ident, fnr = skattekortPersonRequest.fnr))
 
         val navn = hentNavnFraPdl(skattekortPersonRequest.fnr)
@@ -35,7 +35,7 @@ class SkattekortPersonService(
 
         if (navn.isBlank() && skattekort.isEmpty()) {
             logger.info("Fant ikke skattekort for person")
-            secureLogger.info("Fant ikke skattekort for person: ${skattekortPersonRequest.toJson()}")
+            secureLogger.info("Fant ikke skattekort for person: $skattekortPersonRequest")
             return emptyList()
         }
 

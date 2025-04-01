@@ -1,9 +1,12 @@
 package no.nav.sokos.skattekort.person.config
 
-import java.time.ZonedDateTime
+import kotlinx.datetime.Clock
+import kotlinx.datetime.Instant
+import kotlinx.serialization.Serializable
 
 import io.ktor.client.plugins.ClientRequestException
 import io.ktor.http.HttpStatusCode
+import io.ktor.server.application.ApplicationCall
 import io.ktor.server.application.log
 import io.ktor.server.plugins.requestvalidation.RequestValidationException
 import io.ktor.server.plugins.statuspages.StatusPagesConfig
@@ -19,7 +22,7 @@ fun StatusPagesConfig.statusPageConfig() {
                     Pair(
                         HttpStatusCode.BadRequest,
                         ApiError(
-                            ZonedDateTime.now(),
+                            Clock.System.now(),
                             HttpStatusCode.BadRequest.value,
                             HttpStatusCode.BadRequest.description,
                             cause.reasons.joinToString(),
@@ -32,7 +35,7 @@ fun StatusPagesConfig.statusPageConfig() {
                     Pair(
                         cause.response.status,
                         ApiError(
-                            ZonedDateTime.now(),
+                            Clock.System.now(),
                             cause.response.status.value,
                             cause.response.status.description,
                             cause.message,
@@ -45,7 +48,7 @@ fun StatusPagesConfig.statusPageConfig() {
                     Pair(
                         HttpStatusCode.InternalServerError,
                         ApiError(
-                            ZonedDateTime.now(),
+                            Clock.System.now(),
                             HttpStatusCode.InternalServerError.value,
                             HttpStatusCode.InternalServerError.description,
                             cause.message ?: "En teknisk feil har oppstått. Ta kontakt med utviklerne",
@@ -62,10 +65,27 @@ fun StatusPagesConfig.statusPageConfig() {
     }
 }
 
+private fun createApiError(
+    status: HttpStatusCode,
+    message: String?,
+    call: ApplicationCall,
+): Pair<HttpStatusCode, ApiError> =
+    Pair(
+        status,
+        ApiError(
+            Clock.System.now(),
+            status.value,
+            status.description,
+            message,
+            call.request.path(),
+        ),
+    )
+
+@Serializable
 data class ApiError(
-    val timestamp: ZonedDateTime,
+    val timestamp: Instant,
     val status: Int,
     val error: String,
-    val message: String,
+    val message: String?,
     val path: String,
 )

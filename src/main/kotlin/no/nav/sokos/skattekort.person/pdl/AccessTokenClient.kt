@@ -5,9 +5,12 @@ import java.time.Instant
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.JsonElement
+import kotlinx.serialization.json.jsonObject
+import kotlinx.serialization.json.jsonPrimitive
 
-import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.accept
@@ -83,12 +86,13 @@ class AccessTokenClient(
     }
 }
 
-suspend fun HttpResponse.errorMessage(): String? = jacksonObjectMapper().readTree(body<String>()).get("error_description")?.asText()
+suspend fun HttpResponse.errorMessage() = body<JsonElement>().jsonObject["error_description"]?.jsonPrimitive?.content
 
+@Serializable
 private data class AzureAccessToken(
-    @JsonProperty("access_token")
+    @SerialName("access_token")
     val accessToken: String,
-    @JsonProperty("expires_in")
+    @SerialName("expires_in")
     val expiresIn: Long,
 )
 

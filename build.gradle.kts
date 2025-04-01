@@ -9,6 +9,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     kotlin("jvm") version "2.1.10"
+    kotlin("plugin.serialization") version "2.1.20"
     id("com.github.johnrengelman.shadow") version "8.1.1"
     id("com.expediagroup.graphql") version "8.4.0"
     id("org.jlleitschuh.gradle.ktlint") version "12.2.0"
@@ -24,14 +25,13 @@ repositories {
 
 val ktorVersion = "3.1.1"
 val graphqlClientVersion = "8.4.0"
-
-val jacksonVersion = "2.17.0"
+val kotlinxSerializationVersion = "1.8.0"
 
 val prometheusVersion = "1.12.4"
 val konfigVersion = "1.6.10.0"
 
 // DB
-val oracleJDBC10 = "19.22.0.0"
+val oracleJDBC11 = "23.7.0.25.01"
 val hikaricpVersion = "6.2.1"
 val kotliqueryVersion = "1.9.1"
 
@@ -50,6 +50,8 @@ val kotlinLoggingVersion = "3.0.5"
 val logbackVersion = "1.5.17"
 val logstashVersion = "8.0"
 val papertrailappVersion = "1.0.0"
+val jaxbVersion = "4.0.5"
+val kotlinxDatetimeVersion = "0.6.2"
 
 dependencies {
 
@@ -70,12 +72,11 @@ dependencies {
     implementation("io.ktor:ktor-server-auth-jvm:$ktorVersion")
     implementation("io.ktor:ktor-server-auth-jwt-jvm:$ktorVersion")
 
-    // Serialization / Jackson
-    implementation("io.ktor:ktor-serialization-jackson-jvm:$ktorVersion")
-    implementation("com.fasterxml.jackson.core:jackson-databind:$jacksonVersion")
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion")
-    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jacksonVersion")
-    implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-xml:$jacksonVersion")
+    // Serialization
+    implementation("io.ktor:ktor-serialization-kotlinx-json-jvm:$ktorVersion")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json-jvm:$kotlinxSerializationVersion")
+    implementation("org.glassfish.jaxb:jaxb-runtime:$jaxbVersion")
+    implementation("org.jetbrains.kotlinx:kotlinx-datetime:$kotlinxDatetimeVersion")
 
     // Monitorering
     implementation("io.ktor:ktor-server-metrics-micrometer-jvm:$ktorVersion")
@@ -93,7 +94,7 @@ dependencies {
 
     // Database
     implementation("com.zaxxer:HikariCP:$hikaricpVersion")
-    implementation("com.oracle.database.jdbc:ojdbc10:$oracleJDBC10")
+    implementation("com.oracle.database.jdbc:ojdbc11:$oracleJDBC11")
     implementation("com.github.seratch:kotliquery:$kotliqueryVersion")
 
     // Test
