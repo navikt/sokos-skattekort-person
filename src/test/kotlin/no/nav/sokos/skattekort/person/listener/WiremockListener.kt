@@ -7,7 +7,7 @@ import io.kotest.core.spec.Spec
 import io.mockk.coEvery
 import io.mockk.mockk
 
-import no.nav.sokos.skattekort.person.pdl.AccessTokenClient
+import no.nav.sokos.skattekort.person.security.AccessTokenClient
 
 private const val WIREMOCK_SERVER_PORT = 9001
 

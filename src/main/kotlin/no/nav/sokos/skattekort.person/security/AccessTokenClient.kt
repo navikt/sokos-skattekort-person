@@ -1,4 +1,4 @@
-package no.nav.sokos.skattekort.person.pdl
+package no.nav.sokos.skattekort.person.security
 
 import java.time.Instant
 

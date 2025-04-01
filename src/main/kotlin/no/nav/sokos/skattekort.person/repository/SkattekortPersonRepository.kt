@@ -1,10 +1,5 @@
 package no.nav.sokos.skattekort.person.repository
 
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.dataformat.xml.JacksonXmlModule
-import com.fasterxml.jackson.dataformat.xml.XmlMapper
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
-import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import com.zaxxer.hikari.HikariDataSource
 import kotliquery.queryOf
 import kotliquery.sessionOf
@@ -12,6 +7,7 @@ import kotliquery.using
 
 import no.nav.sokos.skattekort.person.api.model.SkattekortPersonRequest
 import no.nav.sokos.skattekort.person.config.DatabaseConfig
+import no.nav.sokos.skattekort.person.config.xmlMapper
 import no.nav.sokos.skattekort.person.domain.SkattekortTilArbeidsgiver
 
 class SkattekortPersonRepository(
@@ -32,8 +28,3 @@ class SkattekortPersonRepository(
             ) { row -> xmlMapper.readValue(row.string(1), SkattekortTilArbeidsgiver::class.java) }
         }
 }
-
-private val xmlMapper: ObjectMapper =
-    XmlMapper(JacksonXmlModule().apply { setDefaultUseWrapper(false) })
-        .registerKotlinModule()
-        .registerModule(JavaTimeModule())

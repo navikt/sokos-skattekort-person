@@ -9,7 +9,7 @@ import no.nav.sokos.skattekort.person.auditlogg.AuditLogger
 import no.nav.sokos.skattekort.person.auditlogg.Saksbehandler
 import no.nav.sokos.skattekort.person.config.SECURE_LOGGER
 import no.nav.sokos.skattekort.person.domain.SkattekortTilArbeidsgiver
-import no.nav.sokos.skattekort.person.pdl.PdlService
+import no.nav.sokos.skattekort.person.pdl.PdlClientService
 import no.nav.sokos.skattekort.person.repository.SkattekortPersonRepository
 import no.nav.sokos.skattekort.person.security.getSaksbehandler
 
@@ -19,7 +19,7 @@ private val secureLogger = KotlinLogging.logger(SECURE_LOGGER)
 class SkattekortPersonService(
     private val skattekortPersonRepository: SkattekortPersonRepository = SkattekortPersonRepository(),
     private val auditLogger: AuditLogger = AuditLogger(),
-    private val pdlService: PdlService = PdlService(),
+    private val pdlClientService: PdlClientService = PdlClientService(),
 ) {
     fun hentSkattekortPerson(
         skattekortPersonRequest: SkattekortPersonRequest,
@@ -50,7 +50,7 @@ class SkattekortPersonService(
     private fun hentSaksbehandler(call: ApplicationCall): Saksbehandler = getSaksbehandler(call)
 
     private fun hentNavnFraPdl(ident: String): String =
-        pdlService
+        pdlClientService
             .getPersonNavn(ident)
             ?.navn
             ?.firstOrNull()

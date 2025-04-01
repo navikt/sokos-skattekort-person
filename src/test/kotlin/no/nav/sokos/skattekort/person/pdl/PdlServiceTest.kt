@@ -21,8 +21,8 @@ internal class PdlServiceTest : FunSpec({
 
     extensions(listOf(WiremockListener))
 
-    val pdlService: PdlService by lazy {
-        PdlService(
+    val pdlClientService: PdlClientService by lazy {
+        PdlClientService(
             pdlUrl = wiremock.baseUrl() + "/graphql",
             accessTokenClient = WiremockListener.accessTokenClient,
         )
@@ -42,7 +42,7 @@ internal class PdlServiceTest : FunSpec({
                 ),
         )
 
-        val result = pdlService.getPersonNavn("22334455667")
+        val result = pdlClientService.getPersonNavn("22334455667")
 
         result shouldNot beNull()
         result?.navn?.first()?.fornavn shouldBe "TRIVIELL"
@@ -64,7 +64,7 @@ internal class PdlServiceTest : FunSpec({
                 ),
         )
 
-        val result = pdlService.getPersonNavn("22334455667")
+        val result = pdlClientService.getPersonNavn("22334455667")
 
         result shouldBe beNull()
     }
@@ -85,7 +85,7 @@ internal class PdlServiceTest : FunSpec({
 
         val exception =
             assertThrows<Exception> {
-                pdlService.getPersonNavn("22334455667")
+                pdlClientService.getPersonNavn("22334455667")
             }
 
         exception shouldNotBe beNull()

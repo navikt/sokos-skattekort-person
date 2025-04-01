@@ -15,11 +15,12 @@ import no.nav.sokos.skattekort.person.config.PropertiesConfig
 import no.nav.sokos.skattekort.person.config.SECURE_LOGGER
 import no.nav.sokos.skattekort.person.config.httpClient
 import no.nav.sokos.skattekort.person.pdl.hentperson.Person
+import no.nav.sokos.skattekort.person.security.AccessTokenClient
 
 private val logger = KotlinLogging.logger {}
 private val secureLogger = KotlinLogging.logger(SECURE_LOGGER)
 
-class PdlService(
+class PdlClientService(
     private val pdlUrl: String = PropertiesConfig.PdlProperties().pdlUrl,
     private val pdlScope: String = PropertiesConfig.PdlProperties().pdlScope,
     private val graphQlClient: GraphQLKtorClient =
