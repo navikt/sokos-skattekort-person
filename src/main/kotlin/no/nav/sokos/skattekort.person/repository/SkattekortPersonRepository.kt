@@ -27,6 +27,6 @@ class SkattekortPersonRepository(
                         "inntektaar" to skattekortPersonRequest.inntektsaar,
                     ),
                 ),
-            ) { row -> xmlMapper.readValue(row.string(1), SkattekortTilArbeidsgiver::class.java) }
+            ) { row -> xmlMapper.readValue(row.string(0), SkattekortTilArbeidsgiver::class.java) }
         }
 }
