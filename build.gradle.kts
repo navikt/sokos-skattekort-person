@@ -102,9 +102,9 @@ dependencies {
 
     // GraphQL
     implementation("com.expediagroup:graphql-kotlin-ktor-client:$graphqlClientVersion") {
-        exclude("com.expediagroup:graphql-kotlin-client-jackson")
+        exclude("com.expediagroup:graphql-kotlin-client-serialization")
     }
-    runtimeOnly("com.expediagroup:graphql-kotlin-client-jackson:$graphqlClientVersion")
+    implementation("com.expediagroup:graphql-kotlin-client-jackson:$graphqlClientVersion")
 }
 
 // Vulnerability fix because of id("org.jlleitschuh.gradle.ktlint") version "12.1.2"
