@@ -56,9 +56,8 @@ spec:
   webproxy: true
   vault:
     enabled: true
-    paths:
-      - kvPath: /oracle/data/prod/creds/oseskatt_p-sokos_les
-        mountPath: /var/run/secrets/nais.io/database-user
+  envFrom:
+    - secret: sokos-skattekort-person-oseskatt-credentials
   env:
     - name: USE_AUTHENTICATION
       value: "true"
