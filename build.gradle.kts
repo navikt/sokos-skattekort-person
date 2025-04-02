@@ -90,14 +90,12 @@ dependencies {
     implementation("com.github.seratch:kotliquery:$kotliqueryVersion")
 
     // Test
+    testImplementation("io.ktor:ktor-server-test-host-jvm:$ktorVersion")
     testImplementation("io.kotest:kotest-assertions-core-jvm:$kotestVersion")
     testImplementation("io.kotest:kotest-runner-junit5:$kotestVersion")
-    testImplementation("io.ktor:ktor-server-test-host-jvm:$ktorVersion")
-    testImplementation("io.ktor:ktor-client-tests:$ktorTestVersion")
     testImplementation("io.mockk:mockk:$mockkVersion")
-    testImplementation("io.rest-assured:rest-assured:$restAssuredVersion")
-    testImplementation("com.atlassian.oai:swagger-request-validator-restassured:$swaggerRequestValidatorVersion")
     testImplementation("no.nav.security:mock-oauth2-server:$mockOAuth2ServerVersion")
+    testImplementation("com.atlassian.oai:swagger-request-validator-restassured:$swaggerRequestValidatorVersion")
     testImplementation("org.wiremock:wiremock:$wiremockVersion")
 
     // GraphQL
@@ -107,7 +105,7 @@ dependencies {
     implementation("com.expediagroup:graphql-kotlin-client-jackson:$graphqlClientVersion")
 }
 
-// Vulnerability fix because of id("org.jlleitschuh.gradle.ktlint") version "12.1.2"
+// Vulnerability fix because of id("org.jlleitschuh.gradle.ktlint") version "12.2.0"
 configurations.ktlint {
     resolutionStrategy.force("ch.qos.logback:logback-classic:$logbackVersion")
 }
