@@ -8,7 +8,7 @@ import org.gradle.api.tasks.testing.logging.TestLogEvent
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    kotlin("jvm") version "2.1.10"
+    kotlin("jvm") version "2.1.20"
     id("com.github.johnrengelman.shadow") version "8.1.1"
     id("com.expediagroup.graphql") version "8.4.0"
     id("org.jlleitschuh.gradle.ktlint") version "12.2.0"
@@ -22,25 +22,25 @@ repositories {
     maven { url = uri("https://maven.pkg.jetbrains.space/public/p/ktor/eap") }
 }
 
-val ktorVersion = "3.1.1"
+val ktorVersion = "3.1.2"
 val graphqlClientVersion = "8.4.0"
 val kotlinxSerializationVersion = "1.8.0"
-val jacksonVersion = "2.17.0"
-val prometheusVersion = "1.12.4"
+val jacksonVersion = "2.18.3"
+val prometheusVersion = "1.14.5"
 val konfigVersion = "1.6.10.0"
 val oracleJDBC11 = "23.7.0.25.01"
-val hikaricpVersion = "6.2.1"
+val hikaricpVersion = "6.3.0"
 val kotliqueryVersion = "1.9.1"
 val kotestVersion = "5.9.1"
-val ktorTestVersion = "3.0.0"
+val ktorTestVersion = "3.0.3"
 val mockkVersion = "1.13.17"
 val restAssuredVersion = "5.5.1"
 val swaggerRequestValidatorVersion = "2.41.0"
-val mockOAuth2ServerVersion = "2.1.8"
+val mockOAuth2ServerVersion = "2.1.10"
 val wiremockVersion = "3.12.1"
 val janinoVersion = "3.1.12"
 val kotlinLoggingVersion = "3.0.5"
-val logbackVersion = "1.5.17"
+val logbackVersion = "1.5.18"
 val logstashVersion = "8.0"
 val papertrailappVersion = "1.0.0"
 val micrometerVersion = "1.14.5"
