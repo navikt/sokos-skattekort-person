@@ -43,6 +43,7 @@ val kotlinLoggingVersion = "3.0.5"
 val logbackVersion = "1.5.17"
 val logstashVersion = "8.0"
 val papertrailappVersion = "1.0.0"
+val micrometerVersion = "1.14.5"
 
 dependencies {
 
@@ -72,7 +73,7 @@ dependencies {
 
     // Monitorering
     implementation("io.ktor:ktor-server-metrics-micrometer-jvm:$ktorVersion")
-    implementation("io.micrometer:micrometer-registry-prometheus:$prometheusVersion")
+    implementation("io.micrometer:micrometer-registry-prometheus:$micrometerVersion")
 
     // Logging
     implementation("io.github.microutils:kotlin-logging-jvm:$kotlinLoggingVersion")
