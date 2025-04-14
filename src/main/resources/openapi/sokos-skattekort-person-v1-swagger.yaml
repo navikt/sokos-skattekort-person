@@ -161,6 +161,10 @@ components:
         - $ref: '#/components/schemas/Trekkprosent'
       discriminator:
         propertyName: type
+        mapping:
+          Frikort: '#/components/schemas/Frikort'
+          Trekktabell: '#/components/schemas/Trekktabell'
+          Trekkprosent: '#/components/schemas/Trekkprosent'
 
     Frikort:
       type: object
