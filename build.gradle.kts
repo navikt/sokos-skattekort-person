@@ -10,7 +10,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     kotlin("jvm") version "2.1.20"
     id("com.github.johnrengelman.shadow") version "8.1.1"
-    id("com.expediagroup.graphql") version "8.5.0"
+    id("com.expediagroup.graphql") version "8.6.0"
     id("org.jlleitschuh.gradle.ktlint") version "12.2.0"
     id("org.jetbrains.kotlinx.kover") version "0.9.1"
 }
@@ -23,7 +23,7 @@ repositories {
 }
 
 val ktorVersion = "3.1.2"
-val graphqlClientVersion = "8.5.0"
+val graphqlClientVersion = "8.6.0"
 val kotlinxSerializationVersion = "1.8.0"
 val jacksonVersion = "2.18.3"
 val prometheusVersion = "1.14.5"
