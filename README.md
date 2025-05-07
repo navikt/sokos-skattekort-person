@@ -118,6 +118,6 @@ Alarmene blir publisert i Slack kanalen [#team-mob-alerts-dev](https://nav-it.sl
 
 # 8. Henvendelser og tilgang
 Spørsmål knyttet til koden eller prosjektet kan stilles som issues her på Github.
-Interne henvendelser kan sendes via Slack i kanalen [#po-utbetaling](https://nav-it.slack.com/archives/CKZADNFBP)
+Interne henvendelser kan sendes via Slack i kanalen [#utbetaling](https://nav-it.slack.com/archives/CKZADNFBP)
 Tilgang til denne tjenesten kan bestilles
 gjennom [Porten](https://jira.adeo.no/plugins/servlet/desk/portal/541?requestGroup=824)
