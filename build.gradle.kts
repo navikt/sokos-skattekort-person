@@ -8,7 +8,7 @@ import org.gradle.api.tasks.testing.logging.TestLogEvent
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    kotlin("jvm") version "2.1.20"
+    kotlin("jvm") version "2.1.21"
     id("com.github.johnrengelman.shadow") version "8.1.1"
     id("com.expediagroup.graphql") version "8.7.0"
     id("org.jlleitschuh.gradle.ktlint") version "12.2.0"
@@ -43,7 +43,7 @@ val kotlinLoggingVersion = "3.0.5"
 val logbackVersion = "1.5.18"
 val logstashVersion = "8.1"
 val papertrailappVersion = "1.0.0"
-val micrometerVersion = "1.14.6"
+val micrometerVersion = "1.15.0"
 
 dependencies {
 
