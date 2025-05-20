@@ -37,18 +37,20 @@ import no.nav.sokos.skattekort.person.metrics.Metrics
 
 const val SECURE_LOGGER = "secureLogger"
 const val X_KALLENDE_SYSTEM = "x-kallende-system"
+
+private const val TRACE_ID_HEADER = "trace_id"
 private val appLogger = KotlinLogging.logger {}
 
 fun Application.commonConfig() {
     install(CallId) {
-        header(HttpHeaders.XCorrelationId)
+        header(TRACE_ID_HEADER)
         generate { UUID.randomUUID().toString() }
     }
     install(CallLogging) {
         logger = appLogger
         level = Level.INFO
         mdc(X_KALLENDE_SYSTEM) { it.extractCallingSystemFromJwtToken() }
-        callIdMdc(HttpHeaders.XCorrelationId)
+        callIdMdc(TRACE_ID_HEADER)
         filter { call -> call.request.path().startsWith("/api") }
         disableDefaultColors()
     }
