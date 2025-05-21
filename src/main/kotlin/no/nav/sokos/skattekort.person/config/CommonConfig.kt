@@ -1,7 +1,5 @@
 package no.nav.sokos.skattekort.person.config
 
-import java.util.UUID
-
 import com.auth0.jwt.JWT
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.databind.DeserializationFeature
@@ -13,8 +11,6 @@ import io.ktor.server.application.Application
 import io.ktor.server.application.ApplicationCall
 import io.ktor.server.application.install
 import io.ktor.server.metrics.micrometer.MicrometerMetrics
-import io.ktor.server.plugins.callid.CallId
-import io.ktor.server.plugins.callid.callIdMdc
 import io.ktor.server.plugins.calllogging.CallLogging
 import io.ktor.server.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.server.plugins.requestvalidation.RequestValidation
@@ -38,19 +34,13 @@ import no.nav.sokos.skattekort.person.metrics.Metrics
 const val SECURE_LOGGER = "secureLogger"
 const val X_KALLENDE_SYSTEM = "x-kallende-system"
 
-private const val TRACE_ID_HEADER = "trace_id"
 private val appLogger = KotlinLogging.logger {}
 
 fun Application.commonConfig() {
-    install(CallId) {
-        header(TRACE_ID_HEADER)
-        generate { UUID.randomUUID().toString() }
-    }
     install(CallLogging) {
         logger = appLogger
         level = Level.INFO
         mdc(X_KALLENDE_SYSTEM) { it.extractCallingSystemFromJwtToken() }
-        callIdMdc(TRACE_ID_HEADER)
         filter { call -> call.request.path().startsWith("/api") }
         disableDefaultColors()
     }
