@@ -11,7 +11,7 @@ plugins {
     kotlin("jvm") version "2.1.21"
     id("com.github.johnrengelman.shadow") version "8.1.1"
     id("com.expediagroup.graphql") version "8.7.0"
-    id("org.jlleitschuh.gradle.ktlint") version "12.2.0"
+    id("org.jlleitschuh.gradle.ktlint") version "12.3.0"
     id("org.jetbrains.kotlinx.kover") version "0.9.1"
 }
 
@@ -24,18 +24,14 @@ repositories {
 
 val ktorVersion = "3.1.3"
 val graphqlClientVersion = "8.7.0"
-val kotlinxSerializationVersion = "1.8.0"
 val jacksonVersion = "2.19.0"
-val prometheusVersion = "1.14.5"
 val konfigVersion = "1.6.10.0"
 val oracleJDBC11 = "23.8.0.25.04"
 val hikaricpVersion = "6.3.0"
 val kotliqueryVersion = "1.9.1"
 val kotestVersion = "5.9.1"
-val ktorTestVersion = "3.0.3"
 val mockkVersion = "1.14.2"
-val restAssuredVersion = "5.5.1"
-val swaggerRequestValidatorVersion = "2.44.1"
+val swaggerRequestValidatorVersion = "2.44.8"
 val mockOAuth2ServerVersion = "2.1.11"
 val wiremockVersion = "3.13.0"
 val janinoVersion = "3.1.12"
@@ -105,7 +101,7 @@ dependencies {
     implementation("com.expediagroup:graphql-kotlin-client-jackson:$graphqlClientVersion")
 }
 
-// Vulnerability fix because of id("org.jlleitschuh.gradle.ktlint") version "12.2.0"
+// Vulnerability fix because of id("org.jlleitschuh.gradle.ktlint") uses ch.qos.logback:logback-classic:1.3.5
 configurations.ktlint {
     resolutionStrategy.force("ch.qos.logback:logback-classic:$logbackVersion")
 }
