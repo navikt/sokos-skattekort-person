@@ -12,13 +12,12 @@ import mu.KotlinLogging
 import org.slf4j.MDC
 
 import no.nav.sokos.skattekort.person.config.PropertiesConfig
-import no.nav.sokos.skattekort.person.config.SECURE_LOGGER
+import no.nav.sokos.skattekort.person.config.TEAM_LOGS_MARKER
 import no.nav.sokos.skattekort.person.config.httpClient
 import no.nav.sokos.skattekort.person.pdl.hentperson.Person
 import no.nav.sokos.skattekort.person.security.AccessTokenClient
 
 private val logger = KotlinLogging.logger {}
-private val secureLogger = KotlinLogging.logger(SECURE_LOGGER)
 
 class PdlClientService(
     private val pdlUrl: String = PropertiesConfig.PdlProperties().pdlUrl,
@@ -68,12 +67,10 @@ private fun handleErrors(
         val errorCode = errorExtensions.map { it["code"] }
         val errorMessage = errorExtensions.map { it["id"] }
 
-        val exceptionMessage =
-            "Feil med henting av person fra PDL: (Path: $path, Code: $errorCode, Message: $errorMessage)"
+        val exceptionMessage = "Feil med henting av person fra PDL: (Path: $path, Code: $errorCode, Message: $errorMessage)"
         throw Exception(exceptionMessage).also {
-            logger.error("Feil i GraphQL-responsen: (Path: $path, Code: $errorCode, Message: $errorMessage)")
-
-            secureLogger.error("Feil i GraphQL-responsen: (Ident: $ident, Path: $path, Code: $errorCode, Message: $errorMessage)")
+            logger.error { "Feil i GraphQL-responsen: (Path: $path, Code: $errorCode, Message: $errorMessage)" }
+            logger.error(marker = TEAM_LOGS_MARKER) { "Feil i GraphQL-responsen: (Ident: $ident, Path: $path, Code: $errorCode, Message: $errorMessage)" }
         }
     }
 }

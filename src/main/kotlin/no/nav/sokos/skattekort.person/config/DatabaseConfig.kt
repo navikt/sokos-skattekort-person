@@ -28,6 +28,11 @@ object DatabaseConfig {
             schema = oseskattDatabaseProperties.schema
             maximumPoolSize = 10
             isAutoCommit = true
+            maxLifetime = 1800000
+            connectionTestQuery = "SELECT 1 FROM DUAL"
+            validationTimeout = 5000
+            keepaliveTime = 60000
+            idleTimeout = 600000
         }
     }
 }

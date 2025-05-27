@@ -27,18 +27,18 @@ import io.micrometer.core.instrument.binder.jvm.JvmThreadMetrics
 import io.micrometer.core.instrument.binder.system.ProcessorMetrics
 import io.micrometer.core.instrument.binder.system.UptimeMetrics
 import mu.KotlinLogging
+import org.slf4j.MarkerFactory
 import org.slf4j.event.Level
 
 import no.nav.sokos.skattekort.person.metrics.Metrics
 
-const val SECURE_LOGGER = "secureLogger"
+val TEAM_LOGS_MARKER = MarkerFactory.getMarker("TEAM_LOGS")
 const val X_KALLENDE_SYSTEM = "x-kallende-system"
 
-private val appLogger = KotlinLogging.logger {}
+private val logger = KotlinLogging.logger {}
 
 fun Application.commonConfig() {
     install(CallLogging) {
-        logger = appLogger
         level = Level.INFO
         mdc(X_KALLENDE_SYSTEM) { it.extractCallingSystemFromJwtToken() }
         filter { call -> call.request.path().startsWith("/api") }
@@ -77,7 +77,7 @@ private fun ApplicationCall.extractCallingSystemFromJwtToken(): String =
         runCatching {
             JWT.decode(it)
         }.onFailure {
-            appLogger.warn("Failed to decode token: ", it)
+            logger.warn("Failed to decode token: ", it)
         }.getOrNull()
             ?.let { it.claims["azp_name"]?.asString() ?: it.claims["client_id"]?.asString() }
             ?.split(":")

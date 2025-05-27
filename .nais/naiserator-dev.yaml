@@ -35,8 +35,6 @@ spec:
   prometheus:
     enabled: true
     path: /internal/metrics
-  secureLogs:
-    enabled: true
   observability:
     autoInstrumentation:
       enabled: true
@@ -60,6 +58,10 @@ spec:
         - application: saas-proxy
           namespace: teamcrm
           cluster: dev-gcp
+    outbound:
+      rules:
+        - application: logging
+          namespace: nais-system
   webproxy: true
   vault:
     enabled: true

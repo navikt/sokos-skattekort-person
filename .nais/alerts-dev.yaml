@@ -41,7 +41,7 @@ spec:
               offset 15m) or vector(0)) > 5'
           for: 5m
           annotations:
-            action: "<https://logs.adeo.no/app/discover#/?_g=(time:(from:now-1d,to:now))&_a=(filters:!((query:(match_phrase:(application:'sokos-skattekort-person'))),(query:(match_phrase:(cluster:'dev-fss'))),(query:(match_phrase:(level:'Warning')))))|Sjekk loggene>"
+            action: "<https://grafana.nav.cloud.nais.io/a/grafana-lokiexplore-app/explore/service_name/sokos-skattekort-person/logs?patterns=%5B%5D&from=now-24h&to=now&var-filters=service_name%7C%3D%7Csokos-skattekort-person&var-ds=dev-gcp-loki&var-levels=detected_level%7C%3D%7Cerror|Sjekk loggene>"
             summary: "`kubectl logs -l app=sokos-skattekort-person -n okonomi` for logger"
           labels:
             namespace: okonomi
@@ -57,7 +57,7 @@ spec:
               offset 15m) or vector(0)) > 5'
           for: 5m
           annotations:
-            action: "<https://logs.adeo.no/app/discover#/?_g=(time:(from:now-1d,to:now))&_a=(filters:!((query:(match_phrase:(application:'sokos-skattekort-person'))),(query:(match_phrase:(cluster:'dev-fss'))),(query:(match_phrase:(level:'Warning')))))|Sjekk loggene>"
+            action: "<https://grafana.nav.cloud.nais.io/a/grafana-lokiexplore-app/explore/service_name/sokos-skattekort-person/logs?patterns=%5B%5D&from=now-24h&to=now&var-filters=service_name%7C%3D%7Csokos-skattekort-person&var-ds=dev-gcp-loki&var-levels=detected_level%7C%3D%7warn|Sjekk loggene>"
             summary: "`kubectl logs -l app=sokos-skattekort-person -n okonomi` for logger"
           labels:
             namespace: okonomi
@@ -71,7 +71,7 @@ spec:
           annotations:
             summary: "Følgende request feilet: `Status {{ $labels.status }} - {{ $labels.method }} {{ $labels.route }}`.
                       <https://logs.adeo.no/app/discover#/?_g=(time:(from:now-1d,to:now))&_a=(filters:!((query:(match_phrase:(application:'sokos-skattekort-person'))),(query:(match_phrase:(cluster:'dev-fss'))),(query:(match_phrase:(level:'Warning')))))|Sjekk loggene> for å se hvorfor dette feiler."
-            action:  "`kubectl logs -l app=sokos-skattekort-person -n okonomi` for logger"
+            action:  "<https://grafana.nav.cloud.nais.io/a/grafana-lokiexplore-app/explore/service_name/sokos-skattekort-person/logs?patterns=%5B%5D&from=now-24h&to=now&var-filters=service_name%7C%3D%7Csokos-skattekort-person&var-ds=dev-gcp-loki&var-levels=detected_level%7C%3D%7Cerror|Sjekk loggene>"
           labels:
             namespace: okonomi
             severity: danger
@@ -83,9 +83,8 @@ spec:
           for: 5m
           annotations:
             summary: "Følgende request feilet: `Status {{ $labels.status }} - {{ $labels.method }} {{ $labels.route }}`. 
-                       <https://logs.adeo.no/app/discover#/?_g=(time:(from:now-1d,to:now))&_a=(filters:!((query:(match_phrase:(application:'sokos-skattekort-person'))),(query:(match_phrase:(cluster:'dev-fss'))),(query:(match_phrase:(level:'Warning')))))|
-                       Sjekk loggene> for å se hvorfor dette feiler."
-            action: "`kubectl logs -l app=sokos-skattekort-person -n okonomi` for logger"
+                       <https://logs.adeo.no/app/discover#/?_g=(time:(from:now-1d,to:now))&_a=(filters:!((query:(match_phrase:(application:'sokos-skattekort-person'))),(query:(match_phrase:(cluster:'dev-fss'))),(query:(match_phrase:(level:'Warning')))))|Sjekk loggene> for å se hvorfor dette feiler."
+            action: "<https://grafana.nav.cloud.nais.io/a/grafana-lokiexplore-app/explore/service_name/sokos-skattekort-person/logs?patterns=%5B%5D&from=now-24h&to=now&var-filters=service_name%7C%3D%7Csokos-skattekort-person&var-ds=dev-gcp-loki&var-levels=detected_level%7C%3D%7Cerror|Sjekk loggene>"
           labels:
             namespace: okonomi
             severity: danger
