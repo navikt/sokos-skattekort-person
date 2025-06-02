@@ -10,7 +10,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     kotlin("jvm") version "2.1.21"
     id("com.github.johnrengelman.shadow") version "8.1.1"
-    id("com.expediagroup.graphql") version "8.7.0"
+    id("com.expediagroup.graphql") version "8.8.0"
     id("org.jlleitschuh.gradle.ktlint") version "12.3.0"
     id("org.jetbrains.kotlinx.kover") version "0.9.1"
 }
@@ -23,7 +23,7 @@ repositories {
 }
 
 val ktorVersion = "3.1.3"
-val graphqlClientVersion = "8.7.0"
+val graphqlClientVersion = "8.8.0"
 val jacksonVersion = "2.19.0"
 val konfigVersion = "1.6.10.0"
 val oracleJDBC11 = "23.8.0.25.04"
