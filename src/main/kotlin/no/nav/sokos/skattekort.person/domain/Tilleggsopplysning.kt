@@ -2,7 +2,9 @@ package no.nav.sokos.skattekort.person.domain
 
 import com.fasterxml.jackson.annotation.JsonProperty
 
-enum class Tilleggsopplysning(val value: String) {
+enum class Tilleggsopplysning(
+    val value: String,
+) {
     @JsonProperty("oppholdPaaSvalbard")
     OPPHOLD_PAA_SVALBARD("oppholdPaaSvalbard"),
 

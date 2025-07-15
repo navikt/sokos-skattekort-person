@@ -11,9 +11,7 @@ private fun validInput(
     return !regex.containsMatchIn(input) && input.length == length && (range == null || input.toInt() in range)
 }
 
-fun validFnr(fnrInput: String): Boolean {
-    return validInput(fnrInput, 11)
-}
+fun validFnr(fnrInput: String): Boolean = validInput(fnrInput, 11)
 
 fun validYear(yearInput: String): Boolean {
     val currentYear = Year.now().value

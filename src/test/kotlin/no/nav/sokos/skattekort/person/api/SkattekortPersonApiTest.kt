@@ -23,12 +23,12 @@ import no.nav.security.mock.oauth2.MockOAuth2Server
 import no.nav.security.mock.oauth2.token.DefaultOAuth2TokenCallback
 import no.nav.sokos.skattekort.person.API_SKATTEKORT_PATH
 import no.nav.sokos.skattekort.person.APPLICATION_JSON
+import no.nav.sokos.skattekort.person.TestUtil.readFromResource
 import no.nav.sokos.skattekort.person.api.model.SkattekortPersonRequest
 import no.nav.sokos.skattekort.person.config.authenticate
 import no.nav.sokos.skattekort.person.config.commonConfig
 import no.nav.sokos.skattekort.person.config.xmlMapper
 import no.nav.sokos.skattekort.person.domain.SkattekortTilArbeidsgiver
-import no.nav.sokos.skattekort.person.readFromResource
 import no.nav.sokos.skattekort.person.service.SkattekortPersonService
 
 internal const val PORT = 9090

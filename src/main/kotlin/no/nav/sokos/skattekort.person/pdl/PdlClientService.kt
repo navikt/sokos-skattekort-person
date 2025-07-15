@@ -51,9 +51,7 @@ class PdlClientService(
     }
 }
 
-private fun hentPerson(result: GraphQLClientResponse<HentPerson.Result>): Person? {
-    return result.data?.hentPerson
-}
+private fun hentPerson(result: GraphQLClientResponse<HentPerson.Result>): Person? = result.data?.hentPerson
 
 private fun handleErrors(
     errors: List<GraphQLClientError>,
