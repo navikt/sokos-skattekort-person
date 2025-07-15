@@ -2,7 +2,9 @@ package no.nav.sokos.skattekort.person.domain
 
 import com.fasterxml.jackson.annotation.JsonProperty
 
-enum class Trekkode(val value: String) {
+enum class Trekkode(
+    val value: String,
+) {
     @JsonProperty("loennFraHovedarbeidsgiver")
     LOENN_FRA_HOVEDARBEIDSGIVER("loennFraHovedarbeidsgiver"),
 

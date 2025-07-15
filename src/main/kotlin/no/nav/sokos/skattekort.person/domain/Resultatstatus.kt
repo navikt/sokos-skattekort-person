@@ -2,7 +2,9 @@ package no.nav.sokos.skattekort.person.domain
 
 import com.fasterxml.jackson.annotation.JsonProperty
 
-enum class Resultatstatus(val value: String) {
+enum class Resultatstatus(
+    val value: String,
+) {
     @JsonProperty("ikkeSkattekort")
     IKKE_SKATTEKORT("ikkeSkattekort"),
 
