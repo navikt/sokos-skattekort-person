@@ -54,6 +54,8 @@ spec:
           cluster: dev-gcp
         - application: sokos-utbetalingsportalen
           namespace: okonomi
+        - application: sokos-up-skattekort
+          namespace: okonomi
           cluster: dev-gcp
         - application: saas-proxy
           namespace: teamcrm
