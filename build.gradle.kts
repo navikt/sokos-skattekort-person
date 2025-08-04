@@ -21,12 +21,12 @@ repositories {
     mavenCentral()
 }
 
-val ktorVersion = "3.2.2"
+val ktorVersion = "3.2.3"
 val graphqlClientVersion = "8.8.1"
 val jacksonVersion = "2.19.2"
 val konfigVersion = "1.6.10.0"
-val oracleJDBC11 = "23.8.0.25.04"
-val hikaricpVersion = "6.3.2"
+val oracleJDBC11 = "23.9.0.25.07"
+val hikaricpVersion = "7.0.0"
 val kotliqueryVersion = "1.9.1"
 val kotestVersion = "5.9.1"
 val mockkVersion = "1.14.5"
