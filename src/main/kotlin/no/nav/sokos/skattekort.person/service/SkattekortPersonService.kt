@@ -25,7 +25,6 @@ class SkattekortPersonService(
         applicationCall: ApplicationCall,
     ): List<SkattekortTilArbeidsgiver> {
         val saksbehandler = hentSaksbehandler(applicationCall)
-        logger.info { "Henter skattekort" }
         logger.info(marker = TEAM_LOGS_MARKER) { "Henter skattekort for person: $skattekortPersonRequest" }
         auditLogger.auditLog(AuditLogg(saksbehandler = saksbehandler.ident, fnr = skattekortPersonRequest.fnr))
 
@@ -33,7 +32,6 @@ class SkattekortPersonService(
         val skattekort = skattekortPersonRepository.hentSkattekortPaaFnrOgInntektsAar(skattekortPersonRequest)
 
         if (navn.isBlank() && skattekort.isEmpty()) {
-            logger.info("Fant ikke skattekort for person")
             logger.info(marker = TEAM_LOGS_MARKER) { "Fant ikke skattekort for person: $skattekortPersonRequest" }
             return emptyList()
         }
