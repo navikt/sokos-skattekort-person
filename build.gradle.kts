@@ -26,7 +26,7 @@ val graphqlClientVersion = "8.8.1"
 val jacksonVersion = "2.19.2"
 val konfigVersion = "1.6.10.0"
 val oracleJDBC11 = "23.9.0.25.07"
-val hikaricpVersion = "7.0.0"
+val hikaricpVersion = "7.0.1"
 val kotliqueryVersion = "1.9.1"
 val kotestVersion = "5.9.1"
 val mockkVersion = "1.14.5"
@@ -38,7 +38,7 @@ val kotlinLoggingVersion = "3.0.5"
 val logbackVersion = "1.5.18"
 val logstashVersion = "8.1"
 val papertrailappVersion = "1.0.0"
-val micrometerVersion = "1.15.2"
+val micrometerVersion = "1.15.3"
 
 dependencies {
 
