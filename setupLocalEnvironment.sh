@@ -13,11 +13,8 @@ kubectl config set-context --current --namespace=okonomi
 [[ "$(vault token lookup -format=json | jq '.data.display_name' -r; exit ${PIPESTATUS[0]})" =~ "nav.no" ]] &>/dev/null || vault login -method=oidc -no-print
 
 # Get AZURE system variables
-envValue=$(kubectl exec -it $(kubectl get pods | grep sokos-skattekort-person | cut -f1 -d' ') -c sokos-skattekort-person -- env | egrep "^AZURE|^PDL")
-
+envValue=$(kubectl exec -it $(kubectl get pods | grep sokos-skattekort-person | cut -f1 -d' ') -c sokos-skattekort-person -- env | egrep "^AZURE|^PDL" | sort)
 ORACLE_OSESKATT_U4=$(vault kv get -field=data oracle/dev/creds/oseskatt_read_u4-user)
-username=$(echo "ORACLE_OSESKATT_U4" | awk -F 'username:' '{print $2}' | awk '{print $1}' | sed 's/]$//')
-password=$(echo "ORACLE_OSESKATT_U4" | awk -F 'password:' '{print $2}' | awk '{print $1}' | sed 's/]$//')
 
 
 # Set AZURE as local environment variables
@@ -25,5 +22,7 @@ rm -f defaults.properties
 echo "$envValue" > defaults.properties
 echo "env variables stores as defaults.properties"
 
+username=$(echo "$ORACLE_OSESKATT_U4" | awk -F 'username:' '{print $2}' | awk '{print $1}' | sed 's/]$//')
+password=$(echo "$ORACLE_OSESKATT_U4" | awk -F 'password:' '{print $2}' | awk '{print $1}' | sed 's/]$//')
 echo "DATABASE_USERNAME=$username" >> defaults.properties
 echo "DATABASE_PASSWORD=$password" >> defaults.properties
