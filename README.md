@@ -25,8 +25,8 @@ os-eskatt.
 ### Forutsetninger
 
 * Java 21
-* Gradle
-* [Kotest](https://plugins.jetbrains.com/plugin/14080-kotest) plugin for å kjøre Kotest tester
+* [Gradle](https://gradle.org/)
+* [Kotest IntelliJ Plugin](https://plugins.jetbrains.com/plugin/14080-kotest)
 
 ### Bygge prosjekt
 
@@ -74,10 +74,8 @@ Applikasjonen bruker [AzureAD](https://docs.nais.io/security/auth/azure-ad/) aut
 
 ### Logging
 
-https://logs.adeo.no.
-
-Feilmeldinger og infomeldinger som ikke innheholder sensitive data logges til data view `Applikasjonslogger`.  
-Sensetive meldinger logges til data view `Securelogs` [sikker-utvikling/logging](https://sikkerhet.nav.no/docs/sikker-utvikling/logging)).
+Feilmeldinger og infomeldinger som ikke innheholder sensitive data logges til [Grafana Loki](https://docs.nais.io/observability/logging/#grafana-loki).  
+Sensitive meldinger logges til [Team Logs](https://doc.nais.io/observability/logging/how-to/team-logs/).
 
 ### Kubectl
 
@@ -100,7 +98,6 @@ kubectl logs -f sokos-skattekort-person-<POD-ID> --namespace okonomi -c sokos-sk
 ### Alarmer
 
 Applikasjonen bruker [Grafana Alerting](https://grafana.nav.cloud.nais.io/alerting/) for overvåkning og varsling.
-Dette er konfigurert via NAIS sin [alerting-integrasjon](https://doc.nais.io/observability/alerts).
 
 Alarmene overvåker metrics som:
 
