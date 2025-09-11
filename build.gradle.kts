@@ -150,8 +150,11 @@ tasks {
         }
     }
 
-    ("jar") {
-        enabled = false
+    withType<GraphQLGenerateClientTask>().configureEach {
+        packageName = "no.nav.sokos.skattekort.person.pdl"
+        schemaFile = file("$projectDir/src/main/resources/pdl/schema.graphql")
+        queryFileDirectory.set(file("$projectDir/src/main/resources/pdl"))
+        serializer = GraphQLSerializer.JACKSON
     }
 
     withType<Test>().configureEach {
@@ -171,13 +174,6 @@ tasks {
 
     withType<Wrapper> {
         gradleVersion = "9.0.0"
-    }
-
-    withType<GraphQLGenerateClientTask>().configureEach {
-        packageName = "no.nav.sokos.skattekort.person.pdl"
-        schemaFile = file("$projectDir/src/main/resources/pdl/schema.graphql")
-        queryFileDirectory.set(file("$projectDir/src/main/resources/pdl"))
-        serializer = GraphQLSerializer.JACKSON
     }
 
     ("build") {
