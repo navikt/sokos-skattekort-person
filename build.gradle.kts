@@ -2,17 +2,17 @@ import kotlinx.kover.gradle.plugin.dsl.tasks.KoverReport
 
 import com.expediagroup.graphql.plugin.gradle.config.GraphQLSerializer
 import com.expediagroup.graphql.plugin.gradle.tasks.GraphQLGenerateClientTask
-import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
 import org.gradle.api.tasks.testing.logging.TestLogEvent
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     kotlin("jvm") version "2.2.10"
-    id("com.gradleup.shadow") version "8.3.8"
     id("com.expediagroup.graphql") version "8.8.1"
     id("org.jlleitschuh.gradle.ktlint") version "13.1.0"
     id("org.jetbrains.kotlinx.kover") version "0.9.1"
+
+    application
 }
 
 group = "no.nav.sokos"
@@ -105,6 +105,10 @@ configurations.ktlint {
     resolutionStrategy.force("ch.qos.logback:logback-classic:$logbackVersion")
 }
 
+application {
+    mainClass.set("no.nav.sokos.skattekort.person.ApplicationKt")
+}
+
 sourceSets {
     main {
         java {
@@ -133,15 +137,6 @@ tasks {
         dependsOn("graphqlGenerateClient")
     }
 
-    withType<ShadowJar>().configureEach {
-        enabled = true
-        archiveFileName.set("app.jar")
-        manifest {
-            attributes["Main-Class"] = "no.nav.sokos.skattekort.person.ApplicationKt"
-        }
-        finalizedBy(koverHtmlReport)
-    }
-
     withType<KoverReport>().configureEach {
         kover {
             reports {
@@ -155,8 +150,11 @@ tasks {
         }
     }
 
-    ("jar") {
-        enabled = false
+    withType<GraphQLGenerateClientTask>().configureEach {
+        packageName = "no.nav.sokos.skattekort.person.pdl"
+        schemaFile = file("$projectDir/src/main/resources/pdl/schema.graphql")
+        queryFileDirectory.set(file("$projectDir/src/main/resources/pdl"))
+        serializer = GraphQLSerializer.JACKSON
     }
 
     withType<Test>().configureEach {
@@ -170,17 +168,12 @@ tasks {
         }
 
         reports.forEach { report -> report.required.value(false) }
+
+        finalizedBy(koverHtmlReport)
     }
 
     withType<Wrapper> {
-        gradleVersion = "8.14"
-    }
-
-    withType<GraphQLGenerateClientTask>().configureEach {
-        packageName = "no.nav.sokos.skattekort.person.pdl"
-        schemaFile = file("$projectDir/src/main/resources/pdl/schema.graphql")
-        queryFileDirectory.set(file("$projectDir/src/main/resources/pdl"))
-        serializer = GraphQLSerializer.JACKSON
+        gradleVersion = "9.1.0"
     }
 
     ("build") {

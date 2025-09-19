@@ -30,7 +30,7 @@ os-eskatt.
 
 ### Bygge prosjekt
 
-`./gradlew build shadowJar`
+`./gradlew build installDist`
 
 ### Lokal utvikling
 
