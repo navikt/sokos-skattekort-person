@@ -7,8 +7,6 @@ updates:
       day: "monday"
       time: "06:00"
       timezone: "Europe/Oslo"
-    ignore:
-      - dependency-name: "com.gradleup.shadow"
     groups:
       gradle:
         patterns:
