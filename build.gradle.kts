@@ -7,10 +7,10 @@ import org.gradle.api.tasks.testing.logging.TestLogEvent
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    kotlin("jvm") version "2.2.10"
+    kotlin("jvm") version "2.2.20"
     id("com.expediagroup.graphql") version "8.8.1"
     id("org.jlleitschuh.gradle.ktlint") version "13.1.0"
-    id("org.jetbrains.kotlinx.kover") version "0.9.1"
+    id("org.jetbrains.kotlinx.kover") version "0.9.2"
 
     application
 }
@@ -21,24 +21,24 @@ repositories {
     mavenCentral()
 }
 
-val ktorVersion = "3.2.3"
+val ktorVersion = "3.3.0"
 val graphqlClientVersion = "8.8.1"
-val jacksonVersion = "2.19.2"
+val jacksonVersion = "2.20.0"
 val konfigVersion = "1.6.10.0"
 val oracleJDBC11 = "23.9.0.25.07"
 val hikaricpVersion = "7.0.2"
 val kotliqueryVersion = "1.9.1"
-val kotestVersion = "6.0.1"
+val kotestVersion = "6.0.3"
 val mockkVersion = "1.14.5"
 val swaggerRequestValidatorVersion = "2.45.1"
-val mockOAuth2ServerVersion = "2.2.1"
+val mockOAuth2ServerVersion = "3.0.0"
 val wiremockVersion = "3.13.1"
 val janinoVersion = "3.1.12"
 val kotlinLoggingVersion = "3.0.5"
 val logbackVersion = "1.5.18"
 val logstashVersion = "8.1"
 val papertrailappVersion = "1.0.0"
-val micrometerVersion = "1.15.3"
+val micrometerVersion = "1.15.4"
 
 dependencies {
 
