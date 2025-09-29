@@ -23,7 +23,7 @@ object PropertiesConfig {
             mapOf(
                 "APPLICATION_PROFILE" to Profile.LOCAL.toString(),
                 "USE_AUTHENTICATION" to "false",
-                "DATABASE_HOST" to "10.51.9.59",
+                "DATABASE_HOST" to "10.53.103.79",
                 "DATABASE_PORT" to "1521",
                 "DATABASE_NAME" to "oseskatt_u4",
                 "DATABASE_SCHEMA" to "oseskatt_u4",
