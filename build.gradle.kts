@@ -106,7 +106,6 @@ configurations.ktlint {
 }
 
 configurations.all {
-    exclude(group = "org.jetbrains.kotlinx", module = "kotlinx-serialization-core")
     exclude(group = "org.jetbrains.kotlinx", module = "kotlinx-serialization-json")
 }
 
