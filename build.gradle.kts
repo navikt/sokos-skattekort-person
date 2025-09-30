@@ -95,7 +95,7 @@ dependencies {
 
     // GraphQL
     implementation("com.expediagroup:graphql-kotlin-ktor-client:$graphqlClientVersion") {
-        exclude("com.expediagroup:graphql-kotlin-client-serialization")
+        exclude(group = "com.expediagroup", module = "graphql-kotlin-client-serialization")
     }
     implementation("com.expediagroup:graphql-kotlin-client-jackson:$graphqlClientVersion")
 }
@@ -103,6 +103,10 @@ dependencies {
 // Vulnerability fix because of id("org.jlleitschuh.gradle.ktlint") uses ch.qos.logback:logback-classic:1.3.5
 configurations.ktlint {
     resolutionStrategy.force("ch.qos.logback:logback-classic:$logbackVersion")
+}
+
+configurations.all {
+    exclude(group = "org.jetbrains.kotlinx", module = "kotlinx-serialization-json")
 }
 
 application {
