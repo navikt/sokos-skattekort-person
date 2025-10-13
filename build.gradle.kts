@@ -21,7 +21,7 @@ repositories {
     mavenCentral()
 }
 
-val ktorVersion = "3.3.0"
+val ktorVersion = "3.3.1"
 val graphqlClientVersion = "8.8.1"
 val jacksonVersion = "2.20.0"
 val konfigVersion = "1.6.10.0"
