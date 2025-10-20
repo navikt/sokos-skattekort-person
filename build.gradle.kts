@@ -10,7 +10,7 @@ plugins {
     kotlin("jvm") version "2.2.20"
     id("com.expediagroup.graphql") version "8.8.1"
     id("org.jlleitschuh.gradle.ktlint") version "13.1.0"
-    id("org.jetbrains.kotlinx.kover") version "0.9.2"
+    id("org.jetbrains.kotlinx.kover") version "0.9.3"
 
     application
 }
@@ -28,17 +28,17 @@ val konfigVersion = "1.6.10.0"
 val oracleJDBC11 = "23.9.0.25.07"
 val hikaricpVersion = "7.0.2"
 val kotliqueryVersion = "1.9.1"
-val kotestVersion = "6.0.3"
+val kotestVersion = "6.0.4"
 val mockkVersion = "1.14.6"
 val swaggerRequestValidatorVersion = "2.46.0"
 val mockOAuth2ServerVersion = "3.0.0"
 val wiremockVersion = "3.13.1"
 val janinoVersion = "3.1.12"
 val kotlinLoggingVersion = "3.0.5"
-val logbackVersion = "1.5.19"
+val logbackVersion = "1.5.20"
 val logstashVersion = "8.1"
 val papertrailappVersion = "1.0.0"
-val micrometerVersion = "1.15.4"
+val micrometerVersion = "1.15.5"
 
 dependencies {
 
