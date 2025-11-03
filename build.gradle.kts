@@ -23,9 +23,9 @@ repositories {
 
 val ktorVersion = "3.3.1"
 val graphqlClientVersion = "8.8.1"
-val jacksonVersion = "2.20.0"
+val jacksonVersion = "2.20.1"
 val konfigVersion = "1.6.10.0"
-val oracleJDBC11 = "23.9.0.25.07"
+val oracleJDBC11 = "23.26.0.0.0"
 val hikaricpVersion = "7.0.2"
 val kotliqueryVersion = "1.9.1"
 val kotestVersion = "6.0.4"
