@@ -21,24 +21,24 @@ repositories {
     mavenCentral()
 }
 
-val ktorVersion = "3.3.1"
+val ktorVersion = "3.3.2"
 val graphqlClientVersion = "8.8.1"
-val jacksonVersion = "2.20.0"
+val jacksonVersion = "2.20.1"
 val konfigVersion = "1.6.10.0"
-val oracleJDBC11 = "23.9.0.25.07"
+val oracleJDBC11 = "23.26.0.0.0"
 val hikaricpVersion = "7.0.2"
 val kotliqueryVersion = "1.9.1"
 val kotestVersion = "6.0.4"
 val mockkVersion = "1.14.6"
 val swaggerRequestValidatorVersion = "2.46.0"
-val mockOAuth2ServerVersion = "3.0.0"
+val mockOAuth2ServerVersion = "3.0.1"
 val wiremockVersion = "3.13.1"
 val janinoVersion = "3.1.12"
 val kotlinLoggingVersion = "3.0.5"
 val logbackVersion = "1.5.20"
 val logstashVersion = "9.0"
 val papertrailappVersion = "1.0.0"
-val micrometerVersion = "1.15.5"
+val micrometerVersion = "1.16.0"
 
 dependencies {
 
